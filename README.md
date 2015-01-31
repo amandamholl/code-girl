@@ -1,9 +1,8 @@
-![Blockly Games](https://raw.githubusercontent.com/wiki/google/blockly-games/title.png)
+"Code Girl"
+An educational computer science game designed specifically for young girls
 
-Google's Blockly Games is a series of educational games that teach programming.
-It is based on the [Blockly](https://developers.google.com/blockly/) library.
-All code is free and open source.
+by Tracey Acosta, Amanda Holl, and Paige Rogalski
 
-**The games are at https://blockly-games.appspot.com/**
-
-**The developer's site is at https://github.com/google/blockly-games/wiki**
+How to make changes:
+1) If you make changes to any .soy file (most of the webpage structure is contained in this), you need to remake the folder by typing "make name-en" where name is the name of the folder [ex. make puzzle-en]
+2) If you make changes to a .js file or .css file, just reload the browser and the changes should be visible
