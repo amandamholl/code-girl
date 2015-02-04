@@ -331,10 +331,16 @@ Turtle.display = function() {
 
     // Draw the turtle body.
     var radius = Turtle.ctxScratch.lineWidth / 2 + 10;
-    Turtle.ctxDisplay.beginPath();
-    Turtle.ctxDisplay.arc(Turtle.x, Turtle.y, radius, 0, 2 * Math.PI, false);
-    Turtle.ctxDisplay.lineWidth = 3;
-    Turtle.ctxDisplay.stroke();
+    var diameter = radius * 2;
+    //Turtle.ctxDisplay.beginPath();
+    //Turtle.ctxDisplay.arc(Turtle.x, Turtle.y, radius, 0, 2 * Math.PI, false);
+    //Turtle.ctxDisplay.lineWidth = 3;
+    //Turtle.ctxDisplay.stroke();
+    var img = new Image;      // First create the image...
+    img.onload = function(){  // ...then set the onload handler...
+    Turtle.ctxDisplay.drawImage(img,0,0);
+    };
+    img.src = "./turtle/robot.svg";      // *then* set the .src and start it loading.
 
     // Draw the turtle head.
     var WIDTH = 0.3;
