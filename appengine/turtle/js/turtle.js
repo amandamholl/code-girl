@@ -338,7 +338,7 @@ Turtle.display = function() {
     //Turtle.ctxDisplay.stroke();
     var img = new Image;      // First create the image...
     img.onload = function(){  // ...then set the onload handler...
-    Turtle.ctxDisplay.drawImage(img,0,0);
+    	Turtle.ctxDisplay.drawImage(img,(Turtle.x-diameter),(Turtle.y-radius),50,50);
     };
     img.src = "./turtle/robot.svg";      // *then* set the .src and start it loading.
 
