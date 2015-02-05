@@ -32,84 +32,13 @@ goog.require('goog.dom.classes');
  * Lookup for names of languages.  Keys should be in ISO 639 format.
  */
 BlocklyGames.LANGUAGE_NAME = {
-  'ace': 'بهسا اچيه',
-  'af': 'Afrikaans',
-  'ar': 'العربية',
-  'az': 'Azərbaycanca',
-  'be-tarask': 'Taraškievica',
-  'br': 'Brezhoneg',
-  'ca': 'Català',
-  'cdo': '閩東語',
-  'cs': 'Česky',
-  'da': 'Dansk',
-  'de': 'Deutsch',
-  'el': 'Ελληνικά',
-  'en': 'English',
-  'es': 'Español',
-  'eu': 'Euskara',
-  'fa': 'فارسی',
-  'fi': 'Suomi',
-  'fo': 'Føroyskt',
-  'fr': 'Français',
-  'frr': 'Frasch',
-  'gl': 'Galego',
-  'hak': '客家話',
-  'he': 'עברית',
-  'hi': 'हिन्दी',
-  'hrx': 'Hunsrik',
-  'hu': 'Magyar',
-  'ia': 'Interlingua',
-  'id': 'Bahasa Indonesia',
-  'is': 'Íslenska',
-  'it': 'Italiano',
-  'ja': '日本語',
-  'ka': 'ქართული',
-  'km': 'ភាសាខ្មែរ',
-  'ko': '한국어',
-  'ksh': 'Ripoarėsch',
-  'ky': 'Кыргызча',
-  'la': 'Latine',
-  'lb': 'Lëtzebuergesch',
-  'lt': 'Lietuvių',
-  'lv': 'Latviešu',
-  'mg': 'Malagasy',
-  'ml': 'മലയാളം',
-  'mk': 'Македонски',
-  'mr': 'मराठी',
-  'ms': 'Bahasa Melayu',
-  'mzn': 'مازِرونی',
-  'nb': 'Norsk Bokmål',
-  'nl': 'Nederlands, Vlaams',
-  'oc': 'Lenga d\'òc',
-  'pa': 'पंजाबी',
-  'pl': 'Polski',
-  'pms': 'Piemontèis',
-  'ps': 'پښتو',
-  'pt': 'Português',
-  'pt-br': 'Português Brasileiro',
-  'ro': 'Română',
-  'ru': 'Русский',
-  'sc': 'Sardu',
-  'sco': 'Scots',
-  'si': 'සිංහල',
-  'sk': 'Slovenčina',
-  'sr': 'Српски',
-  'sv': 'Svenska',
-  'sw': 'Kishwahili',
-  'th': 'ภาษาไทย',
-  'tl': 'Tagalog',
-  'tlh': 'tlhIngan Hol',
-  'tr': 'Türkçe',
-  'uk': 'Українська',
-  'vi': 'Tiếng Việt',
-  'zh-hans': '簡體中文',
-  'zh-hant': '正體中文'
+  'en': 'English'
 };
 
 /**
  * List of RTL languages.
  */
-BlocklyGames.LANGUAGE_RTL = ['ace', 'ar', 'fa', 'he', 'mzn', 'ps'];
+BlocklyGames.LANGUAGE_RTL = [];
 
 /**
  * User's language (e.g. "en").
@@ -223,7 +152,9 @@ BlocklyGames.init = function() {
     // No choices.  Hide the language menu.
     languageMenu.style.display = 'none';
   }
-
+	else{
+		alert(languageMenu.options.length);	
+	}
   // Highlight levels that have been completed.
   for (var i = 1; i <= BlocklyGames.MAX_LEVEL; i++) {
     var link = document.getElementById('level' + i);

@@ -198,7 +198,7 @@ Blockly.Css.CONTENT = [
 
   '.blocklyText {',
   '  cursor: default;',
-  '  font-family: "O Sans", sans-serif;',
+  '  font-family: "Open Sans", sans-serif;',
   '  font-size: 12pt;',
   '  fill: #fff;',
   '}',
