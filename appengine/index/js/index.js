@@ -32,7 +32,7 @@ goog.require('BlocklyGames');
 /**
  * Array of application names.
  */
-Index.APPS = ['puzzle', 'turtle'];
+Index.APPS = ['puzzle', 'turtle', 'movie'];
 
 /**
  * Initialize Blockly and the maze.  Called on page load.

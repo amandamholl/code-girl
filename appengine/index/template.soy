@@ -15,7 +15,7 @@
  */
 {template .messages}
   <div style="display: none">
-    <span id="title">{msg meaning="Games.name" desc="IBID"}Blockly Games{/msg}</span>
+    <span id="title">{msg meaning="Games.name" desc="IBID"}Code Girl{/msg}</span>
     <span id="Index_clear">{msg meaning="Index.clear" desc="Confirmation prompt for deleting all the user's data."}Delete all your solutions?{/msg}</span>
   </div>
 {/template}
@@ -65,6 +65,14 @@
           {msg meaning="Games.turtle" desc="IBID"}Draw{/msg}
         {/param}
       {/call}
+        {call .appLink}
+            {param app: 'movie' /}
+            {param x: 64 /}
+            {param y: 48 /}
+            {param contentText}
+                {msg meaning="Games.movie" desc="IBID"}Movie{/msg}
+            {/param}
+        {/call}
     </g>
   </svg>
   <select id="languageMenu"></select>
