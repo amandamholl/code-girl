@@ -49,7 +49,7 @@ BlocklyInterface.nextLevel = function() {
   }
 };
 
-Movie.HEIGHT = 400;
+Movie.HEIGHT = 600;
 Movie.WIDTH = 400;
 
 /**
@@ -317,7 +317,7 @@ Movie.renderAnswer_ = function(f) {
 	var ctx = canvas.getContext('2d');
 	var img = new Image;      // First create the image...
     img.onload = function(){  // ...then set the onload handler...
-    	ctx.drawImage(img,0,0,400,400);
+    	ctx.drawImage(img,-90,0, 600, 600);
     };
   img.src = "./movie/superhero.jpg";      // *then* set the .src and start it loading.
  
