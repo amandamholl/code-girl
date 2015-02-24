@@ -46,29 +46,32 @@ goog.require('Blockly.JavaScript.variables');
 goog.require('BlocklyGames');
 
 // Extensions to Blockly's language and JavaScript generator.
-var image = new Blockly.FieldImage('http://www.gstatic.com/codesite/ph/images/star_on.gif', 15, 15, '*');
+
 Blockly.Blocks['shirt'] = {
-  /**
-   * Block for drawing a circle.
-   * @this Blockly.Block
-   */
   init: function() {
-    this.setColour(160);
-	this.appendField(image);
-    /*this.appendValueInput('X')
-        .setCheck('Number')
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(BlocklyGames.getMsg('Movie_circleDraw'))
-        .appendField(BlocklyGames.getMsg('Movie_x'));
-    this.appendValueInput('Y')
-        .setCheck('Number')
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(BlocklyGames.getMsg('Movie_y'));*/
-    
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip('Add a new shirt');
+    //this.setHelpUrl('http://www.example.com/');
+	this.setColour(160);
+    this.appendDummyInput()
+        .appendField("Shirt")
+        .appendField(new Blockly.FieldImage("https://www.gstatic.com/codesite/ph/images/star_on.gif", 15, 15, "*"));
+    this.appendValueInput("X")
+        .setCheck("Number")
+        .appendField("x");
+    this.appendValueInput("Y")
+        .setCheck("Number")
+        .appendField("y");
+    this.setTooltip('');
+	this.setPreviousStatement(true);
   }
+};
+
+
+Blockly.JavaScript['shirt'] = function(block) {
+  var value_x = Blockly.JavaScript.valueToCode(block, 'X', Blockly.JavaScript.ORDER_ATOMIC) || '0';
+  var value_y = Blockly.JavaScript.valueToCode(block, 'Y', Blockly.JavaScript.ORDER_ATOMIC) || '0';
+  // TODO: Assemble JavaScript into code variable.
+  var radius = '5';
+  return 'shirt();\n';
 };
 
 Blockly.Blocks['movie_circle'] = {
@@ -100,8 +103,7 @@ Blockly.JavaScript['movie_circle'] = function(block) {
       Blockly.JavaScript.ORDER_NONE) || '0';
   var y = Blockly.JavaScript.valueToCode(block, 'Y',
       Blockly.JavaScript.ORDER_NONE) || '0';
-  var radius = Blockly.JavaScript.valueToCode(block, 'RADIUS',
-      Blockly.JavaScript.ORDER_NONE) || '5';
+  var radius = '5';
   return 'circle(' + x + ', ' + y + ', ' + radius + ');\n';
 };
 

@@ -5,7 +5,9 @@ button.primary {
 html[dir="RTL"] button.primary {
   text-align: right;
 }
-
+#visualization{
+	float:right;
+}
 #blockly {
   position: fixed;
   bottom: 10px;
