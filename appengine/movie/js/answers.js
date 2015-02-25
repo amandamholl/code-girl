@@ -40,13 +40,13 @@ Movie.answer = function(f) {
   switch (BlocklyGames.LEVEL) {
     case 1:
       // Static person.
-      Movie.penColour('#ff0000');
+      /*Movie.penColour('#ff0000');
       Movie.circle(50, 80, 10);
       Movie.penColour('#3333ff');
       Movie.rect(50, 40, 20, 60);
       Movie.penColour('#000000');
       Movie.line(20, 70, 50, 50, 5);
-      Movie.line(50, 50, 80, 70, 5);
+      Movie.line(50, 50, 80, 70, 5);*/
       break;
     case 2:
       // Circle moving.

@@ -53,13 +53,13 @@ Blockly.Blocks['shirt'] = {
 	this.setColour(160);
     this.appendDummyInput()
         .appendField("Shirt")
-        .appendField(new Blockly.FieldImage("https://www.gstatic.com/codesite/ph/images/star_on.gif", 15, 15, "*"));
-    this.appendValueInput("X")
+        .appendField(new Blockly.FieldImage("./movie/shirt.svg", 50, 50, "Shirt"));
+    /*this.appendValueInput("X")
         .setCheck("Number")
         .appendField("x");
     this.appendValueInput("Y")
         .setCheck("Number")
-        .appendField("y");
+        .appendField("y");*/
     this.setTooltip('');
 	this.setPreviousStatement(true);
   }
@@ -230,7 +230,7 @@ Blockly.Blocks['movie_colour'] = {
     this.setColour(20);
     this.appendValueInput('COLOUR')
         .setCheck('Colour')
-        .appendField(BlocklyGames.getMsg('Movie_setColour'));
+        .appendField('Color');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(BlocklyGames.getMsg('Movie_colourTooltip'));

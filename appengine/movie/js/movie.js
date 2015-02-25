@@ -446,7 +446,7 @@ Movie.display = function(frameNumber) {
 
   // Copy the axies.
   Movie.ctxDisplay.drawImage(document.getElementById('axies'), 0, 0);
-  Movie.checkFrameAnswer();
+  //Movie.checkFrameAnswer();
   if (BlocklyGames.LEVEL == 1) {
     setTimeout(Movie.checkAnswers, 1000);
   }
@@ -506,16 +506,16 @@ Movie.SCALE = 400 / 100;
 
 Movie.shirt = function() {
   	//alert('Hello');
-	Movie.ctxScratch.scale(1,1);
-Movie.ctxScratch.translate(0,0);
+	Movie.ctxScratch.scale(.75,.75);
+Movie.ctxScratch.translate(148,220);
 Movie.ctxScratch.strokeStyle = 'rgba(0,0,0,0)';
 Movie.ctxScratch.lineCap = 'butt';
 Movie.ctxScratch.lineJoin = 'miter';
 Movie.ctxScratch.miterLimit = 4;
-Movie.ctxScratch.save();
-Movie.ctxScratch.fillStyle = "#f69126";
+//Movie.ctxScratch.save();
+//Movie.ctxScratch.fillStyle = "#f69126";
 Movie.ctxScratch.beginPath();
-Movie.ctxScratch.moveTo(200.678,21.524);
+//Movie.ctxScratch.moveTo(200.678,21.524);
 Movie.ctxScratch.bezierCurveTo(196.209,17.549,192.954,15.385000000000002,183.124,12.496);
 Movie.ctxScratch.bezierCurveTo(181.289,11.957,179,9.905,162,9.867);
 Movie.ctxScratch.lineTo(162,10.903);
