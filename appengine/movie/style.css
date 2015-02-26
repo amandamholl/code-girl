@@ -2,16 +2,12 @@ button.primary {
   /* Can't use "text-align: start" due to IE. */
   text-align: left;
 }
-text{
-	margin:25px;
-}
-#visualization{
-	background-color:#fff;
-}
 html[dir="RTL"] button.primary {
   text-align: right;
 }
-
+#visualization{
+	float:right;
+}
 #blockly {
   position: fixed;
   bottom: 10px;
@@ -55,8 +51,5 @@ html[dir="RTL"] button.primary {
   background-position: -63px 0px;
 }
 .reddit {
-  background-position: -63px -21px;
-}
-#title{
-	background-color:white;
+  background-position: -42px -21px;
 }
