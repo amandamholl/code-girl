@@ -61,7 +61,17 @@ handlers:
   script: reddit.py
   secure: always
 
-
+# Movie app.
+- url: /movie
+  static_files: movie.html
+  upload: movie\.html
+  secure: always
+- url: /movie/
+  static_dir: movie
+  secure: always
+- url: /movie-reddit
+  script: reddit.py
+  secure: always
 
 # Shared files.
 - url: /readonly.html
