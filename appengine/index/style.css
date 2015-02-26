@@ -40,6 +40,8 @@ a {
   text-decoration: none;
 }
 
+
+/*
 #clearDataPara {
   position: absolute;
   bottom: 0;
@@ -51,6 +53,7 @@ a {
   margin: 5px 10px;
   font-size: medium;
 }
+
 
 #path {
   stroke: #ccc;
@@ -208,3 +211,4 @@ a:hover > text {
   stroke-width: 8;
   fill: none;
 }
+*/
