@@ -1,4 +1,4 @@
-application: blockly-games
+application: code-girl-pat
 version: 1
 runtime: php
 api_version: 1
@@ -51,14 +51,11 @@ handlers:
 
 # Turtle app.
 - url: /turtle
-  static_files: draw.html
+  static_files: turtle.html
   upload: turtle\.html
   secure: always
 - url: /turtle/
   static_dir: turtle
-  secure: always
-- url: /turtle-reddit
-  script: reddit.py
   secure: always
 
 # Movie app.
