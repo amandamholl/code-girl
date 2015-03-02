@@ -44,8 +44,8 @@ Index.init = function() {
 
   BlocklyGames.init();
 
-  var Menu = document.getElementById('Menu');
-  Menu.addEventListener('change', BlocklyGames.change, true);
+  //var Menu = document.getElementById('Menu');
+  //Menu.addEventListener('change', BlocklyGames.change, true);
 
   var storedData = false;
   var levelsDone = [];
@@ -64,56 +64,9 @@ Index.init = function() {
     var clearButton = document.getElementById('clearData');
     BlocklyGames.bindClick(clearButton, Index.clearData_);
   }
-
-  function animateFactory(app, angle) {
-    return function() {
-      Index.animateGauge(app, 0, angle);
-    }
-  }
-  for (var i = 0; i < levelsDone.length; i++) {
-    var denominator = i == 0 ? 1 : BlocklyGames.MAX_LEVEL;
-    var angle = levelsDone[i] / denominator * 270;
-    setTimeout(animateFactory(Index.APPS[i], angle), 1500);
-  }
 };
 
 window.addEventListener('load', Index.init, false);
-
-/**
- * Animate a gauge from zero to a target value.
- * @param {string} app Name of application.
- * @param {number} cur Current angle of gauge in degrees.
- * @param {number} max Final angle of gauge in degrees.
- */
-Index.animateGauge = function(app, cur, max) {
-  var step = 4;
-  cur += step;
-  Index.drawGauge(app, Math.min(cur, max));
-  if (cur < max) {
-    setTimeout(function() {
-      Index.animateGauge(app, cur, max);
-    }, 10);
-  }
-};
-
-/**
- * Draw the gauge for an app.
- * @param {string} app Name of application.
- * @param {number} angle Angle of gauge in degrees.
- */
-Index.drawGauge = function(app, angle) {
-  var xOffset = 80;
-  var yOffset = 60;
-  var radius = 52.75;
-  var theta = (angle - 45) / 180 * Math.PI;
-  var x = xOffset - Math.cos(theta) * radius;
-  var y = yOffset - Math.sin(theta) * radius;
-  var flag = angle > 180 ? 1 : 0;
-  var path = document.getElementById('gauge-' + app);
-  // The 'M' constants are x and y at angle zero.
-  path.setAttribute('d',
-      ['M 42.7,97.3 A', radius, radius, 0, flag, 1, x, y].join(' '));
-};
 
 /**
  * Clear all stored data.

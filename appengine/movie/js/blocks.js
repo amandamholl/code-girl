@@ -54,12 +54,6 @@ Blockly.Blocks['shirt'] = {
     this.appendDummyInput()
         .appendField("Shirt")
         .appendField(new Blockly.FieldImage("./movie/shirt.svg", 50, 50, "Shirt"));
-    /*this.appendValueInput("X")
-        .setCheck("Number")
-        .appendField("x");
-    this.appendValueInput("Y")
-        .setCheck("Number")
-        .appendField("y");*/
     this.setTooltip('');
 	this.setPreviousStatement(true);
   }
@@ -73,6 +67,28 @@ Blockly.JavaScript['shirt'] = function(block) {
   var radius = '5';
   return 'shirt();\n';
 };
+
+Blockly.Blocks['boots'] = {
+  init: function() {
+    //this.setHelpUrl('http://www.example.com/');
+	this.setColour(160);
+    this.appendDummyInput()
+        .appendField("Boots")
+        .appendField(new Blockly.FieldImage("./movie/boots.svg", 50, 50, "Boots"));
+    this.setTooltip('');
+	this.setPreviousStatement(true);
+  }
+};
+
+
+Blockly.JavaScript['boots'] = function(block) {
+  var value_x = Blockly.JavaScript.valueToCode(block, 'X', Blockly.JavaScript.ORDER_ATOMIC) || '0';
+  var value_y = Blockly.JavaScript.valueToCode(block, 'Y', Blockly.JavaScript.ORDER_ATOMIC) || '0';
+  // TODO: Assemble JavaScript into code variable.
+  var radius = '5';
+  return 'boots();\n';
+};
+
 
 Blockly.Blocks['movie_circle'] = {
   /**

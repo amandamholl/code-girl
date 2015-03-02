@@ -81,7 +81,9 @@
     {call .toolbox /}
     <div id="blockly"></div>
   <div id="visualization">
+<img id="superhero" src="./movie/superhero.jpg" alt="Superhero" style="display:none">
     <canvas id="scratch" width="400" height="600" style="display: none"></canvas>
+    <canvas id="superhero" width="400" height="600" style="display: none"></canvas>
     <canvas id="hatching" width="400" height="600" style="display: none"></canvas>
     <canvas id="axies" width="400" height="600" style="display: none"></canvas>
     <canvas id="display" width="400" height="600" style="vertical-align: bottom"></canvas>
@@ -208,9 +210,12 @@
         </value>
         
       </block>*/
-        <block type="shirt">
+      <block type="shirt">
         
       </block>
+        <block type="boots">
+
+        </block>
     /*  <block type="movie_rect">
         <value name="X">
           <block type="math_number">
@@ -267,10 +272,12 @@
     <category name="{msg meaning="Games.catColour" desc="IBID"}Color{/msg}">
       <block type="movie_colour">
         <value name="COLOUR">
-          <block type="colour_picker"></block>
+          <block type="colour_picker">
+                <field name="COLOUR">#dd3858</field>
+            </block>
         </value>
       </block>
-      <block type="colour_picker"></block>
+      <block type="colour_picker"> <field name="COLOUR">#dd3858</field> </block>
       {if $ij.level == 10}
         <block type="colour_rgb">
           <value name="RED">
