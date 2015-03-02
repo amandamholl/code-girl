@@ -28,7 +28,7 @@
   var appLanguage = location.search.match(/[?&]lang=([-\w]+)/)[1];
   window['BlocklyGamesLanguages'] = [appLanguage];
   var script = document.createElement('script');
-  script.src = appName + '/generated/' + appLanguage + '/compressed.js';
+  script.src = '/appengine/' + appName + '/generated/' + appLanguage + '/compressed.js';
   script.type = 'text/javascript';
   document.head.appendChild(script);
 })();
