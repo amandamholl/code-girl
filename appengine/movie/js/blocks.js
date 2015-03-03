@@ -56,6 +56,7 @@ Blockly.Blocks['shirt'] = {
         .appendField(new Blockly.FieldImage("./movie/shirt.svg", 50, 50, "Shirt"));
     this.setTooltip('');
 	this.setPreviousStatement(true);
+	this.setNextStatement(true);
   }
 };
 
@@ -77,6 +78,7 @@ Blockly.Blocks['boots'] = {
         .appendField(new Blockly.FieldImage("./movie/boots.svg", 50, 50, "Boots"));
     this.setTooltip('');
 	this.setPreviousStatement(true);
+	this.setNextStatement(true);
   }
 };
 
