@@ -11,6 +11,10 @@ html, body {
   top: 0;
 }
 
+#login{
+	clear:both;	
+}
+
 html[dir="LTR"] #languageMenu {
   right: 1em;
 }
@@ -20,11 +24,11 @@ html[dir="RTL"] #languageMenu {
 }
 
 #header {
-  position: absolute;
+  //position: absolute;
   top: 1em;
   left: 20%;
   right: 20%;
-  width: 60%;
+  width: 100%;
   text-align: center;
 }
 

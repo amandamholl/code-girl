@@ -139,7 +139,7 @@ Movie.init = function() {
   Movie.ctxDisplay = document.getElementById('display').getContext('2d');
   Movie.ctxDisplay.globalCompositeOperation = 'source-over';
   Movie.ctxScratch = document.getElementById('scratch').getContext('2d');
-  Movie.renderHatching_();
+  //Movie.renderHatching_();
   
   Movie.renderSuperhero_();
   // Render the frame zero answer because we need it right now.
@@ -151,7 +151,7 @@ Movie.init = function() {
     }
   }
   setTimeout(renderRemainingAnswers, 1);*/
-  Movie.renderAxies_();
+  //Movie.renderAxies_();
   Movie.display();
   Blockly.addChangeListener(Movie.display);
 
@@ -1424,11 +1424,6 @@ Movie.initInterpreter = function(interpreter, scope) {
   interpreter.setProperty(scope, 'penColour',
       interpreter.createNativeFunction(wrapper));
 
-  wrapper = function() {
-    return interpreter.createPrimitive(Movie.frameNumber);
-  };
-  interpreter.setProperty(scope, 'time',
-      interpreter.createNativeFunction(wrapper));
 };
 
 /**

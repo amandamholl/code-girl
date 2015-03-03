@@ -26,7 +26,7 @@
 {template .start}
   {call .messages /}
   <div id="header">
-    <img id="banner" src="index/horizontal-logo-01.png" height="150"  alt="Blockly Games">
+    <img id="banner" src="index/horizontal-logo-01.png" height="200"  alt="Blockly Games">
     <div id="subtitle">
       {msg meaning="Index.subTitle" desc="Brief description of Blockly Games."}An educational, computer science designed specifically for young girls. {/msg}
       {sp}&nbsp;
@@ -45,6 +45,11 @@
       {msg meaning="Index.clearData" desc="Text on button for deleting all the user's data."}Clear data{/msg}</span>
     </button>
   </p>
+    <div id="login">
+        <FORM>
+            <INPUT Type="BUTTON" VALUE="Login or Sign Up" ONCLICK="window.location.href='/login'">
+        </FORM>
+    </div>
 {/template}
 
 /**
