@@ -19,7 +19,7 @@ Movie.soy.start = function(opt_data, opt_ignored, opt_ijData) {
 
 
 Movie.soy.toolbox = function(opt_data, opt_ignored, opt_ijData) {
-  return '<xml id="toolbox" style="display: none"><category name="Movie"><block type="shirt"></block><block type="boots"></block></category><category name="Color"><block type="movie_colour"><value name="COLOUR"><block type="colour_picker"><field name="COLOUR">#dd3858</field></block></value></block><block type="colour_picker"> <field name="COLOUR">#dd3858</field> </block>' + ((opt_ijData.level == 10) ? '<block type="colour_rgb"><value name="RED"><block type="math_number"><field name="NUM">100</field></block></value><value name="GREEN"><block type="math_number"><field name="NUM">50</field></block></value><value name="BLUE"><block type="math_number"><field name="NUM">0</field></block></value></block><block type="colour_blend"><value name="COLOUR1"><block type="colour_picker"><field name="COLOUR">#ff0000</field></block></value><value name="COLOUR2"><block type="colour_picker"><field name="COLOUR">#3333ff</field></block></value><value name="RATIO"><block type="math_number"><field name="NUM">0.5</field></block></value></block>' : '') + '</category></xml>';
+  return '<xml id="toolbox" style="display: none"><category name="Movie"><block type="tshirt"></block><block type="boots"></block><block type="longsleeve"></block></category><category name="Color"><block type="movie_colour"><value name="COLOUR"><block type="colour_picker"><field name="COLOUR">#ff9559</field></block></value></block><block type="colour_picker"> <field name="COLOUR">#ff9559</field> </block></category></xml>';
 };
 
 
