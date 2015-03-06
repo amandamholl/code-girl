@@ -36,7 +36,7 @@ Blockly.Blocks['colour_picker'] = {
    */
   init: function() {
     this.setHelpUrl(Blockly.Msg.COLOUR_PICKER_HELPURL);
-    this.setColour(20);
+    this.setColour(330);
     this.appendDummyInput()
         .appendField(new Blockly.FieldColour('#ff0000'), 'COLOUR');
     this.setOutput(true, 'Colour');
