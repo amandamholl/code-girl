@@ -1,10 +1,14 @@
-application: blockly-games
+application: code-girl-pat
 version: 1
-runtime: php
+runtime: python27
 api_version: 1
 threadsafe: no
 # App Engine default is 10m.
 default_expiration: "12h"
+
+libraries:
+- name: webapp2
+  version: latest
 
 handlers:
 # Storage API.
@@ -18,8 +22,7 @@ handlers:
   
 # Login Signup Page
 - url: /login
-  script: login.html
-#  upload: login\.html
+  script: login.application
   secure: always
   
 
@@ -51,14 +54,11 @@ handlers:
 
 # Turtle app.
 - url: /turtle
-  static_files: draw.html
+  static_files: turtle.html
   upload: turtle\.html
   secure: always
 - url: /turtle/
   static_dir: turtle
-  secure: always
-- url: /turtle-reddit
-  script: reddit.py
   secure: always
 
 # Movie app.
