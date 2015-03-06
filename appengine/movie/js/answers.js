@@ -42,7 +42,6 @@ Movie.answer = function(f) {
       Movie.shirt();
       break;
     case 2:
-      // Circle moving.
       Movie.boots();
       break;
     case 3:

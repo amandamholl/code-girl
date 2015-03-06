@@ -62,10 +62,6 @@ Blockly.Blocks['tshirt'] = {
 
 
 Blockly.JavaScript['tshirt'] = function(block) {
-  var value_x = Blockly.JavaScript.valueToCode(block, 'X', Blockly.JavaScript.ORDER_ATOMIC) || '0';
-  var value_y = Blockly.JavaScript.valueToCode(block, 'Y', Blockly.JavaScript.ORDER_ATOMIC) || '0';
-  // TODO: Assemble JavaScript into code variable.
-  var radius = '5';
   return 'tshirt();\n';
 };
 
@@ -84,10 +80,6 @@ Blockly.Blocks['longsleeve'] = {
 
 
 Blockly.JavaScript['longsleeve'] = function(block) {
-  var value_x = Blockly.JavaScript.valueToCode(block, 'X', Blockly.JavaScript.ORDER_ATOMIC) || '0';
-  var value_y = Blockly.JavaScript.valueToCode(block, 'Y', Blockly.JavaScript.ORDER_ATOMIC) || '0';
-  // TODO: Assemble JavaScript into code variable.
-  var radius = '5';
   return 'longsleeve();\n';
 };
 
@@ -106,13 +98,26 @@ Blockly.Blocks['boots'] = {
 
 
 Blockly.JavaScript['boots'] = function(block) {
-  var value_x = Blockly.JavaScript.valueToCode(block, 'X', Blockly.JavaScript.ORDER_ATOMIC) || '0';
-  var value_y = Blockly.JavaScript.valueToCode(block, 'Y', Blockly.JavaScript.ORDER_ATOMIC) || '0';
-  // TODO: Assemble JavaScript into code variable.
-  var radius = '5';
   return 'boots();\n';
 };
 
+Blockly.Blocks['cowboyboots'] = {
+  init: function() {
+    //this.setHelpUrl('http://www.example.com/');
+	this.setColour(160);
+    this.appendDummyInput()
+        .appendField("Cowboy Boots")
+        .appendField(new Blockly.FieldImage("./movie/cowboyboot.svg", 50, 50, "Cowboy Boots"));
+    this.setTooltip('');
+	this.setPreviousStatement(true);
+	this.setNextStatement(true);
+  }
+};
+
+
+Blockly.JavaScript['cowboyboots'] = function(block) {
+  return 'cowboyboots();\n';
+};
 
 Blockly.Blocks['movie_circle'] = {
   /**

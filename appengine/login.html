@@ -8,11 +8,12 @@ use google\appengine\api\users\UserService;
 # Looks for current Google account session
 $user = UserService::getCurrentUser();
 if (isset($user)) {
-	$logout = UserService::createLogoutUrl('/');
+	echo "<meta http-equiv='refresh' content='0; url=/movie'' />";
+    /*$logout = UserService::createLogoutUrl('/');
     $loggedin = sprintf("<a href='%s'>sign out</a>",$logout);
-	echo $loggedin;
+	echo $loggedin;*/
 } else {
-	$login = UserService::createLoginURL('/puzzle');
+	$login = UserService::createLoginURL('/movie');
     echo sprintf("<a href='%s'>sign in</a>",$login);
 } 
 
