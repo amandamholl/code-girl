@@ -117,12 +117,36 @@ Movie.init = function() {
        'rtl': rtl,
        'toolbox': toolbox,
        'trashcan': true});
+	   
+ /* Code from puzzle.js -- saves blocks and reloads them if page reloads */
+ /*
+  var savedBlocks =
+      BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME, BlocklyGames.LEVEL);
+  try {
+    var loadOnce = window.sessionStorage.loadOnceBlocks;
+  } catch (e) {
+    // Firefox sometimes throws a SecurityError when accessing sessionStorage.
+    // Restarting Firefox fixes this, so it looks like a bug.
+    var loadOnce = null;
+  }
+  if (loadOnce) {
+    delete window.sessionStorage.loadOnceBlocks;
+    var xml = Blockly.Xml.textToDom(loadOnce);
+    Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+  } else if (savedBlocks) {
+    var xml = Blockly.Xml.textToDom(savedBlocks);
+    Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+  } else {
+	//idk
+  }
+  */
+  
   // Prevent collisions with user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('circle,rect,line,penColour,time');
 
-  if (document.getElementById('submitButton')) {
+  /*if (document.getElementById('submitButton')) {
     BlocklyGames.bindClick('submitButton', Movie.submitToReddit);
-  }
+  }*/
 
   var defaultXml = '<xml></xml>';
   if (BlocklyGames.LEVEL == 9) {
@@ -224,6 +248,8 @@ Movie.init = function() {
         '</xml>';
   }
   BlocklyInterface.loadBlocks(defaultXml, false);
+  
+ 
 
   Movie.ctxDisplay = document.getElementById('display').getContext('2d');
   Movie.ctxDisplay.globalCompositeOperation = 'source-over';

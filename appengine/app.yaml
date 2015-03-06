@@ -1,6 +1,6 @@
 application: code-girl-pat
 version: 1
-runtime: php
+runtime: python27
 api_version: 1
 threadsafe: no
 # App Engine default is 10m.
@@ -18,8 +18,7 @@ handlers:
   
 # Login Signup Page
 - url: /login
-  script: login.html
-#  upload: login\.html
+  script: login.application
   secure: always
   
 
