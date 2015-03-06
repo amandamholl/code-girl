@@ -19,7 +19,7 @@ Movie.soy.start = function(opt_data, opt_ignored, opt_ijData) {
 
 
 Movie.soy.toolbox = function(opt_data, opt_ignored, opt_ijData) {
-  return '<xml id="toolbox" style="display: none"><category name="Shirts"><block type="tshirt"></block><block type="longsleeve"></block></category><category name="Shoes"><block type="boots"></block><block type="cowboyboots"></block></category><category name="Color"><block type="movie_colour"><value name="COLOUR"><block type="colour_picker"><field name="COLOUR">#ff9559</field></block></value></block><block type="colour_picker"> <field name="COLOUR">#ff9559</field> </block></category></xml>';
+  return '<xml id="toolbox" style="display: none"><category name="Shirts"><block type="tshirt"></block><block type="longsleeve"></block></category><category name="Bottoms"><block type = "skirt"></block><block type = "shorts"></block></category><category name="Shoes"><block type="boots"></block><block type="cowboyboots"></block></category><category name="Accessories"><block type = "bow"></block><block type = "earrings"></block></category><category name="Color"><block type="movie_colour"><value name="COLOUR"><block type="colour_picker"><field name="COLOUR">#ff9559</field></block></value></block><block type="colour_picker"> <field name="COLOUR">#ff9559</field> </block></category></xml>';
 };
 
 

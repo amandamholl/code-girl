@@ -78,14 +78,96 @@ Blockly.Blocks['longsleeve'] = {
   }
 };
 
-
 Blockly.JavaScript['longsleeve'] = function(block) {
   return 'longsleeve();\n';
 };
 
-Blockly.Blocks['boots'] = {
+Blockly.Blocks['pants'] = {
   init: function() {
     //this.setHelpUrl('http://www.example.com/');
+	this.setColour(160);
+    this.appendDummyInput()
+        .appendField("Pants")
+        .appendField(new Blockly.FieldImage("./movie/pants.svg", 50, 50, "Pants"));
+    this.setTooltip('');
+	this.setPreviousStatement(true);
+	this.setNextStatement(true);
+  }
+};
+
+Blockly.JavaScript['pants'] = function(block) {
+  return 'pants();\n';
+};
+
+Blockly.Blocks['bow'] = {
+  init: function() {
+    //this.setHelpUrl('http://www.example.com/');
+	this.setColour(160);
+    this.appendDummyInput()
+        .appendField("Bow")
+        .appendField(new Blockly.FieldImage("./movie/bow.svg", 50, 50, "Bow"));
+    this.setTooltip('');
+	this.setPreviousStatement(true);
+	this.setNextStatement(true);
+  }
+};
+
+Blockly.JavaScript['bow'] = function(block) {
+  return 'bow();\n';
+};
+
+Blockly.Blocks['earrings'] = {
+  init: function() {
+    //this.setHelpUrl('http://www.example.com/');
+	this.setColour(160);
+    this.appendDummyInput()
+        .appendField("Earrings")
+        .appendField(new Blockly.FieldImage("./movie/earrings.svg", 50, 50, "Earrings"));
+    this.setTooltip('');
+	this.setPreviousStatement(true);
+	this.setNextStatement(true);
+  }
+};
+
+Blockly.JavaScript['earrings'] = function(block) {
+  return 'earrings();\n';
+};
+
+Blockly.JavaScript['shorts'] = function(block) {
+  return 'shorts();\n';
+};
+
+Blockly.Blocks['shorts'] = {
+  init: function() {
+	this.setColour(160);
+    this.appendDummyInput()
+        .appendField("Shorts")
+        .appendField(new Blockly.FieldImage("./movie/shorts.svg", 50, 50, "Shorts"));
+    this.setTooltip('');
+	this.setPreviousStatement(true);
+	this.setNextStatement(true);
+  }
+};
+
+Blockly.JavaScript['skirt'] = function(block) {
+  return 'skirt();\n';
+};
+
+Blockly.Blocks['skirt'] = {
+  init: function() {
+	this.setColour(160);
+    this.appendDummyInput()
+        .appendField("Skirt")
+        .appendField(new Blockly.FieldImage("./movie/skirt.svg", 50, 50, "skirt"));
+    this.setTooltip('');
+	this.setPreviousStatement(true);
+	this.setNextStatement(true);
+  }
+};
+
+
+Blockly.Blocks['boots'] = {
+  init: function() {
 	this.setColour(160);
     this.appendDummyInput()
         .appendField("Boots")
