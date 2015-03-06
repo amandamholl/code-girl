@@ -1,22 +1,14 @@
+import webapp2
 from google.appengine.api import users
 
-import webapp2
-
-class MainPage(webapp2.RequestHandler):
-
+class MyHandler(webapp2.RequestHandler):
     def get(self):
-        # Checks for active Google account session
         user = users.get_current_user()
-
         if user:
-			self.response.headers['Content-Type'] = 'text/plain'
-            self.response.write('Hello, ' + user.nickname())
-            #self.redirect("/movie");
-
+            self.response.out.write("<html><head><meta http-equiv='refresh' content='0; url=/movie'></head></html>")
         else:
-            self.redirect(users.create_login_url(self.reqeust.uri))
+			self.response.out.write("<html><body><a href='%s'>Sign in or register</a></body></html>" %
+                        users.create_login_url('/movie'))
 
-
-application = webapp2.WSGIApplication([
-    ('/', MainPage),
-], debug=True)
+        
+application = webapp2.WSGIApplication([('/login', MyHandler),], debug=True)

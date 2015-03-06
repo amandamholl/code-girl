@@ -6,6 +6,10 @@ threadsafe: no
 # App Engine default is 10m.
 default_expiration: "12h"
 
+libraries:
+- name: webapp2
+  version: latest
+
 handlers:
 # Storage API.
 - url: /storage
