@@ -68,7 +68,9 @@
       <td class="farSide">
         <select id="languageMenu"></select>
         &nbsp;
-		<button id="signoutButton" onClick="location.href=index.html'">{{msge meaning="" desc"IBID"}} Signout {{/msg}} </button>
+        <button id="signoutButton" onClick="location.href='/'">
+        {{msg meaning="Games.signout" desc="IBID"}}Signout{{/msg}}
+        </button>
         <button id="linkButton" title="{msg meaning="Games.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}">
           <img src="media/1x1.gif" class="link icon21">
         </button>
@@ -137,15 +139,15 @@
         {/msg}
       {elseif $ij.level == 2}
         {msg meaning="Movie.helpText2a" desc="Instructions.  Add shoes to the avatar."}
-          Add shoes to your avatar using the toolbar.
+          Add bottoms to your avatar using the toolbar.
         {/msg}
       {elseif $ij.level == 3}
-        {msg meaning="Movie.helpText3" desc="Instructions.  Do not translate the word 'time'."}
-          The 'time' block counts from 0 to 100. But this time you want the horizontal position of the red ball to start at 100 and go to 0. Can you figure out a simple mathematical formula that flips the direction?
+        {msg meaning="Movie.helpText3" desc="Instructions.  Add shoes to the avatar."}
+          Add shoes to your avatar using the toolbar.
         {/msg}
       {elseif $ij.level == 4}
-        {msg meaning="Movie.helpText4" desc="Instructions."}
-          Use what you learned in the previous level to make four green balls that move in all four directions.
+        {msg meaning="Movie.helpText4" desc="Instructions. Add accessories to the avatar."}
+          Add accessories to your avatar using the toolbar.
         {/msg}
       {elseif $ij.level == 5}
         {msg meaning="Movie.helpText5" desc="Instructions.  The goal is to draw a shape that looks a bit like Mickey Mouse or Deadmau5."}
@@ -190,6 +192,7 @@
  */
 {template .toolbox}
   <xml id="toolbox" style="display: none">
+    {if $ij.level >= 1}
     <category name="{msg meaning="Games.movie" desc="IBID"}Shirts{/msg}">
         <block type="tshirt">
         
@@ -198,6 +201,8 @@
 
         </block>
     </category>
+    {/if}
+    {if $ij.level >= 2}
     <category name="{msg meaning="Games.movie" desc="IBID"}Bottoms{/msg}">
         /*<block type="pants">
         </block>*/
@@ -206,20 +211,25 @@
         <block type = "shorts">
         </block>
     </category>
+    {/if}
+    {if $ij.level >= 3}
     <category name="{msg meaning="Games.movie" desc="IBID"}Shoes{/msg}">
         <block type="boots">
 
         </block>
-        <block type="cowboyboots">
+        /*<block type="cowboyboots">
 
-        </block>
+        </block>*/
     </category>
+    {/if}
+    {if $ij.level >= 4}
     <category name="{msg meaning="Games.movie" desc="IBID"}Accessories{/msg}">
         <block type = "bow">
         </block>
         <block type = "earrings">
         </block>
     </category>
+    {/if}
     <category name="{msg meaning="Games.catColour" desc="IBID"}Color{/msg}">
       <block type="movie_colour">
         <value name="COLOUR">
@@ -228,7 +238,6 @@
             </block>
         </value>
       </block>
-      <block type="colour_picker"> <field name="COLOUR">#ff9559</field> </block>
       /*{if $ij.level == 10}
         <block type="colour_rgb">
           <value name="RED">

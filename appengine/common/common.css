@@ -120,6 +120,7 @@ button:hover:not(:disabled) {
   border-radius: 8px;
   box-shadow: 5px 5px 5px #888;
   padding: 10px;
+  top:6em;
 }
 #dialogBorder {
   visibility: hidden;
@@ -163,4 +164,6 @@ button:hover:not(:disabled) {
 #dialog button {
   min-width: 4em;
 }
-
+.featureUnlocked{
+  margin: 0px 20px;
+}

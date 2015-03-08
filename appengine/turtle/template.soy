@@ -182,16 +182,14 @@
     <div style="padding-bottom: 0.7ex">
       {if $ij.level == 1}
         {msg meaning="Turtle.helpText1" desc="Instructions."}
-          Create a program that draws a square.
+            Help the robot draw a square!
         {/msg}
         <br><img src="turtle/square.gif" height=146 width=146 style="margin-bottom: -50px">
-      
-        {if not $ij.html}
-          <br><br>
-          {msg meaning="Turtle.helpText10Reddit" desc="Instructions on posting your drawing to Reddit (a social website)."}
-            Use the "See Gallery" button to see what other people have drawn. If you draw something interesting, use the "Submit to Gallery" button to publish it.
-          {/msg}
-        {/if}
+      {/if}
+    {if $ij.level == 2}
+        {msg meaning="Turtle.helpText1" desc="Instructions."}
+          Help the robot draw a hexagon.
+        {/msg}
       {/if}
     </div>
     {call BlocklyGames.soy.ok /}
@@ -216,10 +214,9 @@
     
       <category name="{msg meaning="Turtle.catTurtle" desc="category - Blocks related to Turtle commands."}Pen{/msg}">
         <block type="turtle_move_internal">
-
         </block>
         <block type="turtle_turn_internal">
-          
+          <field name="VALUE">some</field>
         </block>
         {if $ij.level > 3}
           <block type="turtle_pen"></block>

@@ -40,13 +40,8 @@ BlocklyGames.NAME = 'turtle';
  * Go to the next level.
  */
 BlocklyInterface.nextLevel = function() {
-  /*if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
-    window.location = window.location.protocol + '//' +
-        window.location.host + window.location.pathname +
-        '?lang=' + BlocklyGames.LANG + '&level=' + (BlocklyGames.LEVEL + 1);
-  } else {*/
-    BlocklyInterface.indexPage();
- // }
+   window.location = window.location.protocol + '//' +
+        window.location.host + '/movie?lang=' + BlocklyGames.LANG + '&level=' + (BlocklyGames.LEVEL + 2);
 };
 
 Turtle.HEIGHT = 400;
@@ -89,8 +84,8 @@ Turtle.init = function() {
   // Render the Soy template.
   document.body.innerHTML = Turtle.soy.start({}, null,
       {lang: BlocklyGames.LANG,
-       level: 1,
-       maxLevel: 1,
+       level: BlocklyGames.LEVEL,
+       maxLevel: 3,
        html: BlocklyGames.IS_HTML});
 
   BlocklyInterface.init();
@@ -684,7 +679,7 @@ Turtle.checkAnswer = function() {
   }
   if (Turtle.isCorrect(delta)) {
     BlocklyInterface.saveToLocalStorage();
-    if (BlocklyGames.LEVEL == 1) {
+    if (BlocklyGames.LEVEL < 3) {
       // No congrats for last level, it is open ended.
       Blockly.playAudio('win', 0.5);
       BlocklyDialogs.congratulations();

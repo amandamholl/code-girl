@@ -36,6 +36,14 @@ goog.require('goog.math');
 BlocklyGames.NAME = 'puzzle';
 
 /**
+ * Go to the next level.
+ */
+BlocklyInterface.nextLevel = function() {
+   window.location = window.location.protocol + '//' +
+        window.location.host + '/movie?lang=' + BlocklyGames.LANG + '&level=' + (BlocklyGames.LEVEL + 1);
+};
+
+/**
  * Initialize Blockly and the puzzle.  Called on page load.
  */
 Puzzle.init = function() {
@@ -249,9 +257,11 @@ Puzzle.checkAnswers = function() {
     messages = [BlocklyGames.getMsg('Puzzle_error2').replace('%1', errors),
                 BlocklyGames.getMsg('Puzzle_tryAgain')];
   } else {
+	  
     messages = [BlocklyGames.getMsg('Puzzle_error0').replace(
         '%1', blocks.length)];
     BlocklyInterface.saveToLocalStorage();
+	document.getElementsByClassName('secondary').addEventListener("click", BlocklyDialogs.congratulations());
   }
   var textDiv = document.getElementById('answerMessage');
   textDiv.textContent = '';

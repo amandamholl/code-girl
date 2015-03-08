@@ -14,6 +14,7 @@
  * Translated messages for use in JavaScript.
  */
 {template .messages}
+  {call BlocklyGames.soy.messages /}
   <div style="display: none">
     <span id="Puzzle_animal1">
       {msg meaning="Puzzle.animal1" desc="Elephant: The mammal."}
@@ -161,7 +162,12 @@
 
   <div id="blockly"></div>
 
-  {call BlocklyGames.soy.dialog /}
+
+{call BlocklyGames.soy.dialog /}
+{call BlocklyGames.soy.doneDialog /}
+{call BlocklyGames.soy.abortDialog /}
+{call BlocklyGames.soy.storageDialog /}
+
   <div id="help" class="dialogHiddenContent">
     <div style="padding-bottom: 0.7ex">
       {msg meaning="Puzzle.helpText"

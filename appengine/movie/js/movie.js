@@ -91,7 +91,7 @@ Movie.init = function() {
   document.body.innerHTML = Movie.soy.start({}, null,
       {lang: BlocklyGames.LANG,
        level: BlocklyGames.LEVEL,
-       maxLevel: BlocklyGames.MAX_LEVEL,
+       maxLevel: 4,
        html: BlocklyGames.IS_HTML});
 
   BlocklyInterface.init();
@@ -158,7 +158,7 @@ Movie.init = function() {
   }*/
 
   var defaultXml = '<xml></xml>';
-  BlocklyInterface.loadBlocks(defaultXml, false);
+  //BlocklyInterface.loadBlocks(defaultXml, false);
   
  
 
@@ -168,25 +168,9 @@ Movie.init = function() {
   //Movie.renderHatching_();
   
   Movie.renderSuperhero_();
-  // Render the frame zero answer because we need it right now.
-  /*Movie.renderAnswer_(0);
-  // Remaining answers may be computed later without slowing down page load.
-  function renderRemainingAnswers() {
-    for (var f = 1; f <= Movie.FRAMES; f++) {
-      Movie.renderAnswer_(f);
-    }
-  }
-  setTimeout(renderRemainingAnswers, 1);*/
-  Movie.renderAxies_();
+  Movie.renderAnswer_();
   Movie.display();
   Blockly.addChangeListener(Movie.display);
-
-  // Initialize the scrubber.
-  var scrubberSvg = document.getElementById('scrubber');
-  Movie.frameScrubber = new Scrubber(scrubberSvg, Movie.display);
-  if (BlocklyGames.LEVEL == 1) {
-    scrubberSvg.style.display = 'none';
-  }
 
   // Preload the win sound.
   Blockly.loadAudio_(['movie/win.mp3', 'movie/win.ogg'], 'win');
@@ -233,39 +217,6 @@ Movie.showHelp = function() {
  */
 Movie.hideHelp = function() {
   BlocklyDialogs.stopDialogKeyDown();
-};
-
-/**
- * On startup draw the expected answers and save it to answer canvases.
- * @param {number} f Frame number (0-100).
- * @private
- */
-Movie.renderAnswer_ = function(f) {
-  var div = document.getElementById('visualization');
- 	alert('Rendering answer');
-  // <canvas id="answer1" width="400" height="400" style="display: none">
-  // </canvas>
-  
-  for(var i = BlocklyGames.LEVEL; i > 0; i -= 1){
-	var canvas = document.createElement('canvas');
-  canvas.id = 'answer' + i;
-  canvas.width = Movie.WIDTH;
-  canvas.height = Movie.HEIGHT;
-  canvas.style.display = 'none';
-  div.appendChild(canvas);
-
-  // Clear the scratch canvas.
-  Movie.ctxScratch.canvas.width = Movie.ctxScratch.canvas.width;
-  // Render the answer.
-  
-  Movie.answer(i);
-  
-  // Copy the scratch canvas to the answer canvas.
-  var ctx = canvas.getContext('2d');
-  ctx.globalCompositeOperation = 'copy';
-  ctx.drawImage(Movie.ctxScratch.canvas, 0, 0);
-  alert(i);
-  }
 };
 
 /**
@@ -1365,6 +1316,53 @@ Movie.drawShirt = function(color){
   ctx.stroke();
   ctx.restore();
 }
+
+Movie.drawSkirt = function(color){
+  var ctx = document.getElementById('axies').getContext('2d');
+  ctx.save();
+  ctx.scale(.55,.55);
+  ctx.translate(75,265);
+  ctx.beginPath();
+  ctx.moveTo(0,0);
+  ctx.lineTo(612,0);
+  ctx.lineTo(612,792);
+  ctx.lineTo(0,792);
+  ctx.closePath();
+  ctx.clip();
+  ctx.translate(0,0);
+  ctx.translate(0,0);
+  ctx.scale(1,1);
+  ctx.translate(0,0);
+  ctx.strokeStyle = 'rgba(0,0,0,0)';
+  ctx.lineCap = 'butt';
+  ctx.lineJoin = 'miter';
+  ctx.miterLimit = 4;
+  ctx.save();
+  //ctx.fillStyle = "#d1d3d4";
+  //ctx.strokeStyle = "#231f20";
+  ctx.miterLimit = 10;
+  ctx.beginPath();
+  ctx.moveTo(421.743,430.786);
+  ctx.bezierCurveTo(421.064,339.694,384,289.5,384,289.5);
+  ctx.lineTo(301,294.087);
+  ctx.lineTo(301,294);
+  ctx.lineTo(300.777,294);
+  ctx.lineTo(301,294);
+  ctx.lineTo(301,294.087);
+  ctx.lineTo(218.5,287.5);
+  ctx.bezierCurveTo(218.5,287.5,181.325,339.673,180.64600000000002,430.764);
+  ctx.bezierCurveTo(180.477,453.4,240,468.878,301,469.328);
+  ctx.lineTo(301,469.339);
+  ctx.bezierCurveTo(301,469.338,301.256,469.335,301.5,469.334);
+  ctx.bezierCurveTo(301.743,469.335,302,469.338,302,469.339);
+  ctx.lineTo(302,469.328);
+  ctx.bezierCurveTo(362,468.878,421.912,453.422,421.743,430.786);
+  ctx.fill();
+  ctx.stroke();
+  ctx.restore();
+  ctx.restore();
+}
+
 Movie.drawBoots = function(color){
   var ctx = document.getElementById('axies').getContext('2d');
   ctx.save();
@@ -1504,17 +1502,63 @@ Movie.drawBoots = function(color){
   ctx.restore();
 }
 
+Movie.drawBow = function(color){
+  var ctx = document.getElementById('axies').getContext('2d');
+  ctx.save();
+  ctx.translate(-85,-240);
+  ctx.beginPath();
+  ctx.moveTo(0,0);
+  ctx.lineTo(612,0);
+  ctx.lineTo(612,792);
+  ctx.lineTo(0,792);
+  ctx.closePath();
+  ctx.clip();
+  ctx.translate(0,0);
+  ctx.translate(0,0);
+  ctx.scale(1,1);
+  ctx.translate(0,0);
+  ctx.strokeStyle = 'rgba(0,0,0,0)';
+  ctx.lineCap = 'butt';
+  ctx.lineJoin = 'miter';
+  ctx.miterLimit = 4;
+  ctx.save();
+  //ctx.fillStyle = "#d1d3d4";
+  //ctx.strokeStyle = "#231f20";
+  ctx.miterLimit = 10;
+  ctx.beginPath();
+  ctx.moveTo(268.603,289.33);
+  ctx.bezierCurveTo(282.271,328.639,323.135,206.12399999999997,323.135,289.33);
+  ctx.bezierCurveTo(323.135,310.895,244.609,220.324,268.603,289.33);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+  ctx.restore();
+  ctx.restore();
+}
+
 /**
- * On startup draw the axis scales and save it to the axies canvas.
+ * On startup draw the answer and save it to the axies canvas.
  * @private
  */
-Movie.renderAxies_ = function() {
+Movie.renderAnswer_ = function() {
 	switch (BlocklyGames.LEVEL) {
     case 1:
       Movie.drawShirt('');
       break;
     case 2:
+	  Movie.drawShirt('');
+      Movie.drawSkirt('');
+      break;
+	case 3:
+	  Movie.drawShirt('');
+      Movie.drawSkirt('');
       Movie.drawBoots('');
+      break;
+	case 4:
+	  Movie.drawShirt('');
+      Movie.drawSkirt('');
+      Movie.drawBoots('');
+	  Movie.drawBow('');
       break;
 	}
 };
@@ -1564,26 +1608,18 @@ Movie.display = function() {
   Movie.ctxDisplay.fillStyle = '#ffffff';
   Movie.ctxDisplay.fill();
 
-  // Copy the answer.
-  var answer = document.getElementById('answer' + BlocklyGames.LEVEL);
-  if (answer) {
-    Movie.ctxDisplay.globalAlpha = 0.2;
-    Movie.ctxDisplay.drawImage(answer, 0, 0);
-    Movie.ctxDisplay.globalAlpha = 1;
-  }
-
   var superhero = document.getElementById('superhero');
   Movie.ctxDisplay.drawImage(superhero, 0, 0);
+  
   
   // Draw and copy the user layer.
   var code = Blockly.JavaScript.workspaceToCode();
   var interpreter = new Interpreter(code, Movie.initInterpreter);
   Movie.drawFrame_(interpreter);
   Movie.ctxDisplay.drawImage(Movie.ctxScratch.canvas, 0, 0);
-
-  // Copy the axies.
-  //Movie.ctxDisplay.drawImage(document.getElementById('axies'), 0, 0);
-  Movie.checkFrameAnswer();
+	
+	
+  //Movie.checkFrameAnswer();
   //if (BlocklyGames.LEVEL == 1 || BlocklyGames.LEVEL == 2) {
     setTimeout(Movie.checkAnswers, 1000);
   //}
@@ -1711,10 +1747,11 @@ Movie.longsleeve = function(){
   Movie.ctxScratch.fill();
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
+  setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);
 }
 
 Movie.tshirt = function() {
-Movie.ctxScratch.save();
+  Movie.ctxScratch.save();
   Movie.ctxScratch.scale(.7,.7);
   Movie.ctxScratch.translate(170,244);
   Movie.ctxScratch.strokeStyle = 'rgba(0,0,0,0)';
@@ -1760,6 +1797,7 @@ Movie.ctxScratch.save();
   Movie.ctxScratch.fill();
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
+  setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);
 };
 
 Movie.earrings =function(){
@@ -1810,6 +1848,7 @@ Movie.earrings =function(){
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
+  setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.done();},1000);
 };
 
 Movie.skirt =function(){
@@ -1855,6 +1894,7 @@ Movie.skirt =function(){
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
+  setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);
 };
 
 Movie.shorts =function(){
@@ -1936,6 +1976,7 @@ Movie.shorts =function(){
   Movie.ctxScratch.fill();
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
+  setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);
 };
 
 
@@ -1970,6 +2011,7 @@ Movie.bow = function() {
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
+  setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.done();},1000);
 }
 
 ////need to change it to reflect pants
@@ -2297,6 +2339,7 @@ Movie.boots = function(){
   Movie.ctxScratch.fill();
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
+  setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);
 }
 
 /**

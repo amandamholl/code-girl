@@ -56,15 +56,15 @@ Blockly.Blocks['turtle_move_internal'] = {
     var DIRECTIONS =
         [['move forward', 'moveForward'],
          ['move backward', 'moveBackward']];
-    var VALUES =
+    /*var VALUES =
         [['20', '20'],
          ['50', '50'],
          ['100', '100'],
-         ['150', '150']];
+         ['150', '150']];*/
     this.setColour(160);
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown(DIRECTIONS), 'DIR')
-        .appendField('', 'VALUE');
+        //.appendField('', 'VALUE');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(BlocklyGames.getMsg('Turtle_moveTooltip'));
@@ -90,19 +90,16 @@ Blockly.Blocks['turtle_turn_internal'] = {
         [['turn right', 'turnRight'],
          ['turn left', 'turnLeft']];
     var VALUES =
-        [['1\u00B0', '1'],
-         ['45\u00B0', '45'],
-         ['72\u00B0', '72'],
-         ['90\u00B0', '90'],
-         ['120\u00B0', '120'],
-         ['144\u00B0', '144']];
+        [['slightly', '72'],
+         ['some', '90'],
+         ['a lot', '144']];
     // Append arrows to direction messages.
     DIRECTIONS[0][0] += ' \u21BB';
     DIRECTIONS[1][0] += ' \u21BA';
     this.setColour(160);
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown(DIRECTIONS), 'DIR')
-        .appendField(' ', 'VALUE');
+        .appendField(new Blockly.FieldDropdown(VALUES), 'VALUE');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(BlocklyGames.getMsg('Turtle_turnTooltip'));
@@ -111,7 +108,10 @@ Blockly.Blocks['turtle_turn_internal'] = {
 
 Blockly.JavaScript['turtle_turn_internal'] = function(block) {
   // Generate JavaScript for turning left or right.
-  var value = '90';
+  var value = block.getFieldValue('VALUE');
+  if(value == 'some'){
+	  value = 90;
+  }
   return block.getFieldValue('DIR') +
       '(' + value + ', \'block_id_' + block.id + '\');\n';
 };
