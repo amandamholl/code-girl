@@ -13,7 +13,7 @@ Index.soy.messages = function(opt_data, opt_ignored, opt_ijData) {
 
 
 Index.soy.start = function(opt_data, opt_ignored, opt_ijData) {
-  return Index.soy.messages(null, null, opt_ijData) + '<div id="header"><img id="banner" src="index/horizontal-logo-01.png" height="200"  alt="Blockly Games"><div id="subtitle">An educational, computer science designed specifically for young girls.  &nbsp;' + ((opt_ijData.html) ? '<a href="about.html?lang=' + soy.$$escapeHtml(opt_ijData.lang) + '">' : '<a href="about?lang=' + soy.$$escapeHtml(opt_ijData.lang) + '">') + '</a></div></div><select id="languageMenu"></select><p id="clearDataPara" style="visibility: hidden">Want to start over?<button class="secondary" id="clearData">Clear data</span></button></p><div id="login"><FORM><INPUT Type="BUTTON" VALUE="Login or Sign Up" ONCLICK="window.location.href=\'/login\'"></FORM></div>';
+  return Index.soy.messages(null, null, opt_ijData) + '<div id="header"><img id="banner" src="index/horizontal-logo-01.png" height="200"  alt="Blockly Games"><div id="subtitle">An educational, computer science designed specifically for young girls.  &nbsp;' + ((opt_ijData.html) ? '<a href="about.html?lang=' + soy.$$escapeHtml(opt_ijData.lang) + '">' : '<a href="about?lang=' + soy.$$escapeHtml(opt_ijData.lang) + '">') + '</a></div></div><select id="languageMenu"></select><p id="clearDataPara" style="visibility: hidden">Want to start over?<button class="secondary" id="clearData">Clear data</span></button></p><div id="login" class="primary"><FORM><INPUT Type="BUTTON" VALUE="Login or Sign Up" ONCLICK="window.location.href=\'/login\'"></FORM></div>';
 };
 
 

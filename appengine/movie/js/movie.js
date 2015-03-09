@@ -128,27 +128,29 @@ Movie.init = function() {
        'trashcan': true});
 	   
  /* Code from puzzle.js -- saves blocks and reloads them if page reloads */
- /*
-  var savedBlocks =
-      BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME, BlocklyGames.LEVEL);
-  try {
-    var loadOnce = window.sessionStorage.loadOnceBlocks;
-  } catch (e) {
-    // Firefox sometimes throws a SecurityError when accessing sessionStorage.
-    // Restarting Firefox fixes this, so it looks like a bug.
-    var loadOnce = null;
+  var iterator = BlocklyGames.LEVEL;
+  while(iterator >= (BlocklyGames.LEVEL - 1) && iterator != 0){
+	var savedBlocks =
+		BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME, iterator);
+	try {
+	  var loadOnce = window.sessionStorage.loadOnceBlocks;
+	} catch (e) {
+	  // Firefox sometimes throws a SecurityError when accessing sessionStorage.
+	  // Restarting Firefox fixes this, so it looks like a bug.
+	  var loadOnce = null;
+	}
+	if (loadOnce) {
+	  delete window.sessionStorage.loadOnceBlocks;
+	  var xml = Blockly.Xml.textToDom(loadOnce);
+	  Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+	} else if (savedBlocks) {
+	  var xml = Blockly.Xml.textToDom(savedBlocks);
+	  Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+	} else {
+	  //idk
+	}
+	iterator = iterator - 1;
   }
-  if (loadOnce) {
-    delete window.sessionStorage.loadOnceBlocks;
-    var xml = Blockly.Xml.textToDom(loadOnce);
-    Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
-  } else if (savedBlocks) {
-    var xml = Blockly.Xml.textToDom(savedBlocks);
-    Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
-  } else {
-	//idk
-  }
-  */
   
   // Prevent collisions with user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('circle,rect,line,penColour,time');
@@ -1618,7 +1620,8 @@ Movie.display = function() {
   Movie.drawFrame_(interpreter);
   Movie.ctxDisplay.drawImage(Movie.ctxScratch.canvas, 0, 0);
 	
-	
+  BlocklyInterface.saveToLocalStorage();
+
   //Movie.checkFrameAnswer();
   //if (BlocklyGames.LEVEL == 1 || BlocklyGames.LEVEL == 2) {
     setTimeout(Movie.checkAnswers, 1000);
@@ -1747,7 +1750,7 @@ Movie.longsleeve = function(){
   Movie.ctxScratch.fill();
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
-  setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);
+  if(BlocklyGames.LEVEL == 1){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
 }
 
 Movie.tshirt = function() {
@@ -1797,7 +1800,7 @@ Movie.tshirt = function() {
   Movie.ctxScratch.fill();
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
-  setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);
+  if(BlocklyGames.LEVEL == 1){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
 };
 
 Movie.earrings =function(){
@@ -1848,7 +1851,7 @@ Movie.earrings =function(){
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
-  setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.done();},1000);
+  if(BlocklyGames.LEVEL == 4){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.done();},1000);};
 };
 
 Movie.skirt =function(){
@@ -1894,7 +1897,7 @@ Movie.skirt =function(){
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
-  setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);
+  if(BlocklyGames.LEVEL == 2){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
 };
 
 Movie.shorts =function(){
@@ -1976,7 +1979,7 @@ Movie.shorts =function(){
   Movie.ctxScratch.fill();
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
-  setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);
+  if(BlocklyGames.LEVEL == 2){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
 };
 
 
@@ -2011,7 +2014,7 @@ Movie.bow = function() {
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
-  setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.done();},1000);
+  if(BlocklyGames.LEVEL == 4){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.done();},1000);};
 }
 
 ////need to change it to reflect pants
@@ -2339,7 +2342,7 @@ Movie.boots = function(){
   Movie.ctxScratch.fill();
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
-  setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);
+  if(BlocklyGames.LEVEL == 3){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
 }
 
 /**
