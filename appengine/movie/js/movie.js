@@ -1577,8 +1577,8 @@ Movie.drawFrame_ = function(interpreter) {
   Movie.ctxScratch.fillStyle = '#000';
   // Levels 1-9 should be slightly transparent so eclipsed blocks may be seen.
   // Level 10 should be opaque so that the movie is clean.
-  Movie.ctxScratch.globalAlpha =
-      (BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL) ? 1 : 0.9;
+  /*Movie.ctxScratch.globalAlpha =
+      (BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL) ? 1 : 0.9;*/
 
   var go = true;
   for (var tick = 0; go && tick < 10000; tick++) {
@@ -1755,8 +1755,8 @@ Movie.longsleeve = function(){
 
 Movie.tshirt = function() {
   Movie.ctxScratch.save();
-  Movie.ctxScratch.scale(.7,.7);
-  Movie.ctxScratch.translate(170,244);
+  Movie.ctxScratch.scale(.68,.68);
+  Movie.ctxScratch.translate(179,252);
   Movie.ctxScratch.strokeStyle = 'rgba(0,0,0,0)';
   Movie.ctxScratch.lineCap = 'butt';
   Movie.ctxScratch.lineJoin = 'miter';
