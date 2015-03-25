@@ -26,30 +26,50 @@
 {template .start}
   {call .messages /}
   <div id="header">
-    <img id="banner" src="index/horizontal-logo-01.png" height="200"  alt="Blockly Games">
-    <div id="subtitle">
-      {msg meaning="Index.subTitle" desc="Brief description of Blockly Games."}An educational, computer science designed specifically for young girls. {/msg}
-      {sp}&nbsp;
-      {if $ij.html}
-        <a href="about.html?lang={$ij.lang}">
-      {else}
-        <a href="about?lang={$ij.lang}">
-      {/if}
-      </a>
+    <div id="logo">
+        <a href="./"> <img src="./index/horizontal-logo-01.png"></a>
+    </div>
+    <div id="login">
+        <FORM>
+            <INPUT class="login" Type="BUTTON" VALUE="Login or Sign Up" ONCLICK="window.location.href='/login'">
+        </FORM>
     </div>
   </div>
   <select id="languageMenu"></select>
+    <div class="carousel">
+        <div><img src="./index/banner2-01.svg"></div>
+        <div><img src="./index/banner-01.svg"></div>
+        <div><img src="./index/banner3-01.svg"></div>
+    </div>
+/*
+<div class="gallery autoplay items-3">
+    <div id="item-1" class="control-operator"></div>
+    <div id="item-2" class="control-operator"></div>
+    <div id="item-3" class="control-operator"></div>
+    <figure class="item">
+        <h1>An educational <br/>computer science <br/>game designed <br/>for girls!</h1>
+        <img src="./index/banner2-01.svg">
+    </figure>
+    <figure class="item">
+        <h1>An educational <br/>computer science <br/>game designed <br/>for girls!</h1>
+        <img src="./index/banner-01.svg">
+    </figure>
+    <figure class="item">
+        <h1>An educational <br/>computer science <br/>game designed <br/>for girls!</h1>
+        <img src="./index/banner3-01.svg">
+    </figure>
+    <div class="controls">
+      <a href="#item-1" class="control-button">•</a>
+      <a href="#item-2" class="control-button">•</a>
+      <a href="#item-3" class="control-button">•</a>
+    </div>
+  </div>*/
   <p id="clearDataPara" style="visibility: hidden">
     {msg meaning="Index.startOver" desc="Label next to button for deleting all the user's data."}Want to start over?{/msg}
     <button class="secondary" id="clearData">
       {msg meaning="Index.clearData" desc="Text on button for deleting all the user's data."}Clear data{/msg}</span>
     </button>
   </p>
-    <div id="login" class="primary">
-        <FORM>
-            <INPUT Type="BUTTON" VALUE="Login or Sign Up" ONCLICK="window.location.href='/login'">
-        </FORM>
-    </div>
 {/template}
 
 /**

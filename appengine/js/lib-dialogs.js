@@ -484,13 +484,13 @@ BlocklyDialogs.congratulations = function() {
     var pre = document.getElementById('containerCode');
 	
 	if(BlocklyGames.NAME == 'puzzle'){
-		pre.innerHTML="<p>New feature unlocked!</p><img class='featureUnlocked' src='./movie/shorts.svg' width='80px' border=0 /><img class='featureUnlocked' src='./movie/skirt.svg' width='80px' border=0/>";
+		pre.innerHTML="<p>New features unlocked!</p><img class='featureUnlocked' src='./movie/shorts.svg' width='80px' border=0 /><img class='featureUnlocked' src='./movie/skirt.svg' width='80px' border=0/>";
 	}
 	else if(BlocklyGames.NAME == 'turtle' && BlocklyGames.LEVEL == 1){
-		pre.innerHTML="<p>New feature unlocked!</p><img class='featureUnlocked' src='./movie/boots.svg' width='80px' border=0 /><img class='featureUnlocked' src='./movie/cowboyboot.svg' width='80px' border=0/>";
+		pre.innerHTML="<p>New features unlocked!</p><img class='featureUnlocked' src='./movie/boots.svg' width='80px' border=0 /><img class='featureUnlocked' src='./movie/cowboyboot.svg' width='80px' border=0/>";
 	}
 	else if(BlocklyGames.NAME == 'turtle' && BlocklyGames.LEVEL == 2){
-		pre.innerHTML="<p>New feature unlocked!</p><img class='featureUnlocked' src='./movie/earrings.svg' width='80px' border=0 /><img class='featureUnlocked' src='./movie/bow.svg' width='80px' border=0/>";
+		pre.innerHTML="<p>New features unlocked!</p><img class='featureUnlocked' src='./movie/earrings.svg' width='80px' border=0 /><img class='featureUnlocked' src='./movie/bow.svg' width='80px' border=0/>";
 	};	
   }
   var cancel = document.getElementById('doneCancel');

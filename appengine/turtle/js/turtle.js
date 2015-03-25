@@ -114,12 +114,14 @@ Turtle.init = function() {
          '#ffffff', '#999999', '#000000'];
   }
 
+  if(BlocklyGames.LEVEL != 1){
   var toolbox = document.getElementById('toolbox');
+  }
   Blockly.inject(document.getElementById('blockly'),
       {'media': 'media/',
        'rtl': rtl,
        'toolbox': toolbox,
-       'trashcan': true});
+       'trashcan': true}); 
   // Prevent collisions with user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('moveForward,moveBackward,' +
       'turnRight,turnLeft,penUp,penDown,penWidth,penColour,' +
@@ -133,24 +135,42 @@ Turtle.init = function() {
   var sliderSvg = document.getElementById('slider');
   Turtle.speedSlider = new Slider(10, 35, 130, sliderSvg);
 
-  if (BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL) {
-    var defaultXml =
-        '<xml>' +
-        '  <block type="turtle_move" x="70" y="70">' +
-        '    <value name="VALUE">' +
-        '      <block type="math_number">' +
-        '        <field name="NUM">10</field>' +
-        '      </block>' +
-        '    </value>' +
-        '  </block>' +
-        '</xml>';
-  } else {
-    var defaultXml =
-        '<xml>' +
-        '  <block type="turtle_move_internal" x="70" y="70">' +
-        
-        '  </block>' +
-        '</xml>';
+  if (BlocklyGames.LEVEL == 1){
+	var defaultXml =
+		  '<xml>' +
+		  '  <block type="turtle_move_internal" x="70" y="120">' +
+		  
+		  '  </block>' +
+		  '  <block type="turtle_turn_internal" x="300" y="200">' +
+		  
+		  '  <field name="VALUE">some</field> ' +
+		  '  </block>' +
+		  '  <block type="turtle_move_internal" x="220" y="50">' +
+		  
+		  '  </block>' +
+		  '  <block type="turtle_turn_internal" x="600" y="150">' +
+		  '  <field name="VALUE">some</field> ' +
+		  '  </block>' +
+		  '  <block type="turtle_move_internal" x="600" y="330">' +
+		  
+		  '  </block>' +
+		  '  <block type="turtle_turn_internal" x="200" y="500">' +
+		  '  <field name="VALUE">some</field> ' +
+		  '  </block>' +
+		  '  <block type="turtle_move_internal" x="100" y="350">' +
+		  
+		  '  </block>' +
+		  '  <block type="turtle_turn_internal" x="500" y="450">' +
+		  '  <field name="VALUE">some</field> ' +
+		  '  </block>' +
+		  '</xml>';
+  } 
+  else{
+	 var defaultXml =
+		  '<xml>' +
+		  '  <block type="turtle_move_internal" x="70" y="120">' +
+		  
+		  '  </block>';
   }
   BlocklyInterface.loadBlocks(defaultXml, true);
 
@@ -210,7 +230,7 @@ Turtle.showHelp = function() {
  */
 Turtle.hideHelp = function() {
   BlocklyDialogs.stopDialogKeyDown();
-  if (BlocklyGames.LEVEL == 1) {
+  if (BlocklyGames.LEVEL == 2) {
     // Previous apps did not have categories.
     // If the user doesn't find them, point them out.
     Turtle.watchCategories_();
@@ -229,7 +249,7 @@ Turtle.showCategoryHelp = function() {
   var style = {
     width: '25%',
     left: '525px',
-    top: '3.3em'
+    top: '5em'
   };
   var origin = document.getElementById(':0');  // Toolbox's tree root.
   BlocklyDialogs.showDialog(help, origin, true, false, style, null);
@@ -679,7 +699,7 @@ Turtle.checkAnswer = function() {
   }
   if (Turtle.isCorrect(delta)) {
     BlocklyInterface.saveToLocalStorage();
-    if (BlocklyGames.LEVEL < 3) {
+    if (BlocklyGames.LEVEL <= 3) {
       // No congrats for last level, it is open ended.
       Blockly.playAudio('win', 0.5);
       BlocklyDialogs.congratulations();
@@ -687,29 +707,4 @@ Turtle.checkAnswer = function() {
   } else {
     Turtle.penColour('#ff0000');
   }
-};
-
-/**
- * Send an image of the canvas to Reddit.
- */
-Turtle.submitToReddit = function() {
-  if (!Turtle.canSubmit) {
-    alert(BlocklyGames.getMsg('Turtle_submitDisabled'));
-    return;
-  }
-  // Encode the thumbnail.
-  var thumbnail = document.getElementById('thumbnail');
-  var ctxThumb = thumbnail.getContext('2d');
-  ctxThumb.globalCompositeOperation = 'copy';
-  ctxThumb.drawImage(Turtle.ctxDisplay.canvas, 0, 0, 100, 100);
-  var thumbData = thumbnail.toDataURL('image/png');
-  document.getElementById('t2r_thumb').value = thumbData;
-
-  // Encode the XML.
-  var xml = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace());
-  var xmlData = Blockly.Xml.domToText(xml);
-  document.getElementById('t2r_xml').value = xmlData;
-
-  // Submit the form.
-  document.getElementById('t2r_form').submit();
 };

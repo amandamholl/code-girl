@@ -43,33 +43,35 @@ Turtle.answer = function() {
 
   switch (BlocklyGames.LEVEL) {
     case 1:
-      // Square.
+      // Square - Sequentially
+	  Turtle.move(100);
+	  Turtle.turn(90);
+	  Turtle.move(100);
+	  Turtle.turn(90);
+	  Turtle.move(100);
+	  Turtle.turn(90);
+	  Turtle.move(100);
+	  Turtle.turn(90);
+      break;
+    case 2:
+      // Square - Loop
 	  
       for (var count = 0; count < 4; count++) {
         Turtle.move(100);
         Turtle.turn(90);
       }
       break;
-    case 2:
+    case 3:
       // Pentagon.
       for (var count = 0; count < 5; count++) {
         Turtle.move(100);
         Turtle.turn(72);
       }
       break;
-    case 3:
+    case 4:
       // Star.
       Turtle.penColour('#ffff00');
       drawStar(100);
-      break;
-    case 4:
-      // Pen up/down.
-      Turtle.penColour('#ffff00');
-      drawStar(50);
-      Turtle.penDown(false);
-      Turtle.move(150);
-      Turtle.penDown(true);
-      Turtle.move(20);
       break;
     case 5:
       // Four stars.
@@ -188,10 +190,8 @@ Turtle.isCorrect = function(pixelErrors) {
     // Too many errors.
     return false;
   }
-  if ((BlocklyGames.LEVEL <= 2 &&
-       Blockly.mainWorkspace.getAllBlocks().length > 3) ||
-      (BlocklyGames.LEVEL == 3 &&
-       Blockly.mainWorkspace.getAllBlocks().length > 4)) {
+  if ((BlocklyGames.LEVEL == 2 &&
+       Blockly.mainWorkspace.getAllBlocks().length > 3)) {
     // Use a loop, dummy.
     var content = document.getElementById('helpUseLoop');
     var style = {

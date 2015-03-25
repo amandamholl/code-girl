@@ -165,6 +165,22 @@ Blockly.Blocks['skirt'] = {
   }
 };
 
+Blockly.Blocks['hightops'] = {
+  init: function() {
+	this.setColour(160);
+    this.appendDummyInput()
+        .appendField("High Tops")
+        .appendField(new Blockly.FieldImage("./movie/hightop.svg", 50, 50, "High Tops"));
+    this.setTooltip('');
+	this.setPreviousStatement(true);
+	this.setNextStatement(true);
+  }
+};
+
+
+Blockly.JavaScript['hightops'] = function(block) {
+  return 'hightops();\n';
+};
 
 Blockly.Blocks['boots'] = {
   init: function() {

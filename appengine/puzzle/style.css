@@ -23,4 +23,5 @@ body {
 
 #blockly {
   position: fixed;
+  margin-top: 90px;
 }

@@ -132,33 +132,31 @@
  */
 {template .start}
   {call .messages /}
-  <table id="header" width="100%">
-    <tr>
-      <td valign="bottom">
-        <h1>
-          {call BlocklyGames.soy.titleSpan}
-            {param appName}
-              {msg meaning="Games.puzzle" desc="IBID"}{/msg}
-            {/param}
-          {/call}
-        </h1>
-      </td>
-      <td class="farSide">
+  <div id="header">
+    <div id="logo">
+        <a href="./"> <img src="./index/horizontal-logo-01.png"></a>
+    </div>
+    <div class="farSide">
         <select id="languageMenu"></select>
+        &nbsp;
+        <button id="signoutButton" onClick="location.href='/'">
+        {{msg meaning="Games.signout" desc="IBID"}}Signout{{/msg}}
+        </button>
+        <button id="linkButton" title="{msg meaning="Games.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}">
+          <img src="media/1x1.gif" class="link icon21">
+        </button>
         &nbsp;
         <button id="helpButton">
           {{msg meaning="Games.help" desc="IBID"}}Help{{/msg}}
         </button>
-        &nbsp;
         <button id="checkButton" class="primary">
           {msg meaning="Puzzle.checkAnswers"
                desc="A label on a button the user can press to check his/her answers."}
             Check Answers
           {/msg}
         </button>
-      </td>
-    </tr>
-  </table>
+    </div>
+  </div>
 
   <div id="blockly"></div>
 

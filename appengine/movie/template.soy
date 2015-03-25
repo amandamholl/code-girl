@@ -48,24 +48,11 @@
  */
 {template .start}
   {call .messages /}
-  <table width="100%">
-    <tr>
-      <td>
-        <h1>
-          {call BlocklyGames.soy.titleSpan}
-            {param appName}
-              {msg meaning="Games.movie" desc="IBID"}/*Movie*/{/msg}
-            {/param}
-          {/call}
-          /*{call BlocklyGames.soy.levelLinks}
-            {param level: $ij.level /}
-            {param maxLevel: $ij.maxLevel /}
-            {param lang: $ij.lang /}
-            {param suffix}{/param}
-          {/call}*/
-        </h1>
-      </td>
-      <td class="farSide">
+  <div id="header">
+    <div id="logo">
+        <a href="./"> <img src="./index/horizontal-logo-01.png"></a>
+    </div>
+    <div class="farSide">
         <select id="languageMenu"></select>
         &nbsp;
         <button id="signoutButton" onClick="location.href='/'">
@@ -78,11 +65,11 @@
         <button id="helpButton">
           {{msg meaning="Games.help" desc="IBID"}}Help{{/msg}}
         </button>
-      </td>
-    </tr>
-  </table>
-    {call .toolbox /}
-    <div id="blockly"></div>
+    </div>
+  </div>
+
+  {call .toolbox /}
+  <div id="blockly"></div>
   <div id="visualization">
     <canvas id="scratch" width="400" height="600" style="display: none"></canvas>
     <canvas id="superhero" width="400" height="600" style="display: none"></canvas>
@@ -90,16 +77,6 @@
     <canvas id="axies" width="400" height="600" style="display: none"></canvas>
     <canvas id="display" width="400" height="600" style="vertical-align: bottom"></canvas>
   </div>
-  <svg
-      id="scrubber"
-      xmlns="http://www.w3.org/2000/svg"
-      xmlns:svg="http://www.w3.org/2000/svg"
-      xmlns:xlink="http://www.w3.org/1999/xlink"
-      version="1.1"
-      width="402"
-      height="24">
-    <image xlink:href="movie/youtube-bg.png" height=25 width=402 x=0 y=-1 />
-  </svg>
   /*{if $ij.level == 10 and not $ij.html}
   <table style="padding-top: 1em; width: 400px;">
     <tr>
@@ -217,9 +194,12 @@
         <block type="boots">
 
         </block>
-        /*<block type="cowboyboots">
+        <block type="cowboyboots">
 
-        </block>*/
+        </block>
+        <block type="hightops">
+
+        </block>
     </category>
     {/if}
     {if $ij.level >= 4}
