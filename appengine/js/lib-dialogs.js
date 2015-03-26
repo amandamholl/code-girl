@@ -509,7 +509,11 @@ BlocklyDialogs.congratulations = function() {
   document.body.addEventListener('keydown',
       BlocklyDialogs.congratulationsKeyDown, true);
 	  
-	document.getElementById('dialogDoneText').textContent = text;
+  var endMessage = document.getElementById('dialogDoneText')
+  endMessage.innerHTML = text;
+  if(BlocklyGames.NAME == 'turtle' && BlocklyGames.LEVEL == 1){
+	  endMessage.innerHTML += "<p><em>You can use loops to repeat actions. Next time, try using a loop to help the robot draw a square with fewer blocks! </em></p>";
+  }
 };
 
 /**
