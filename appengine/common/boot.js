@@ -61,4 +61,6 @@
   script.src = appName + '/generated/' + lang + '/uncompressed.js';
   script.type = 'text/javascript';
   document.head.appendChild(script);
+  
+  
 })();

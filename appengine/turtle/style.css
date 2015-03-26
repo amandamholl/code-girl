@@ -3,10 +3,10 @@ button.primary {
   text-align: left;
 }
 text{
-	margin:25px;
+  margin:25px;
 }
 #visualization{
-	background-color:#fff;
+  margin-top: 90px;
 }
 html[dir="RTL"] button.primary {
   text-align: right;

@@ -258,7 +258,7 @@ BlocklyInterface.importInterpreter = function() {
  */
 BlocklyInterface.importPrettify = function() {
   //<link rel="stylesheet" type="text/css" href="common/prettify.css">
-  //<script type="text/javascript" src="common/prettify.js"></script>
+  /*<script type="text/javascript" src="common/prettify.js"></script>*/
   var link = document.createElement('link');
   link.setAttribute('rel', 'stylesheet');
   link.setAttribute('type', 'text/css');

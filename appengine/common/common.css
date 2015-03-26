@@ -72,7 +72,7 @@ html[dir="RTL"] .mirrorImg {
 
 /* Buttons */
 
-button {
+button, input[type="button"] {
   margin: 5px;
   padding: 10px;
   border-radius: 4px;
@@ -81,12 +81,20 @@ button {
   background-color: #eee;
   color: #000;
 }
+
+input[type="button"].login{
+  border: 1px solid #dd3858;
+  background-color: #dd3858;
+  color: #fff;
+  margin:18px 18px 0px 0px;
+}
+
 button.primary {
   border: 1px solid #43949b;
   background-color: #43949b;
   color: #fff;
 }
-button.secondary {
+button.secondary{
   border: 1px solid #7ac9c8;
   background-color: #7ac9c8;
   color: #fff;
@@ -120,6 +128,7 @@ button:hover:not(:disabled) {
   border-radius: 8px;
   box-shadow: 5px 5px 5px #888;
   padding: 10px;
+  top:6em;
 }
 #dialogBorder {
   visibility: hidden;
@@ -163,4 +172,47 @@ button:hover:not(:disabled) {
 #dialog button {
   min-width: 4em;
 }
+.featureUnlocked{
+  margin: 0px 20px;
+}
 
+/* sticky header */
+
+#header {
+  width: 100%;
+  height:80px;
+  position:fixed;
+  top:0;
+  left:0;
+  background-color: white;
+}
+
+a > img{
+  height:80px;
+}
+
+#banner {
+  padding: 1em;
+}
+
+#subtitle {
+  font-style: italic;
+}
+
+a {
+  text-decoration: none;
+}
+
+#logo{
+	display:inline-block;
+}
+
+.farSide{
+	float: right;
+	margin: 18px 18px 0px 0px;
+}
+
+.farSide button{
+	float: right;
+	margin-top: 0;
+}

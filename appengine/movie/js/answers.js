@@ -40,22 +40,22 @@ Movie.answer = function(f) {
   switch (BlocklyGames.LEVEL) {
     case 1:
       Movie.shirt();
+	  //Movie.penColour();
       break;
     case 2:
-      Movie.boots();
+	  Movie.shirt();  
+      Movie.skirt();
       break;
     case 3:
-      // Circle moving backward.
-      Movie.penColour('#ff0000');
-      Movie.circle(100 - time(), 50, 10);
+	  Movie.shirt();  
+      Movie.skirt();
+      Movie.boots();
       break;
     case 4:
-      // Four circles.
-      Movie.penColour('#009900');  // Green.
-      Movie.circle(time(), 50, 20);
-      Movie.circle(100 - time(), 50, 20);
-      Movie.circle(50, 100 - time(), 20);
-      Movie.circle(50, time(), 20);
+	  Movie.shirt();  
+      Movie.skirt();
+      Movie.boots();
+      Movie.bow();
       break;
     case 5:
       // Mouse.

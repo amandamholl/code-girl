@@ -362,7 +362,7 @@ BlocklyDialogs.abortOffer = function() {
  * Congratulates the user for completing the level and offers to
  * direct them to the next level, if available.
  */
-BlocklyDialogs.congratulations = function() {
+BlocklyDialogs.levelup = function() {
   var content = document.getElementById('dialogDone');
   var style = {
     width: '40%',
@@ -373,26 +373,11 @@ BlocklyDialogs.congratulations = function() {
   // Add the user's code.
   if (Blockly.mainWorkspace) {
     var linesText = document.getElementById('dialogLinesText');
-    linesText.textContent = '';
-    var code = Blockly.JavaScript.workspaceToCode();
-    code = BlocklyInterface.stripCode(code);
-    var lineCount = code.split('\n').length;
-    var pre = document.getElementById('containerCode');
-    //pre.textContent = code;
-    /*if (typeof prettyPrintOne == 'function') {
-      code = pre.innerHTML;
-      code = prettyPrintOne(code, 'js');
-      pre.innerHTML = code;
-    }*/
-	pre.innerHTML="<p>Five new shirts unlocked!</p><img src='./turtle/shirt.png' width='80px' border=0/><img src='./turtle/shirt.png' width='80px' border=0/><img src='./turtle/shirt.png' width='80px' border=0/><img src='./turtle/shirt.png' width='80px' border=0/><img src='./turtle/shirt.png' width='80px' border=0/>";
-    if (lineCount == 1) {
-      var text = BlocklyGames.getMsg('Games_linesOfCode1');
-    } else {
-      var text = BlocklyGames.getMsg('Games_linesOfCode2').replace('%1', lineCount);
-    }
-    linesText.appendChild(document.createTextNode(text));
+    linesText.textContent = 'Play a challenge to unlock new features.';
   };
 
+  var code = document.getElementById('containerCode');
+  content.removeChild(code);
 
   if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
     var text = BlocklyGames.getMsg('Games_nextLevel')
@@ -400,11 +385,119 @@ BlocklyDialogs.congratulations = function() {
   } else {
     var text = BlocklyGames.getMsg('Games_finalLevel');
   }
-
+  //linesText.appendChild(document.createTextNode(text));
+  
   var cancel = document.getElementById('doneCancel');
   cancel.addEventListener('click', BlocklyDialogs.hideDialog, true);
   cancel.addEventListener('touchend', BlocklyDialogs.hideDialog, true);
   var ok = document.getElementById('doneOk');
+  
+  if(BlocklyGames.LEVEL == 1){
+  	ok.addEventListener('click', function(){window.open('/puzzle','_self')}, true);
+  	ok.addEventListener('touchend', function(){window.open('/puzzle','_self')}, true);
+  }
+  if(BlocklyGames.LEVEL == 2){
+  	ok.addEventListener('click', function(){window.open('/turtle','_self')}, true);
+  	ok.addEventListener('touchend', function(){window.open('/turtle','_self')}, true);
+  }
+  if(BlocklyGames.LEVEL == 3){
+  	ok.addEventListener('click', function(){window.open('/turtle?lang=en?level=2','_self')}, true);
+  	ok.addEventListener('touchend', function(){window.open('/turtle?lang=en?level=2','_self')}, true);
+  }
+  BlocklyDialogs.showDialog(content, null, false, true, style,
+      function() {
+        document.body.removeEventListener('keydown',
+            BlocklyDialogs.congratulationsKeyDown, true);
+        });
+  document.body.addEventListener('keydown',
+      BlocklyDialogs.congratulationsKeyDown, true);
+
+  //document.getElementById('dialogDoneText').textContent = text;
+};
+
+
+/**
+ * Congratulates the user for completing the avatar creation. Returns them to the home page.
+ */
+BlocklyDialogs.done = function() {
+  var content = document.getElementById('dialogDone');
+  var style = {
+    width: '40%',
+    left: '30%',
+    top: '3em'
+  };
+
+  // Add the user's code.
+  if (Blockly.mainWorkspace) {
+    var linesText = document.getElementById('dialogLinesText');
+    linesText.textContent = 'You have finished creating your avatar! Click "OK" Return to the homepage or "Cancel" continue dressing up your avatar.';
+  };
+  
+  var code = document.getElementById('containerCode');
+  content.removeChild(code);
+  
+  var cancel = document.getElementById('doneCancel');
+  cancel.addEventListener('click', BlocklyDialogs.hideDialog, true);
+  cancel.addEventListener('touchend', BlocklyDialogs.hideDialog, true);
+  var ok = document.getElementById('doneOk');
+
+  ok.addEventListener('click', function(){window.open('/','_self')}, true);
+  ok.addEventListener('touchend', function(){window.open('/','_self')}, true);
+  
+  BlocklyDialogs.showDialog(content, null, false, true, style,
+      function() {
+        document.body.removeEventListener('keydown',
+            BlocklyDialogs.congratulationsKeyDown, true);
+        });
+  document.body.addEventListener('keydown',
+      BlocklyDialogs.congratulationsKeyDown, true);
+
+  //document.getElementById('dialogDoneText').textContent = text;
+};
+
+
+/**
+ * Congratulates the user for completing the level and offers to
+ * direct them to the next level, if available.
+ */
+BlocklyDialogs.congratulations = function() {
+  var content = document.getElementById('dialogDone');
+  var style = {
+    width: '40%',
+    left: '30%',
+    top: '3em'
+  };
+  // Add the user's code.
+  if (Blockly.mainWorkspace) {
+    var linesText = document.getElementById('dialogLinesText');
+    linesText.textContent = '';
+    /*var code = Blockly.JavaScript.workspaceToCode();
+    code = BlocklyInterface.stripCode(code);
+    var lineCount = code.split('\n').length;*/
+	if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
+			var text = BlocklyGames.getMsg('Games_nextLevel')
+				.replace('%1', BlocklyGames.LEVEL + 1);
+	} else {
+				var text = BlocklyGames.getMsg('Games_finalLevel');
+	}
+		  	
+    var pre = document.getElementById('containerCode');
+	
+	if(BlocklyGames.NAME == 'puzzle'){
+		pre.innerHTML="<p>New features unlocked!</p><img class='featureUnlocked' src='./movie/shorts.svg' width='80px' border=0 /><img class='featureUnlocked' src='./movie/skirt.svg' width='80px' border=0/>";
+	}
+	else if(BlocklyGames.NAME == 'turtle' && BlocklyGames.LEVEL == 1){
+		pre.innerHTML="<p>New features unlocked!</p><img class='featureUnlocked' src='./movie/boots.svg' width='80px' border=0 /><img class='featureUnlocked' src='./movie/cowboyboot.svg' width='80px' border=0/>";
+	}
+	else if(BlocklyGames.NAME == 'turtle' && BlocklyGames.LEVEL == 2){
+		pre.innerHTML="<p>New features unlocked!</p><img class='featureUnlocked' src='./movie/earrings.svg' width='80px' border=0 /><img class='featureUnlocked' src='./movie/bow.svg' width='80px' border=0/>";
+	};	
+  }
+  var cancel = document.getElementById('doneCancel');
+  cancel.addEventListener('click', BlocklyDialogs.hideDialog, true);
+  cancel.addEventListener('touchend', BlocklyDialogs.hideDialog, true);
+  var ok = document.getElementById('doneOk');
+  
   ok.addEventListener('click', BlocklyInterface.nextLevel, true);
   ok.addEventListener('touchend', BlocklyInterface.nextLevel, true);
 
@@ -415,8 +508,8 @@ BlocklyDialogs.congratulations = function() {
         });
   document.body.addEventListener('keydown',
       BlocklyDialogs.congratulationsKeyDown, true);
-
-  document.getElementById('dialogDoneText').textContent = text;
+	  
+	document.getElementById('dialogDoneText').textContent = text;
 };
 
 /**

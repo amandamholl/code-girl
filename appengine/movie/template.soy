@@ -48,27 +48,16 @@
  */
 {template .start}
   {call .messages /}
-  <table width="100%">
-    <tr>
-      <td>
-        <h1>
-          {call BlocklyGames.soy.titleSpan}
-            {param appName}
-              {msg meaning="Games.movie" desc="IBID"}/*Movie*/{/msg}
-            {/param}
-          {/call}
-          /*{call BlocklyGames.soy.levelLinks}
-            {param level: $ij.level /}
-            {param maxLevel: $ij.maxLevel /}
-            {param lang: $ij.lang /}
-            {param suffix}{/param}
-          {/call}*/
-        </h1>
-      </td>
-      <td class="farSide">
+  <div id="header">
+    <div id="logo">
+        <a href="./"> <img src="./index/horizontal-logo-01.png"></a>
+    </div>
+    <div class="farSide">
         <select id="languageMenu"></select>
         &nbsp;
-		<button id="signoutButton" onClick="location.href=index.html'">{{msge meaning="" desc"IBID"}} Signout {{/msg}} </button>
+        <button id="signoutButton" onClick="location.href='/'">
+        {{msg meaning="Games.signout" desc="IBID"}}Signout{{/msg}}
+        </button>
         <button id="linkButton" title="{msg meaning="Games.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}">
           <img src="media/1x1.gif" class="link icon21">
         </button>
@@ -76,11 +65,11 @@
         <button id="helpButton">
           {{msg meaning="Games.help" desc="IBID"}}Help{{/msg}}
         </button>
-      </td>
-    </tr>
-  </table>
-    {call .toolbox /}
-    <div id="blockly"></div>
+    </div>
+  </div>
+
+  {call .toolbox /}
+  <div id="blockly"></div>
   <div id="visualization">
     <canvas id="scratch" width="400" height="600" style="display: none"></canvas>
     <canvas id="superhero" width="400" height="600" style="display: none"></canvas>
@@ -88,16 +77,6 @@
     <canvas id="axies" width="400" height="600" style="display: none"></canvas>
     <canvas id="display" width="400" height="600" style="vertical-align: bottom"></canvas>
   </div>
-  <svg
-      id="scrubber"
-      xmlns="http://www.w3.org/2000/svg"
-      xmlns:svg="http://www.w3.org/2000/svg"
-      xmlns:xlink="http://www.w3.org/1999/xlink"
-      version="1.1"
-      width="402"
-      height="24">
-    <image xlink:href="movie/youtube-bg.png" height=25 width=402 x=0 y=-1 />
-  </svg>
   /*{if $ij.level == 10 and not $ij.html}
   <table style="padding-top: 1em; width: 400px;">
     <tr>
@@ -137,15 +116,15 @@
         {/msg}
       {elseif $ij.level == 2}
         {msg meaning="Movie.helpText2a" desc="Instructions.  Add shoes to the avatar."}
-          Add shoes to your avatar using the toolbar.
+          Add bottoms to your avatar using the toolbar.
         {/msg}
       {elseif $ij.level == 3}
-        {msg meaning="Movie.helpText3" desc="Instructions.  Do not translate the word 'time'."}
-          The 'time' block counts from 0 to 100. But this time you want the horizontal position of the red ball to start at 100 and go to 0. Can you figure out a simple mathematical formula that flips the direction?
+        {msg meaning="Movie.helpText3" desc="Instructions.  Add shoes to the avatar."}
+          Add shoes to your avatar using the toolbar.
         {/msg}
       {elseif $ij.level == 4}
-        {msg meaning="Movie.helpText4" desc="Instructions."}
-          Use what you learned in the previous level to make four green balls that move in all four directions.
+        {msg meaning="Movie.helpText4" desc="Instructions. Add accessories to the avatar."}
+          Add accessories to your avatar using the toolbar.
         {/msg}
       {elseif $ij.level == 5}
         {msg meaning="Movie.helpText5" desc="Instructions.  The goal is to draw a shape that looks a bit like Mickey Mouse or Deadmau5."}
@@ -190,6 +169,7 @@
  */
 {template .toolbox}
   <xml id="toolbox" style="display: none">
+    {if $ij.level >= 1}
     <category name="{msg meaning="Games.movie" desc="IBID"}Shirts{/msg}">
         <block type="tshirt">
         
@@ -198,6 +178,18 @@
 
         </block>
     </category>
+    {/if}
+    {if $ij.level >= 2}
+    <category name="{msg meaning="Games.movie" desc="IBID"}Bottoms{/msg}">
+        /*<block type="pants">
+        </block>*/
+        <block type = "skirt">
+        </block>
+        <block type = "shorts">
+        </block>
+    </category>
+    {/if}
+    {if $ij.level >= 3}
     <category name="{msg meaning="Games.movie" desc="IBID"}Shoes{/msg}">
         <block type="boots">
 
@@ -205,7 +197,19 @@
         <block type="cowboyboots">
 
         </block>
+        <block type="hightops">
+
+        </block>
     </category>
+    {/if}
+    {if $ij.level >= 4}
+    <category name="{msg meaning="Games.movie" desc="IBID"}Accessories{/msg}">
+        <block type = "bow">
+        </block>
+        <block type = "earrings">
+        </block>
+    </category>
+    {/if}
     <category name="{msg meaning="Games.catColour" desc="IBID"}Color{/msg}">
       <block type="movie_colour">
         <value name="COLOUR">
@@ -214,7 +218,6 @@
             </block>
         </value>
       </block>
-      <block type="colour_picker"> <field name="COLOUR">#ff9559</field> </block>
       /*{if $ij.level == 10}
         <block type="colour_rgb">
           <value name="RED">

@@ -61,20 +61,16 @@
  */
 {template .start}
   {call .messages /}
-  <table width="100%">
-    <tr class="header">
-      <td>
-        <h1>
-          {call BlocklyGames.soy.titleSpan}
-            {param appName}
-              {msg meaning="Games.turtle" desc="IBID"}{/msg}
-            {/param}
-          {/call}
-        </h1>
-      </td>
-      <td class="farSide">
+  <div id="header">
+    <div id="logo">
+        <a href="./"> <img src="./index/horizontal-logo-01.png"></a>
+    </div>
+    <div class="farSide">
         <select id="languageMenu"></select>
         &nbsp;
+        <button id="signoutButton" onClick="location.href='/'">
+        {{msg meaning="Games.signout" desc="IBID"}}Signout{{/msg}}
+        </button>
         <button id="linkButton" title="{msg meaning="Games.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}">
           <img src="media/1x1.gif" class="link icon21">
         </button>
@@ -82,9 +78,8 @@
         <button id="helpButton">
           {{msg meaning="Games.help" desc="IBID"}}Help{{/msg}}
         </button>
-      </td>
-    </tr>
-  </table>
+    </div>
+  </div>
   <div id="visualization">
     <canvas id="scratch" width="400" height="400" style="display: none"></canvas>
     <canvas id="answer" width="400" height="400" style="display: none"></canvas>
@@ -181,23 +176,28 @@
   <div id="help" class="dialogHiddenContent">
     <div style="padding-bottom: 0.7ex">
       {if $ij.level == 1}
+        <h3> Learn Sequentiality! </h3>
         {msg meaning="Turtle.helpText1" desc="Instructions."}
-          Create a program that draws a square.
+            Put the blocks together to help the robot draw a square! Change the value of the fields to make the robot move correctly.
         {/msg}
         <br><img src="turtle/square.gif" height=146 width=146 style="margin-bottom: -50px">
-      
-        {if not $ij.html}
-          <br><br>
-          {msg meaning="Turtle.helpText10Reddit" desc="Instructions on posting your drawing to Reddit (a social website)."}
-            Use the "See Gallery" button to see what other people have drawn. If you draw something interesting, use the "Submit to Gallery" button to publish it.
-          {/msg}
-        {/if}
       {/if}
+    {if $ij.level == 2}
+        <h3> Learn Loops! </h3>
+        {msg meaning="Turtle.helpText1" desc="Instructions."}
+          Now, use a loop from the toolbar to help the robot draw a square.
+        {/msg}
+     {/if}
+    {if $ij.level == 3}
+        {msg meaning="Turtle.helpText1" desc="Instructions."}
+          Now, help the robot draw a hexagon using loops.
+        {/msg}
+     {/if}
     </div>
     {call BlocklyGames.soy.ok /}
   </div>
 
-  {if $ij.level == 1}
+  {if $ij.level == 2}
     <div id="helpToolbox" class="dialogHiddenContent">
       <div><img src="turtle/help_left.png" class="mirrorImg" height=23 width=64></div>
       {msg meaning="Turtle.helpToolbox" desc="Instructions for accessing blocks that are hidden inside categories."}
@@ -214,12 +214,11 @@
   <xml id="toolbox" style="display: none">
     
     
-      <category name="{msg meaning="Turtle.catTurtle" desc="category - Blocks related to Turtle commands."}Pen{/msg}">
+      <category name="{msg meaning="Turtle.catTurtle" desc="category - Blocks related to Turtle commands."}Directions{/msg}">
         <block type="turtle_move_internal">
-
         </block>
         <block type="turtle_turn_internal">
-          
+          <field name="VALUE">some</field>
         </block>
         {if $ij.level > 3}
           <block type="turtle_pen"></block>
