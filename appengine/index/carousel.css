@@ -1,3 +1,9 @@
 .carousel{
   margin-top:80px;
 }
+.carousel button:active:not(:disabled) {
+  border: none;
+}
+.carousel button:hover:not(:disabled) {
+  box-shadow: none;
+}

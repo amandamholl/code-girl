@@ -82,7 +82,7 @@ button, input[type="button"] {
   color: #000;
 }
 
-input[type="button"].login{
+button.login{
   border: 1px solid #dd3858;
   background-color: #dd3858;
   color: #fff;
