@@ -5,18 +5,43 @@ button.primary {
 html[dir="RTL"] button.primary {
   text-align: right;
 }
+#workspace{
+  position: fixed;
+  top: 90px;
+  width: 100%;
+  
+}
+#levelLinks{
+  height: 40px;
+  padding: 10px;
+  background-color: white;
+  margin-right: 20px;
+  -webkit-box-shadow: 0px 5px 2px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    0px 5px 2px #ccc;  /* Firefox 3.5 - 3.6 */
+  box-shadow:         0px 5px 2px #ccc;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+}
+#unlock{
+  margin:0;
+}
+.level_dot, .level_number{
+  position: relative;
+  top: 10px;
+}
 #visualization{
-  float:right;
+  float: right;
+  position: relative;
+  left: -19px;
 }
 #blockly{
-  position: fixed;
+  position: absolute;
   top:0;
   bottom: 10px;
-  margin-top:90px;
+  margin-top:62px;
 }
-#display {
+#display, #prevAnswer {
   border: 1px solid #ccc;
-  margin-top:90px;
+  position:absolute;
+  bottom:0px;
 }
 #downloadImageLink {
   display: none;
@@ -56,3 +81,4 @@ html[dir="RTL"] button.primary {
 .reddit {
   background-position: -42px -21px;
 }
+

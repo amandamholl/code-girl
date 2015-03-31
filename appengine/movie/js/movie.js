@@ -33,6 +33,8 @@ goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
 
+
+var color;
 /*
 //Draw the superhero
 	var ctx = canvas.getContext('2d');
@@ -58,7 +60,7 @@ BlocklyInterface.nextLevel = function() {
   }
 };
 
-Movie.HEIGHT = 600;
+Movie.HEIGHT = 580;
 Movie.WIDTH = 400;
 
 /**
@@ -104,7 +106,7 @@ Movie.init = function() {
 	/* changed for style: blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px'; */
     blocklyDiv.style.top = '0 px';
     //blocklyDiv.style.left = rtl ? '10px' : '420px';
-    blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
+    blocklyDiv.style.width = (window.innerWidth - 420) + 'px';
   };
   window.addEventListener('scroll', function() {
       onresize();
@@ -168,11 +170,14 @@ Movie.init = function() {
   Movie.ctxDisplay = document.getElementById('display').getContext('2d');
   Movie.ctxDisplay.globalCompositeOperation = 'source-over';
   Movie.ctxScratch = document.getElementById('scratch').getContext('2d');
+  
+  
+  
+  Movie.display();
+  Movie.renderAnswer_();
   //Movie.renderHatching_();
   
   Movie.renderSuperhero_();
-  //Movie.renderAnswer_();
-  Movie.display();
   Blockly.addChangeListener(Movie.display);
 
   // Preload the win sound.
@@ -189,6 +194,7 @@ Movie.init = function() {
       setTimeout(BlocklyDialogs.abortOffer, 5 * 60 * 1000);
     }
   }
+  BlocklyGames.bindClick('unlock', Movie.unlock);
 };
 
 if (window.location.pathname.match(/readonly.html$/)) {
@@ -222,6 +228,22 @@ Movie.hideHelp = function() {
   BlocklyDialogs.stopDialogKeyDown();
 };
 
+Movie.unlock = function() {
+  if(!Movie.checkFrameAnswer()){
+	Blockly.playAudio('win', 0.5);
+	BlocklyInterface.saveToLocalStorage(); 
+	if(BlocklyGames.LEVEL < 4){
+		BlocklyDialogs.levelup();
+	}
+	else{
+		BlocklyDialogs.done();
+	}
+  }
+  else{
+	alert('You must place an accessory on the canvas before you can unlock another');
+  }
+};
+
 /**
  * On startup draw superhero that will be displayed behind
  * @private
@@ -229,6 +251,13 @@ Movie.hideHelp = function() {
 Movie.renderSuperhero_ = function() {
 	//alert('here');
   var ctx = document.getElementById('superhero').getContext('2d');
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(0, 0,
+      ctx.canvas.width, ctx.canvas.height);
+  ctx.fillStyle = '#ffffff';
+  ctx.fill();
+  ctx.restore();
   ctx.save();
   ctx.scale(.55,.55);
   ctx.translate(0,30);
@@ -1259,43 +1288,42 @@ Movie.renderSuperhero_ = function() {
  */
 Movie.renderHatching_ = function() {
   var ctx = document.getElementById('hatching').getContext('2d');
-  
-  ctx.strokeStyle = '#fff';
+  // Fill the canvas with white (no answer)
+  ctx.beginPath();
+  ctx.rect(0, 0,
+      ctx.canvas.width, ctx.canvas.height);
+  ctx.fillStyle = '#ffffff';
+  ctx.fill();
+
+  /*ctx.strokeStyle = '#fff';
   ctx.lineWidth = 1;
   for (var i = -Movie.HEIGHT; i < Movie.HEIGHT; i += 4) {
     ctx.beginPath();
     ctx.moveTo(i, -i);
     ctx.lineTo(i + Movie.HEIGHT, -i + Movie.WIDTH);
     ctx.stroke();
-  }
+  }*/
 };
 
 
 /**
- * On startup draw the answer and save it to the axies canvas.
+ * On startup draw the previous answer and save it to the prevAnswer canvas.
  * @private
  */
 Movie.renderAnswer_ = function() {
-	switch (BlocklyGames.LEVEL) {
-    case 1:
-      Movie.drawShirt('');
-      break;
-    case 2:
-	  Movie.drawShirt('');
-      Movie.drawSkirt('');
-      break;
-	case 3:
-	  Movie.drawShirt('');
-      Movie.drawSkirt('');
-      Movie.drawBoots('');
-      break;
-	case 4:
-	  Movie.drawShirt('');
-      Movie.drawSkirt('');
-      Movie.drawBoots('');
-	  Movie.drawBow('');
-      break;
-	}
+  var div = document.getElementById('visualization');
+  // <canvas id="answer1" width="400" height="400" style="display: none">
+  // </canvas>
+  var canvas = document.createElement('canvas');
+  canvas.id = 'prevAnswer';
+  canvas.width = Movie.WIDTH;
+  canvas.height = Movie.HEIGHT;
+  canvas.style.display = 'block';
+  div.appendChild(canvas);
+  var ctx = canvas.getContext('2d');
+  ctx.globalCompositeOperation = 'copy';
+  ctx.drawImage(Movie.ctxDisplay.canvas, 0, 0);
+
 };
 
 /**
@@ -1337,14 +1365,14 @@ Movie.display = function() {
   }*/
 
   // Clear the display with white.
-  Movie.ctxDisplay.beginPath();
+  /*Movie.ctxDisplay.beginPath();
   Movie.ctxDisplay.rect(0, 0,
       Movie.ctxDisplay.canvas.width, Movie.ctxDisplay.canvas.height);
   Movie.ctxDisplay.fillStyle = '#ffffff';
-  Movie.ctxDisplay.fill();
+  Movie.ctxDisplay.fill();*/
 
-  var superhero = document.getElementById('superhero');
-  Movie.ctxDisplay.drawImage(superhero, 0, 0);
+  //var superhero = document.getElementById('superhero');
+  //Movie.ctxDisplay.drawImage(superhero, 0, 0);
   
   
   // Draw and copy the user layer.
@@ -1352,12 +1380,15 @@ Movie.display = function() {
   var interpreter = new Interpreter(code, Movie.initInterpreter);
   Movie.drawFrame_(interpreter);
   Movie.ctxDisplay.drawImage(Movie.ctxScratch.canvas, 0, 0);
-	
-  BlocklyInterface.saveToLocalStorage();
+  
+  // Copy the hatching.
+  /*var hatching = document.getElementById('hatching');
+  Movie.ctxDisplay.drawImage(hatching, 0, 0);		
+  BlocklyInterface.saveToLocalStorage();*/
 
   //Movie.checkFrameAnswer();
   //if (BlocklyGames.LEVEL == 1 || BlocklyGames.LEVEL == 2) {
-    setTimeout(Movie.checkAnswers, 1000);
+  // setTimeout(Movie.checkAnswers, 1000);
   //}
 };
 
@@ -1501,7 +1532,7 @@ Movie.longsleeve = function(){
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
-  if(BlocklyGames.LEVEL == 1){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
+  //if(BlocklyGames.LEVEL == 1){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
 }
 
 Movie.tshirt = function() {
@@ -1513,7 +1544,7 @@ Movie.tshirt = function() {
   Movie.ctxScratch.lineJoin = 'miter';
   Movie.ctxScratch.miterLimit = 4;
   //Movie.ctxScratch.save();
-  //Movie.ctxScratch.fillStyle = "#f69126";
+  //Movie.ctxScratch.fillStyle = 'rgba(255,255,255,.8)';
   Movie.ctxScratch.beginPath();
   //Movie.ctxScratch.moveTo(200.678,21.524);
   Movie.ctxScratch.bezierCurveTo(196.209,17.549,192.954,15.385000000000002,183.124,12.496);
@@ -1551,7 +1582,7 @@ Movie.tshirt = function() {
   Movie.ctxScratch.fill();
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
-  if(BlocklyGames.LEVEL == 1){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
+  //if(BlocklyGames.LEVEL == 1){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
 };
 
 Movie.earrings =function(){
@@ -1602,7 +1633,7 @@ Movie.earrings =function(){
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
-  if(BlocklyGames.LEVEL == 4){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.done();},1000);};
+  //if(BlocklyGames.LEVEL == 4){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.done();},1000);};
 };
 
 Movie.skirt =function(){
@@ -1648,7 +1679,7 @@ Movie.skirt =function(){
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
-  if(BlocklyGames.LEVEL == 2){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
+  //if(BlocklyGames.LEVEL == 2){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
 };
 
 Movie.shorts =function(){
@@ -1732,7 +1763,7 @@ Movie.shorts =function(){
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
-  if(BlocklyGames.LEVEL == 2){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
+  //if(BlocklyGames.LEVEL == 2){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
 };
 
 
@@ -1767,7 +1798,7 @@ Movie.bow = function() {
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
-  if(BlocklyGames.LEVEL == 4){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.done();},1000);};
+  //if(BlocklyGames.LEVEL == 4){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.done();},1000);};
 }
 
 
@@ -2265,7 +2296,7 @@ Movie.hightops = function() {
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
-  if(BlocklyGames.LEVEL == 4){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.done();},1000);};
+  //if(BlocklyGames.LEVEL == 4){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.done();},1000);};
 }
 
 ////need to change it to reflect pants
@@ -2593,7 +2624,7 @@ Movie.boots = function(){
   Movie.ctxScratch.fill();
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
-  if(BlocklyGames.LEVEL == 3){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
+  //if(BlocklyGames.LEVEL == 3){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
 }
 
 Movie.cowboyboots = function(){
@@ -2703,7 +2734,7 @@ Movie.cowboyboots = function(){
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
-  if(BlocklyGames.LEVEL == 3){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
+  //if(BlocklyGames.LEVEL == 3){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
 }
 
 /**
@@ -2713,6 +2744,7 @@ Movie.cowboyboots = function(){
 Movie.penColour = function(colour) {
   Movie.ctxScratch.strokeStyle = colour;
   Movie.ctxScratch.fillStyle = colour;
+  Movie.ctxDisplay.fillStyle = colour;
 };
 
 /**
@@ -2721,22 +2753,18 @@ Movie.penColour = function(colour) {
 Movie.checkFrameAnswer = function() {
   // Compare the Alpha (opacity) byte of each pixel in the user's image and
   // the sample answer image.
+  //alert('checking');
   var userImage =
-      Movie.ctxScratch.getImageData(0, 0, Movie.WIDTH, Movie.HEIGHT);
-  var answer = document.getElementById('axies');
+      Movie.ctxDisplay.getImageData(0, 0, Movie.WIDTH, Movie.HEIGHT);
+  var answer = document.getElementById('prevAnswer');
   if (answer) {
     var ctxAnswer = answer.getContext('2d');
     var answerImage = ctxAnswer.getImageData(0, 0, Movie.WIDTH, Movie.HEIGHT);
     var len = Math.min(userImage.data.length, answerImage.data.length);
-    var delta = 0;
-    // Pixels are in RGBA format.  Only check the Alpha bytes.
-    for (var i = 3; i < len; i += 4) {
-      // Check the Alpha byte.
-      if (Math.abs(userImage.data[i] - answerImage.data[i]) > 64) {
-        delta++;
-      }
+    for(var i = 0; i<userImage.data.length; i++){
+        if(userImage.data[i] != answerImage.data[i]) return false;
     }
-    Movie.pixelErrors[Movie.frameNumber] = delta;
+    return true;
   }
 };
 
@@ -2750,13 +2778,14 @@ Movie.checkAnswers = function() {
     // Only check answers at the end of the run.
     return;
   }*/
-  if (Movie.isCorrect() && !Movie.success) {
+  //alert(Movie.ctxDisplay.fillStyle);
+  if (Movie.ctxDisplay.fillStyle != '#ffffff') {
     Movie.success = true;
     BlocklyInterface.saveToLocalStorage();
     if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
       // No congrats for last level, it is open ended.
       Blockly.playAudio('win', 0.5);
-      BlocklyDialogs.congratulations();
+      BlocklyDialogs.levelup();
     }
   }
 };
