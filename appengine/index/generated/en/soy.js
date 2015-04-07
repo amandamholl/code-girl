@@ -13,7 +13,7 @@ Index.soy.messages = function(opt_data, opt_ignored, opt_ijData) {
 
 
 Index.soy.start = function(opt_data, opt_ignored, opt_ijData) {
-  return Index.soy.messages(null, null, opt_ijData) + '<div id="header"><div id="logo"><a href="./"> <img src="./index/horizontal-logo-01.png"></a></div><div id="login"><FORM><INPUT class="login" Type="BUTTON" VALUE="Login or Sign Up" ONCLICK="window.location.href=\'/login\'"></FORM></div></div><select id="languageMenu"></select><div class="carousel"><div><img src="./index/banner2-01.svg"></div><div><img src="./index/banner-01.svg"></div><div><img src="./index/banner3-01.svg"></div></div><p id="clearDataPara" style="visibility: hidden">Want to start over?<button class="secondary" id="clearData">Clear data</span></button></p>';
+  return Index.soy.messages(null, null, opt_ijData) + '<div id="header"><div id="logo"><a href="./"> <img src="./index/horizontal-logo-01.png"></a></div><div id="login"><FORM><BUTTON class="login" Type="BUTTON" ONCLICK="window.location.href=\'/login\'">Login or Sign Up </BUTTON></FORM></div></div><select id="languageMenu"></select><div class="carousel"><div><img src="./index/banner2-01.svg"></div><div><img src="./index/banner-01.svg"></div><div><img src="./index/banner3-01.svg"></div></div><p id="clearDataPara" style="visibility: hidden">Want to start over?<button class="secondary" id="clearData">Clear data</span></button></p>';
 };
 
 

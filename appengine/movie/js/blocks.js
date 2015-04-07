@@ -50,19 +50,28 @@ goog.require('BlocklyGames');
 Blockly.Blocks['tshirt'] = {
   init: function() {
     //this.setHelpUrl('http://www.example.com/');
+	this.setInputsInline(true);
 	this.setColour(160);
+	
     this.appendDummyInput()
         .appendField("Shirt")
         .appendField(new Blockly.FieldImage("./movie/shirt.svg", 50, 50, "T-Shirt"));
-    this.setTooltip('');
+	
+	/*this.appendValueInput('COLOUR')
+        .setCheck('Colour')
+        .appendField('Color');*/
+	
 	this.setPreviousStatement(true);
 	this.setNextStatement(true);
+	
   }
 };
 
 
 Blockly.JavaScript['tshirt'] = function(block) {
-  return 'tshirt();\n';
+  /*var colour = Blockly.JavaScript.valueToCode(block, 'COLOUR',
+      Blockly.JavaScript.ORDER_NONE) || '\'#000000\'';*/
+  return 'tshirt();\n ';
 };
 
 Blockly.Blocks['longsleeve'] = {
@@ -79,6 +88,7 @@ Blockly.Blocks['longsleeve'] = {
 };
 
 Blockly.JavaScript['longsleeve'] = function(block) {
+	
   return 'longsleeve();\n';
 };
 
@@ -180,6 +190,23 @@ Blockly.Blocks['hightops'] = {
 
 Blockly.JavaScript['hightops'] = function(block) {
   return 'hightops();\n';
+};
+
+Blockly.Blocks['sneakers'] = {
+  init: function() {
+	this.setColour(160);
+    this.appendDummyInput()
+        .appendField("Sneakers")
+        .appendField(new Blockly.FieldImage("./movie/shoe.svg", 50, 50, "Sneakers"));
+    this.setTooltip('');
+	this.setPreviousStatement(true);
+	this.setNextStatement(true);
+  }
+};
+
+
+Blockly.JavaScript['sneakers'] = function(block) {
+  return 'sneakers();\n';
 };
 
 Blockly.Blocks['boots'] = {

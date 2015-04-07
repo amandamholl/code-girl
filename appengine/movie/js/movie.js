@@ -33,6 +33,8 @@ goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
 
+
+var color;
 /*
 //Draw the superhero
 	var ctx = canvas.getContext('2d');
@@ -58,7 +60,7 @@ BlocklyInterface.nextLevel = function() {
   }
 };
 
-Movie.HEIGHT = 600;
+Movie.HEIGHT = 580;
 Movie.WIDTH = 400;
 
 /**
@@ -104,7 +106,7 @@ Movie.init = function() {
 	/* changed for style: blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px'; */
     blocklyDiv.style.top = '0 px';
     //blocklyDiv.style.left = rtl ? '10px' : '420px';
-    blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
+    blocklyDiv.style.width = (window.innerWidth - 420) + 'px';
   };
   window.addEventListener('scroll', function() {
       onresize();
@@ -168,11 +170,14 @@ Movie.init = function() {
   Movie.ctxDisplay = document.getElementById('display').getContext('2d');
   Movie.ctxDisplay.globalCompositeOperation = 'source-over';
   Movie.ctxScratch = document.getElementById('scratch').getContext('2d');
+  
+  
+  
+  Movie.display();
+  Movie.renderAnswer_();
   //Movie.renderHatching_();
   
   Movie.renderSuperhero_();
-  //Movie.renderAnswer_();
-  Movie.display();
   Blockly.addChangeListener(Movie.display);
 
   // Preload the win sound.
@@ -189,6 +194,7 @@ Movie.init = function() {
       setTimeout(BlocklyDialogs.abortOffer, 5 * 60 * 1000);
     }
   }
+  BlocklyGames.bindClick('unlock', Movie.unlock);
 };
 
 if (window.location.pathname.match(/readonly.html$/)) {
@@ -222,6 +228,22 @@ Movie.hideHelp = function() {
   BlocklyDialogs.stopDialogKeyDown();
 };
 
+Movie.unlock = function() {
+  if(!Movie.checkFrameAnswer()){
+	Blockly.playAudio('win', 0.5);
+	BlocklyInterface.saveToLocalStorage(); 
+	if(BlocklyGames.LEVEL < 4){
+		BlocklyDialogs.levelup();
+	}
+	else{
+		BlocklyDialogs.done();
+	}
+  }
+  else{
+	alert('You must place an accessory on the canvas before you can unlock another');
+  }
+};
+
 /**
  * On startup draw superhero that will be displayed behind
  * @private
@@ -229,6 +251,13 @@ Movie.hideHelp = function() {
 Movie.renderSuperhero_ = function() {
 	//alert('here');
   var ctx = document.getElementById('superhero').getContext('2d');
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(0, 0,
+      ctx.canvas.width, ctx.canvas.height);
+  ctx.fillStyle = '#ffffff';
+  ctx.fill();
+  ctx.restore();
   ctx.save();
   ctx.scale(.55,.55);
   ctx.translate(0,30);
@@ -1259,43 +1288,42 @@ Movie.renderSuperhero_ = function() {
  */
 Movie.renderHatching_ = function() {
   var ctx = document.getElementById('hatching').getContext('2d');
-  
-  ctx.strokeStyle = '#fff';
+  // Fill the canvas with white (no answer)
+  ctx.beginPath();
+  ctx.rect(0, 0,
+      ctx.canvas.width, ctx.canvas.height);
+  ctx.fillStyle = '#ffffff';
+  ctx.fill();
+
+  /*ctx.strokeStyle = '#fff';
   ctx.lineWidth = 1;
   for (var i = -Movie.HEIGHT; i < Movie.HEIGHT; i += 4) {
     ctx.beginPath();
     ctx.moveTo(i, -i);
     ctx.lineTo(i + Movie.HEIGHT, -i + Movie.WIDTH);
     ctx.stroke();
-  }
+  }*/
 };
 
 
 /**
- * On startup draw the answer and save it to the axies canvas.
+ * On startup draw the previous answer and save it to the prevAnswer canvas.
  * @private
  */
 Movie.renderAnswer_ = function() {
-	switch (BlocklyGames.LEVEL) {
-    case 1:
-      Movie.drawShirt('');
-      break;
-    case 2:
-	  Movie.drawShirt('');
-      Movie.drawSkirt('');
-      break;
-	case 3:
-	  Movie.drawShirt('');
-      Movie.drawSkirt('');
-      Movie.drawBoots('');
-      break;
-	case 4:
-	  Movie.drawShirt('');
-      Movie.drawSkirt('');
-      Movie.drawBoots('');
-	  Movie.drawBow('');
-      break;
-	}
+  var div = document.getElementById('visualization');
+  // <canvas id="answer1" width="400" height="400" style="display: none">
+  // </canvas>
+  var canvas = document.createElement('canvas');
+  canvas.id = 'prevAnswer';
+  canvas.width = Movie.WIDTH;
+  canvas.height = Movie.HEIGHT;
+  canvas.style.display = 'block';
+  div.appendChild(canvas);
+  var ctx = canvas.getContext('2d');
+  ctx.globalCompositeOperation = 'copy';
+  ctx.drawImage(Movie.ctxDisplay.canvas, 0, 0);
+
 };
 
 /**
@@ -1337,14 +1365,14 @@ Movie.display = function() {
   }*/
 
   // Clear the display with white.
-  Movie.ctxDisplay.beginPath();
+  /*Movie.ctxDisplay.beginPath();
   Movie.ctxDisplay.rect(0, 0,
       Movie.ctxDisplay.canvas.width, Movie.ctxDisplay.canvas.height);
   Movie.ctxDisplay.fillStyle = '#ffffff';
-  Movie.ctxDisplay.fill();
+  Movie.ctxDisplay.fill();*/
 
-  var superhero = document.getElementById('superhero');
-  Movie.ctxDisplay.drawImage(superhero, 0, 0);
+  //var superhero = document.getElementById('superhero');
+  //Movie.ctxDisplay.drawImage(superhero, 0, 0);
   
   
   // Draw and copy the user layer.
@@ -1352,12 +1380,15 @@ Movie.display = function() {
   var interpreter = new Interpreter(code, Movie.initInterpreter);
   Movie.drawFrame_(interpreter);
   Movie.ctxDisplay.drawImage(Movie.ctxScratch.canvas, 0, 0);
-	
-  BlocklyInterface.saveToLocalStorage();
+  
+  // Copy the hatching.
+  /*var hatching = document.getElementById('hatching');
+  Movie.ctxDisplay.drawImage(hatching, 0, 0);		
+  BlocklyInterface.saveToLocalStorage();*/
 
   //Movie.checkFrameAnswer();
   //if (BlocklyGames.LEVEL == 1 || BlocklyGames.LEVEL == 2) {
-    setTimeout(Movie.checkAnswers, 1000);
+  // setTimeout(Movie.checkAnswers, 1000);
   //}
 };
 
@@ -1501,7 +1532,7 @@ Movie.longsleeve = function(){
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
-  if(BlocklyGames.LEVEL == 1){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
+  //if(BlocklyGames.LEVEL == 1){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
 }
 
 Movie.tshirt = function() {
@@ -1513,7 +1544,7 @@ Movie.tshirt = function() {
   Movie.ctxScratch.lineJoin = 'miter';
   Movie.ctxScratch.miterLimit = 4;
   //Movie.ctxScratch.save();
-  //Movie.ctxScratch.fillStyle = "#f69126";
+  //Movie.ctxScratch.fillStyle = 'rgba(255,255,255,.8)';
   Movie.ctxScratch.beginPath();
   //Movie.ctxScratch.moveTo(200.678,21.524);
   Movie.ctxScratch.bezierCurveTo(196.209,17.549,192.954,15.385000000000002,183.124,12.496);
@@ -1551,7 +1582,7 @@ Movie.tshirt = function() {
   Movie.ctxScratch.fill();
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
-  if(BlocklyGames.LEVEL == 1){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
+  //if(BlocklyGames.LEVEL == 1){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
 };
 
 Movie.earrings =function(){
@@ -1602,7 +1633,7 @@ Movie.earrings =function(){
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
-  if(BlocklyGames.LEVEL == 4){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.done();},1000);};
+  //if(BlocklyGames.LEVEL == 4){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.done();},1000);};
 };
 
 Movie.skirt =function(){
@@ -1648,7 +1679,7 @@ Movie.skirt =function(){
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
-  if(BlocklyGames.LEVEL == 2){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
+  //if(BlocklyGames.LEVEL == 2){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
 };
 
 Movie.shorts =function(){
@@ -1732,7 +1763,7 @@ Movie.shorts =function(){
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
-  if(BlocklyGames.LEVEL == 2){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
+  //if(BlocklyGames.LEVEL == 2){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
 };
 
 
@@ -1767,505 +1798,505 @@ Movie.bow = function() {
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
-  if(BlocklyGames.LEVEL == 4){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.done();},1000);};
+  //if(BlocklyGames.LEVEL == 4){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.done();},1000);};
 }
 
 
 Movie.hightops = function() {
   Movie.ctxScratch.save();
-Movie.ctxScratch.translate(0,0);
-Movie.ctxScratch.translate(0,0);
-Movie.ctxScratch.translate(0,0);
-Movie.ctxScratch.scale(.55,.55);
-Movie.ctxScratch.translate(0,685);
-Movie.ctxScratch.strokeStyle = 'rgba(0,0,0,0)';
-Movie.ctxScratch.lineCap = 'butt';
-Movie.ctxScratch.lineJoin = 'miter';
-Movie.ctxScratch.miterLimit = 4;
-Movie.ctxScratch.save();
-Movie.ctxScratch.fillStyle = "#ffffff";
-Movie.ctxScratch.beginPath();
-Movie.ctxScratch.moveTo(167.7,157.3);
-Movie.ctxScratch.lineTo(560.4,157.3);
-Movie.ctxScratch.quadraticCurveTo(560.4,157.3,560.4,157.3);
-Movie.ctxScratch.lineTo(560.4,390.3);
-Movie.ctxScratch.quadraticCurveTo(560.4,390.3,560.4,390.3);
-Movie.ctxScratch.lineTo(167.7,390.3);
-Movie.ctxScratch.quadraticCurveTo(167.7,390.3,167.7,390.3);
-Movie.ctxScratch.lineTo(167.7,157.3);
-Movie.ctxScratch.quadraticCurveTo(167.7,157.3,167.7,157.3);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.fill();
-Movie.ctxScratch.stroke();
-Movie.ctxScratch.restore();
-Movie.ctxScratch.save();
-Movie.ctxScratch.fillStyle = "#ed93a4";
-Movie.ctxScratch.beginPath();
-Movie.ctxScratch.moveTo(297.2,282.1);
-Movie.ctxScratch.bezierCurveTo(299.9,280,310.59999999999997,291.20000000000005,313.5,290.5);
-Movie.ctxScratch.bezierCurveTo(318.2,289.4,298.4,305.1,324.9,307);
-Movie.ctxScratch.bezierCurveTo(344.2,308.4,345.2,295.8,348.2,299.5);
-Movie.ctxScratch.bezierCurveTo(354,263,360.9,145.6,360.2,63.80000000000001);
-Movie.ctxScratch.bezierCurveTo(335.59999999999997,61.30000000000001,307.8,49.500000000000014,295.1,41.60000000000001);
-Movie.ctxScratch.bezierCurveTo(292.2,96.4,296,247.5,297.2,282.1);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.fill();
-Movie.ctxScratch.stroke();
-Movie.ctxScratch.restore();
-Movie.ctxScratch.save();
-Movie.ctxScratch.fillStyle = "#ed93a4";
-Movie.ctxScratch.beginPath();
-Movie.ctxScratch.moveTo(450.5,282.1);
-Movie.ctxScratch.bezierCurveTo(447.8,280,437.1,291.20000000000005,434.2,290.5);
-Movie.ctxScratch.bezierCurveTo(429.5,289.4,449.3,305.1,422.8,307);
-Movie.ctxScratch.bezierCurveTo(403.5,308.4,402.5,295.8,399.5,299.5);
-Movie.ctxScratch.bezierCurveTo(393.7,263,386.8,145.6,387.5,63.80000000000001);
-Movie.ctxScratch.bezierCurveTo(412.1,61.30000000000001,439.9,49.500000000000014,452.6,41.60000000000001);
-Movie.ctxScratch.bezierCurveTo(455.5,96.4,451.7,247.5,450.5,282.1);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.fill();
-Movie.ctxScratch.stroke();
-Movie.ctxScratch.restore();
-Movie.ctxScratch.save();
-Movie.ctxScratch.save();
-Movie.ctxScratch.fillStyle = "#ffffff";
-Movie.ctxScratch.beginPath();
-Movie.ctxScratch.moveTo(522.2,335);
-Movie.ctxScratch.bezierCurveTo(517.9000000000001,333.9,505.90000000000003,330.7,488.40000000000003,322.8);
-Movie.ctxScratch.bezierCurveTo(473.8,316.2,465.00000000000006,309.7,460.3,293.8);
-Movie.ctxScratch.bezierCurveTo(458.1,286.40000000000003,455,278.5,444.7,278.5);
-Movie.ctxScratch.bezierCurveTo(436.8,278.5,433.3,283.7,433.3,288.5);
-Movie.ctxScratch.bezierCurveTo(433.3,291.2,434.1,293.2,434.8,294.8);
-Movie.ctxScratch.bezierCurveTo(435.5,296.3,436,297.5,436,299.7);
-Movie.ctxScratch.bezierCurveTo(436,300.3,435.9,300.5,435.9,300.59999999999997);
-Movie.ctxScratch.bezierCurveTo(435.7,300.79999999999995,434.4,301.7,427.5,301.7);
-Movie.ctxScratch.bezierCurveTo(413.8,301.7,403.1,297.4,403,297.4);
-Movie.ctxScratch.bezierCurveTo(401.9,296.9,400.6,297,399.5,297.59999999999997);
-Movie.ctxScratch.bezierCurveTo(398.4,298.2,397.7,299.2,397.4,300.4);
-Movie.ctxScratch.bezierCurveTo(397.29999999999995,301.09999999999997,393.7,319.2,393.7,331.79999999999995);
-Movie.ctxScratch.bezierCurveTo(393.7,335.19999999999993,394.2,351.9,396.3,362.69999999999993);
-Movie.ctxScratch.bezierCurveTo(394.8,363.29999999999995,393.90000000000003,364.79999999999995,393.90000000000003,366.3999999999999);
-Movie.ctxScratch.lineTo(393.90000000000003,380.0999999999999);
-Movie.ctxScratch.bezierCurveTo(393.90000000000003,382.3999999999999,395.70000000000005,383.7999999999999,397.90000000000003,383.7999999999999);
-Movie.ctxScratch.lineTo(538.9000000000001,383.7999999999999);
-Movie.ctxScratch.bezierCurveTo(541.1000000000001,383.7999999999999,542.9000000000001,382.2999999999999,543.0000000000001,379.9999999999999);
-Movie.ctxScratch.lineTo(543.2000000000002,366.6999999999999);
-Movie.ctxScratch.bezierCurveTo(543.7000000000002,364.4999999999999,544.0000000000001,362.39999999999986,544.0000000000001,360.09999999999985);
-Movie.ctxScratch.bezierCurveTo(544.1,340.3,528.2,336.5,522.2,335);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.moveTo(402,331.9);
-Movie.ctxScratch.bezierCurveTo(402,328.29999999999995,402.4,324.2,402.8,320.09999999999997);
-Movie.ctxScratch.bezierCurveTo(402.90000000000003,319.49999999999994,403,318.79999999999995,403,318.2);
-Movie.ctxScratch.bezierCurveTo(403.1,317.59999999999997,403.2,316.9,403.2,316.3);
-Movie.ctxScratch.bezierCurveTo(403.2,316.3,403.2,316.3,403.2,316.3);
-Movie.ctxScratch.bezierCurveTo(403.7,312.5,404.2,309.1,404.7,306.5);
-Movie.ctxScratch.bezierCurveTo(409.59999999999997,308,417.9,309.8,427.59999999999997,309.8);
-Movie.ctxScratch.bezierCurveTo(432.2,309.8,438.99999999999994,309.8,442.29999999999995,305.7);
-Movie.ctxScratch.bezierCurveTo(442.49999999999994,305.4,442.79999999999995,305.09999999999997,442.99999999999994,304.7);
-Movie.ctxScratch.bezierCurveTo(443.09999999999997,304.5,443.19999999999993,304.3,443.29999999999995,304.2);
-Movie.ctxScratch.bezierCurveTo(443.4,304,443.49999999999994,303.8,443.59999999999997,303.59999999999997);
-Movie.ctxScratch.bezierCurveTo(443.79999999999995,303.2,443.9,302.79999999999995,443.99999999999994,302.29999999999995);
-Movie.ctxScratch.bezierCurveTo(444.19999999999993,301.49999999999994,444.29999999999995,300.69999999999993,444.29999999999995,299.69999999999993);
-Movie.ctxScratch.bezierCurveTo(444.29999999999995,295.8999999999999,443.19999999999993,293.3999999999999,442.49999999999994,291.5999999999999);
-Movie.ctxScratch.bezierCurveTo(441.8999999999999,290.19999999999993,441.59999999999997,289.4999999999999,441.59999999999997,288.5999999999999);
-Movie.ctxScratch.bezierCurveTo(441.59999999999997,288.3999999999999,441.59999999999997,288.2999999999999,441.7,288.0999999999999);
-Movie.ctxScratch.bezierCurveTo(441.7,287.9999999999999,441.8,287.8999999999999,441.8,287.8999999999999);
-Movie.ctxScratch.bezierCurveTo(441.90000000000003,287.7999999999999,442,287.5999999999999,442.1,287.49999999999994);
-Movie.ctxScratch.bezierCurveTo(442.5,287.09999999999997,443.1,286.8999999999999,443.70000000000005,286.79999999999995);
-Movie.ctxScratch.bezierCurveTo(443.90000000000003,286.79999999999995,444.1,286.69999999999993,444.40000000000003,286.69999999999993);
-Movie.ctxScratch.bezierCurveTo(444.6,286.69999999999993,444.8,286.69999999999993,445.00000000000006,286.69999999999993);
-Movie.ctxScratch.bezierCurveTo(448.1000000000001,286.69999999999993,450.20000000000005,287.29999999999995,452.80000000000007,296.19999999999993);
-Movie.ctxScratch.bezierCurveTo(458.30000000000007,314.99999999999994,469.30000000000007,323.19999999999993,485.30000000000007,330.3999999999999);
-Movie.ctxScratch.bezierCurveTo(498.30000000000007,336.19999999999993,508.4000000000001,339.7999999999999,514.7,341.69999999999993);
-Movie.ctxScratch.bezierCurveTo(511.70000000000005,346.3999999999999,507.90000000000003,353.69999999999993,506.90000000000003,362.69999999999993);
-Movie.ctxScratch.lineTo(404.7,362.69999999999993);
-Movie.ctxScratch.bezierCurveTo(402.7,353.6,401.9,337.7,402,331.9);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.moveTo(535,375.6);
-Movie.ctxScratch.lineTo(402,375.6);
-Movie.ctxScratch.lineTo(402,370.6);
-Movie.ctxScratch.lineTo(535.1,370.6);
-Movie.ctxScratch.lineTo(535,375.6);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.moveTo(535.9,362.6);
-Movie.ctxScratch.lineTo(515,362.6);
-Movie.ctxScratch.bezierCurveTo(516.2,353.6,520.5,347.20000000000005,522.9,343.90000000000003);
-Movie.ctxScratch.bezierCurveTo(531.1,346.3,536.1,350.3,536.1,360.3);
-Movie.ctxScratch.bezierCurveTo(536,361,536,361.6,535.9,362.6);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.fill();
-Movie.ctxScratch.stroke();
-Movie.ctxScratch.restore();
-Movie.ctxScratch.save();
-Movie.ctxScratch.beginPath();
-Movie.ctxScratch.moveTo(535.1,370.6);
-Movie.ctxScratch.lineTo(535,375.6);
-Movie.ctxScratch.lineTo(402,375.6);
-Movie.ctxScratch.lineTo(402,370.6);
-Movie.ctxScratch.lineTo(535.1,370.6);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.fill();
-Movie.ctxScratch.stroke();
-Movie.ctxScratch.restore();
-Movie.ctxScratch.save();
-Movie.ctxScratch.beginPath();
-Movie.ctxScratch.moveTo(536,360.3);
-Movie.ctxScratch.bezierCurveTo(536,361,536,361.6,535.9,362.6);
-Movie.ctxScratch.lineTo(515,362.6);
-Movie.ctxScratch.bezierCurveTo(516.2,353.6,520.5,347.20000000000005,522.9,343.90000000000003);
-Movie.ctxScratch.bezierCurveTo(531,346.3,536,350.3,536,360.3);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.fill();
-Movie.ctxScratch.stroke();
-Movie.ctxScratch.restore();
-Movie.ctxScratch.save();
-Movie.ctxScratch.beginPath();
-Movie.ctxScratch.moveTo(485.2,330.3);
-Movie.ctxScratch.bezierCurveTo(469.2,323.1,458.2,314.90000000000003,452.7,296.1);
-Movie.ctxScratch.bezierCurveTo(450.09999999999997,287.3,448,286.6,444.9,286.6);
-Movie.ctxScratch.bezierCurveTo(444.7,286.6,444.5,286.6,444.29999999999995,286.6);
-Movie.ctxScratch.bezierCurveTo(443.4,286.6,442.49999999999994,286.8,441.99999999999994,287.3);
-Movie.ctxScratch.bezierCurveTo(441.8999999999999,287.40000000000003,441.79999999999995,287.5,441.69999999999993,287.7);
-Movie.ctxScratch.bezierCurveTo(441.69999999999993,287.8,441.5999999999999,287.8,441.5999999999999,287.9);
-Movie.ctxScratch.bezierCurveTo(441.5999999999999,288,441.4999999999999,288.2,441.4999999999999,288.4);
-Movie.ctxScratch.bezierCurveTo(441.4999999999999,289.4,441.7999999999999,290.09999999999997,442.39999999999986,291.4);
-Movie.ctxScratch.bezierCurveTo(443.1999999999999,293.2,444.1999999999999,295.7,444.1999999999999,299.5);
-Movie.ctxScratch.bezierCurveTo(444.1999999999999,300.4,444.09999999999985,301.3,443.89999999999986,302.1);
-Movie.ctxScratch.bezierCurveTo(442.29999999999984,309.6,433.1999999999999,309.6,427.59999999999985,309.6);
-Movie.ctxScratch.bezierCurveTo(417.79999999999984,309.6,409.59999999999985,307.70000000000005,404.6999999999999,306.20000000000005);
-Movie.ctxScratch.bezierCurveTo(404.09999999999985,309.70000000000005,403.2999999999999,314.70000000000005,402.6999999999999,319.90000000000003);
-Movie.ctxScratch.bezierCurveTo(402.1999999999999,324.00000000000006,401.89999999999986,328.1,401.89999999999986,331.70000000000005);
-Movie.ctxScratch.bezierCurveTo(401.89999999999986,337.50000000000006,402.6999999999999,353.50000000000006,404.59999999999985,362.50000000000006);
-Movie.ctxScratch.lineTo(506.6999999999998,362.50000000000006);
-Movie.ctxScratch.bezierCurveTo(507.6999999999998,353.50000000000006,511.49999999999983,346.20000000000005,514.4999999999998,341.50000000000006);
-Movie.ctxScratch.bezierCurveTo(508.2,339.7,498.2,336.1,485.2,330.3);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.moveTo(424.3,354.5);
-Movie.ctxScratch.bezierCurveTo(417.3,354.5,411.6,348.8,411.6,341.8);
-Movie.ctxScratch.bezierCurveTo(411.6,334.8,417.3,329.1,424.3,329.1);
-Movie.ctxScratch.bezierCurveTo(431.3,329.1,437,334.8,437,341.8);
-Movie.ctxScratch.bezierCurveTo(437,348.8,431.3,354.5,424.3,354.5);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.moveTo(464.5,334.3);
-Movie.ctxScratch.bezierCurveTo(461.3,334.3,458.8,331.7,458.8,328.6);
-Movie.ctxScratch.bezierCurveTo(458.8,325.40000000000003,461.40000000000003,322.90000000000003,464.5,322.90000000000003);
-Movie.ctxScratch.bezierCurveTo(467.6,322.90000000000003,470.2,325.50000000000006,470.2,328.6);
-Movie.ctxScratch.bezierCurveTo(470.2,331.7,467.6,334.3,464.5,334.3);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.moveTo(476.4,340);
-Movie.ctxScratch.bezierCurveTo(473.2,340,470.7,337.4,470.7,334.3);
-Movie.ctxScratch.bezierCurveTo(470.7,331.1,473.3,328.6,476.4,328.6);
-Movie.ctxScratch.bezierCurveTo(479.5,328.6,482.09999999999997,331.20000000000005,482.09999999999997,334.3);
-Movie.ctxScratch.bezierCurveTo(482.1,337.4,479.5,340,476.4,340);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.moveTo(488.3,344.9);
-Movie.ctxScratch.bezierCurveTo(485.1,344.9,482.6,342.29999999999995,482.6,339.2);
-Movie.ctxScratch.bezierCurveTo(482.6,336.09999999999997,485.20000000000005,333.5,488.3,333.5);
-Movie.ctxScratch.bezierCurveTo(491.5,333.5,494,336.1,494,339.2);
-Movie.ctxScratch.bezierCurveTo(494.1,342.4,491.5,344.9,488.3,344.9);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.moveTo(500.3,350.1);
-Movie.ctxScratch.bezierCurveTo(497.1,350.1,494.6,347.5,494.6,344.40000000000003);
-Movie.ctxScratch.bezierCurveTo(494.6,341.20000000000005,497.20000000000005,338.70000000000005,500.3,338.70000000000005);
-Movie.ctxScratch.bezierCurveTo(503.40000000000003,338.70000000000005,506,341.30000000000007,506,344.40000000000003);
-Movie.ctxScratch.bezierCurveTo(506,347.5,503.4,350.1,500.3,350.1);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.fill();
-Movie.ctxScratch.stroke();
-Movie.ctxScratch.restore();
-Movie.ctxScratch.save();
-Movie.ctxScratch.fillStyle = "#ffffff";
-Movie.ctxScratch.beginPath();
-Movie.ctxScratch.moveTo(424.3,329.2);
-Movie.ctxScratch.bezierCurveTo(417.3,329.2,411.6,334.9,411.6,341.9);
-Movie.ctxScratch.bezierCurveTo(411.6,348.9,417.20000000000005,354.59999999999997,424.3,354.59999999999997);
-Movie.ctxScratch.bezierCurveTo(431.3,354.59999999999997,437,348.9,437,341.9);
-Movie.ctxScratch.bezierCurveTo(437,334.9,431.3,329.2,424.3,329.2);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.moveTo(424.3,346.4);
-Movie.ctxScratch.bezierCurveTo(421.8,346.4,419.8,344.29999999999995,419.8,341.9);
-Movie.ctxScratch.bezierCurveTo(419.8,339.29999999999995,421.8,337.4,424.3,337.4);
-Movie.ctxScratch.bezierCurveTo(426.8,337.4,428.8,339.5,428.8,341.9);
-Movie.ctxScratch.bezierCurveTo(428.9,344.4,426.8,346.4,424.3,346.4);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.fill();
-Movie.ctxScratch.stroke();
-Movie.ctxScratch.restore();
-Movie.ctxScratch.save();
-Movie.ctxScratch.beginPath();
-Movie.ctxScratch.moveTo(428.9,341.9);
-Movie.ctxScratch.bezierCurveTo(428.9,344.4,426.9,346.4,424.4,346.4);
-Movie.ctxScratch.bezierCurveTo(421.9,346.4,419.9,344.29999999999995,419.9,341.9);
-Movie.ctxScratch.bezierCurveTo(419.9,339.29999999999995,421.9,337.4,424.4,337.4);
-Movie.ctxScratch.bezierCurveTo(426.8,337.3,428.9,339.4,428.9,341.9);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.fill();
-Movie.ctxScratch.stroke();
-Movie.ctxScratch.restore();
-Movie.ctxScratch.save();
-Movie.ctxScratch.fillStyle = "#ffffff";
-Movie.ctxScratch.beginPath();
-Movie.ctxScratch.moveTo(470.2,328.6);
-Movie.ctxScratch.bezierCurveTo(470.2,331.8,467.59999999999997,334.3,464.5,334.3);
-Movie.ctxScratch.bezierCurveTo(461.3,334.3,458.8,331.7,458.8,328.6);
-Movie.ctxScratch.bezierCurveTo(458.8,325.40000000000003,461.40000000000003,322.90000000000003,464.5,322.90000000000003);
-Movie.ctxScratch.bezierCurveTo(467.6,322.9,470.2,325.4,470.2,328.6);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.fill();
-Movie.ctxScratch.stroke();
-Movie.ctxScratch.restore();
-Movie.ctxScratch.save();
-Movie.ctxScratch.fillStyle = "#ffffff";
-Movie.ctxScratch.beginPath();
-Movie.ctxScratch.moveTo(482.1,334.2);
-Movie.ctxScratch.bezierCurveTo(482.1,337.4,479.5,339.9,476.40000000000003,339.9);
-Movie.ctxScratch.bezierCurveTo(473.20000000000005,339.9,470.70000000000005,337.29999999999995,470.70000000000005,334.2);
-Movie.ctxScratch.bezierCurveTo(470.70000000000005,331,473.30000000000007,328.5,476.40000000000003,328.5);
-Movie.ctxScratch.bezierCurveTo(479.5,328.5,482.1,331.1,482.1,334.2);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.fill();
-Movie.ctxScratch.stroke();
-Movie.ctxScratch.restore();
-Movie.ctxScratch.save();
-Movie.ctxScratch.fillStyle = "#ffffff";
-Movie.ctxScratch.beginPath();
-Movie.ctxScratch.moveTo(494.1,339.2);
-Movie.ctxScratch.bezierCurveTo(494.1,342.4,491.5,344.9,488.40000000000003,344.9);
-Movie.ctxScratch.bezierCurveTo(485.20000000000005,344.9,482.70000000000005,342.29999999999995,482.70000000000005,339.2);
-Movie.ctxScratch.bezierCurveTo(482.70000000000005,336.09999999999997,485.30000000000007,333.5,488.40000000000003,333.5);
-Movie.ctxScratch.bezierCurveTo(491.5,333.5,494.1,336.1,494.1,339.2);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.fill();
-Movie.ctxScratch.stroke();
-Movie.ctxScratch.restore();
-Movie.ctxScratch.save();
-Movie.ctxScratch.fillStyle = "#ffffff";
-Movie.ctxScratch.beginPath();
-Movie.ctxScratch.moveTo(506,344.3);
-Movie.ctxScratch.bezierCurveTo(506,347.5,503.4,350,500.3,350);
-Movie.ctxScratch.bezierCurveTo(497.1,350,494.6,347.4,494.6,344.3);
-Movie.ctxScratch.bezierCurveTo(494.6,341.1,497.20000000000005,338.6,500.3,338.6);
-Movie.ctxScratch.bezierCurveTo(503.4,338.6,506,341.2,506,344.3);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.fill();
-Movie.ctxScratch.stroke();
-Movie.ctxScratch.restore();
-Movie.ctxScratch.restore();
-Movie.ctxScratch.save();
-Movie.ctxScratch.save();
-Movie.ctxScratch.fillStyle = "#ffffff";
-Movie.ctxScratch.beginPath();
-Movie.ctxScratch.moveTo(352.5,364.5);
-Movie.ctxScratch.bezierCurveTo(354.7,353.7,355.1,337,355.1,333.6);
-Movie.ctxScratch.bezierCurveTo(355,321.1,351.40000000000003,302.90000000000003,351.3,302.20000000000005);
-Movie.ctxScratch.bezierCurveTo(351.1,301.00000000000006,350.3,300.00000000000006,349.2,299.40000000000003);
-Movie.ctxScratch.bezierCurveTo(348.09999999999997,298.8,346.8,298.8,345.7,299.20000000000005);
-Movie.ctxScratch.bezierCurveTo(345.59999999999997,299.20000000000005,334.9,303.50000000000006,321.2,303.50000000000006);
-Movie.ctxScratch.bezierCurveTo(314.3,303.50000000000006,313,302.6000000000001,312.8,302.40000000000003);
-Movie.ctxScratch.bezierCurveTo(312.8,302.40000000000003,312.7,302.1,312.7,301.50000000000006);
-Movie.ctxScratch.bezierCurveTo(312.7,299.40000000000003,313.2,298.20000000000005,313.9,296.6000000000001);
-Movie.ctxScratch.bezierCurveTo(314.59999999999997,295.00000000000006,315.4,293.00000000000006,315.4,290.30000000000007);
-Movie.ctxScratch.bezierCurveTo(315.4,285.50000000000006,311.79999999999995,280.30000000000007,304,280.30000000000007);
-Movie.ctxScratch.bezierCurveTo(293.8,280.30000000000007,290.6,288.20000000000005,288.4,295.6000000000001);
-Movie.ctxScratch.bezierCurveTo(283.7,311.50000000000006,274.9,318.1000000000001,260.29999999999995,324.6000000000001);
-Movie.ctxScratch.bezierCurveTo(243,332.7,231,336,226.7,337);
-Movie.ctxScratch.bezierCurveTo(220.7,338.4,204.79999999999998,342.3,204.7,361.9);
-Movie.ctxScratch.bezierCurveTo(204.7,364.2,205,366.4,205.5,368.59999999999997);
-Movie.ctxScratch.lineTo(205.7,381.79999999999995);
-Movie.ctxScratch.bezierCurveTo(205.79999999999998,383.99999999999994,207.6,385.59999999999997,209.79999999999998,385.59999999999997);
-Movie.ctxScratch.lineTo(350.79999999999995,385.59999999999997);
-Movie.ctxScratch.bezierCurveTo(353.09999999999997,385.59999999999997,354.9,384.2,354.9,381.99999999999994);
-Movie.ctxScratch.lineTo(354.9,368.29999999999995);
-Movie.ctxScratch.bezierCurveTo(355,366.6,354,365.2,352.5,364.5);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.moveTo(212.9,362.2);
-Movie.ctxScratch.bezierCurveTo(212.9,352.2,217.9,348.4,226.1,346);
-Movie.ctxScratch.bezierCurveTo(228.5,349.4,232.79999999999998,355.6,234,364.6);
-Movie.ctxScratch.lineTo(213,364.6);
-Movie.ctxScratch.bezierCurveTo(213,363.6,213,362.9,212.9,362.2);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.moveTo(347,377.6);
-Movie.ctxScratch.lineTo(213.9,377.6);
-Movie.ctxScratch.lineTo(213.8,372.6);
-Movie.ctxScratch.lineTo(347,372.6);
-Movie.ctxScratch.lineTo(347,377.6);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.moveTo(344.3,364.6);
-Movie.ctxScratch.lineTo(242.2,364.6);
-Movie.ctxScratch.bezierCurveTo(241.2,355.6,237.39999999999998,348.3,234.39999999999998,343.6);
-Movie.ctxScratch.bezierCurveTo(235.2,343.40000000000003,236.09999999999997,343.1,236.99999999999997,342.8);
-Movie.ctxScratch.bezierCurveTo(243.39999999999998,340.8,252.49999999999997,337.40000000000003,263.9,332.40000000000003);
-Movie.ctxScratch.bezierCurveTo(279.9,325.20000000000005,290.9,317.00000000000006,296.4,298.20000000000005);
-Movie.ctxScratch.bezierCurveTo(299,289.40000000000003,301.09999999999997,288.70000000000005,304.2,288.70000000000005);
-Movie.ctxScratch.bezierCurveTo(305.2,288.70000000000005,306.4,288.90000000000003,307,289.40000000000003);
-Movie.ctxScratch.bezierCurveTo(307.1,289.50000000000006,307.2,289.6,307.3,289.8);
-Movie.ctxScratch.bezierCurveTo(307.3,289.90000000000003,307.40000000000003,289.90000000000003,307.40000000000003,290);
-Movie.ctxScratch.bezierCurveTo(307.40000000000003,290.1,307.50000000000006,290.3,307.50000000000006,290.5);
-Movie.ctxScratch.bezierCurveTo(307.50000000000006,291.5,307.20000000000005,292.2,306.6000000000001,293.5);
-Movie.ctxScratch.bezierCurveTo(305.80000000000007,295.3,304.80000000000007,297.8,304.80000000000007,301.6);
-Movie.ctxScratch.bezierCurveTo(304.80000000000007,311.70000000000005,315.20000000000005,311.70000000000005,321.4000000000001,311.70000000000005);
-Movie.ctxScratch.bezierCurveTo(331.2000000000001,311.70000000000005,339.4000000000001,309.80000000000007,344.30000000000007,308.30000000000007);
-Movie.ctxScratch.bezierCurveTo(345.4000000000001,314.4000000000001,347.00000000000006,325.70000000000005,347.1000000000001,333.80000000000007);
-Movie.ctxScratch.bezierCurveTo(347,339.7,346.2,355.6,344.3,364.6);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.fill();
-Movie.ctxScratch.stroke();
-Movie.ctxScratch.restore();
-Movie.ctxScratch.save();
-Movie.ctxScratch.beginPath();
-Movie.ctxScratch.moveTo(347,372.6);
-Movie.ctxScratch.lineTo(347,377.6);
-Movie.ctxScratch.lineTo(213.9,377.6);
-Movie.ctxScratch.lineTo(213.8,372.6);
-Movie.ctxScratch.lineTo(347,372.6);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.fill();
-Movie.ctxScratch.stroke();
-Movie.ctxScratch.restore();
-Movie.ctxScratch.save();
-Movie.ctxScratch.beginPath();
-Movie.ctxScratch.moveTo(234,364.6);
-Movie.ctxScratch.lineTo(213,364.6);
-Movie.ctxScratch.bezierCurveTo(212.9,363.6,212.9,362.90000000000003,212.9,362.1);
-Movie.ctxScratch.bezierCurveTo(212.9,352.1,217.9,348.3,226.1,345.90000000000003);
-Movie.ctxScratch.bezierCurveTo(228.5,349.4,232.8,355.6,234,364.6);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.fill();
-Movie.ctxScratch.stroke();
-Movie.ctxScratch.restore();
-Movie.ctxScratch.save();
-Movie.ctxScratch.beginPath();
-Movie.ctxScratch.moveTo(344.2,308.3);
-Movie.ctxScratch.bezierCurveTo(339.3,309.8,331,311.7,321.3,311.7);
-Movie.ctxScratch.bezierCurveTo(315.1,311.7,304.7,311.7,304.7,301.59999999999997);
-Movie.ctxScratch.bezierCurveTo(304.7,297.79999999999995,305.7,295.29999999999995,306.5,293.49999999999994);
-Movie.ctxScratch.bezierCurveTo(307.1,292.19999999999993,307.4,291.49999999999994,307.4,290.49999999999994);
-Movie.ctxScratch.bezierCurveTo(307.4,290.29999999999995,307.4,290.19999999999993,307.29999999999995,289.99999999999994);
-Movie.ctxScratch.bezierCurveTo(307.29999999999995,289.8999999999999,307.29999999999995,289.79999999999995,307.19999999999993,289.79999999999995);
-Movie.ctxScratch.bezierCurveTo(307.0999999999999,289.69999999999993,306.99999999999994,289.49999999999994,306.8999999999999,289.4);
-Movie.ctxScratch.bezierCurveTo(306.2999999999999,288.79999999999995,305.0999999999999,288.59999999999997,304.0999999999999,288.59999999999997);
-Movie.ctxScratch.bezierCurveTo(300.9999999999999,288.59999999999997,298.8999999999999,289.2,296.2999999999999,298.09999999999997);
-Movie.ctxScratch.bezierCurveTo(290.7999999999999,316.9,279.7999999999999,325.09999999999997,263.7999999999999,332.29999999999995);
-Movie.ctxScratch.bezierCurveTo(252.3999999999999,337.4,243.2999999999999,340.79999999999995,236.8999999999999,342.79999999999995);
-Movie.ctxScratch.bezierCurveTo(235.9999999999999,343.09999999999997,235.09999999999988,343.29999999999995,234.2999999999999,343.59999999999997);
-Movie.ctxScratch.bezierCurveTo(237.2999999999999,348.29999999999995,241.0999999999999,355.59999999999997,242.0999999999999,364.59999999999997);
-Movie.ctxScratch.lineTo(344.19999999999993,364.59999999999997);
-Movie.ctxScratch.bezierCurveTo(346.19999999999993,355.59999999999997,346.8999999999999,339.7,346.8999999999999,333.79999999999995);
-Movie.ctxScratch.bezierCurveTo(346.9,325.7,345.3,314.5,344.2,308.3);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.moveTo(248.7,352.1);
-Movie.ctxScratch.bezierCurveTo(245.6,352.1,243,349.5,243,346.40000000000003);
-Movie.ctxScratch.bezierCurveTo(243,343.30000000000007,245.6,340.70000000000005,248.7,340.70000000000005);
-Movie.ctxScratch.bezierCurveTo(251.89999999999998,340.70000000000005,254.39999999999998,343.30000000000007,254.39999999999998,346.40000000000003);
-Movie.ctxScratch.bezierCurveTo(254.4,349.5,251.8,352.1,248.7,352.1);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.moveTo(260.6,346.9);
-Movie.ctxScratch.bezierCurveTo(257.40000000000003,346.9,254.90000000000003,344.29999999999995,254.90000000000003,341.2);
-Movie.ctxScratch.bezierCurveTo(254.90000000000003,338.09999999999997,257.50000000000006,335.5,260.6,335.5);
-Movie.ctxScratch.bezierCurveTo(263.70000000000005,335.5,266.3,338.1,266.3,341.2);
-Movie.ctxScratch.bezierCurveTo(266.3,344.4,263.7,346.9,260.6,346.9);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.moveTo(272.6,341.9);
-Movie.ctxScratch.bezierCurveTo(269.40000000000003,341.9,266.90000000000003,339.29999999999995,266.90000000000003,336.2);
-Movie.ctxScratch.bezierCurveTo(266.90000000000003,333.09999999999997,269.50000000000006,330.5,272.6,330.5);
-Movie.ctxScratch.bezierCurveTo(275.7,330.5,278.3,333.1,278.3,336.2);
-Movie.ctxScratch.bezierCurveTo(278.3,339.4,275.7,342,272.6,341.9);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.moveTo(284.5,336.3);
-Movie.ctxScratch.bezierCurveTo(281.3,336.3,278.8,333.7,278.8,330.6);
-Movie.ctxScratch.bezierCurveTo(278.8,327.40000000000003,281.40000000000003,324.90000000000003,284.5,324.90000000000003);
-Movie.ctxScratch.bezierCurveTo(287.7,324.90000000000003,290.2,327.50000000000006,290.2,330.6);
-Movie.ctxScratch.bezierCurveTo(290.2,333.7,287.7,336.3,284.5,336.3);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.moveTo(324.6,356.5);
-Movie.ctxScratch.bezierCurveTo(317.6,356.5,311.90000000000003,350.8,311.90000000000003,343.8);
-Movie.ctxScratch.bezierCurveTo(311.90000000000003,336.8,317.6,331.1,324.6,331.1);
-Movie.ctxScratch.bezierCurveTo(331.6,331.1,337.3,336.8,337.3,343.8);
-Movie.ctxScratch.bezierCurveTo(337.3,350.8,331.6,356.5,324.6,356.5);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.fill();
-Movie.ctxScratch.stroke();
-Movie.ctxScratch.restore();
-Movie.ctxScratch.save();
-Movie.ctxScratch.fillStyle = "#ffffff";
-Movie.ctxScratch.beginPath();
-Movie.ctxScratch.moveTo(324.6,331.2);
-Movie.ctxScratch.bezierCurveTo(317.6,331.2,311.90000000000003,336.9,311.90000000000003,343.9);
-Movie.ctxScratch.bezierCurveTo(311.90000000000003,350.9,317.6,356.59999999999997,324.6,356.59999999999997);
-Movie.ctxScratch.bezierCurveTo(331.6,356.59999999999997,337.3,350.9,337.3,343.9);
-Movie.ctxScratch.bezierCurveTo(337.3,336.9,331.6,331.2,324.6,331.2);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.moveTo(324.6,348.4);
-Movie.ctxScratch.bezierCurveTo(322.1,348.4,320.1,346.29999999999995,320.1,343.9);
-Movie.ctxScratch.bezierCurveTo(320.1,341.4,322.1,339.4,324.6,339.4);
-Movie.ctxScratch.bezierCurveTo(327.1,339.4,329.1,341.4,329.1,343.9);
-Movie.ctxScratch.bezierCurveTo(329.2,346.4,327.1,348.4,324.6,348.4);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.fill();
-Movie.ctxScratch.stroke();
-Movie.ctxScratch.restore();
-Movie.ctxScratch.save();
-Movie.ctxScratch.beginPath();
-Movie.ctxScratch.moveTo(329.2,343.9);
-Movie.ctxScratch.bezierCurveTo(329.2,346.4,327.09999999999997,348.4,324.7,348.4);
-Movie.ctxScratch.bezierCurveTo(322.3,348.4,320.2,346.29999999999995,320.2,343.9);
-Movie.ctxScratch.bezierCurveTo(320.2,341.4,322.2,339.4,324.7,339.4);
-Movie.ctxScratch.bezierCurveTo(327.2,339.4,329.2,341.3,329.2,343.9);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.fill();
-Movie.ctxScratch.stroke();
-Movie.ctxScratch.restore();
-Movie.ctxScratch.save();
-Movie.ctxScratch.fillStyle = "#ffffff";
-Movie.ctxScratch.beginPath();
-Movie.ctxScratch.moveTo(290.2,330.6);
-Movie.ctxScratch.bezierCurveTo(290.2,333.8,287.59999999999997,336.3,284.5,336.3);
-Movie.ctxScratch.bezierCurveTo(281.3,336.3,278.8,333.7,278.8,330.6);
-Movie.ctxScratch.bezierCurveTo(278.8,327.40000000000003,281.40000000000003,324.90000000000003,284.5,324.90000000000003);
-Movie.ctxScratch.bezierCurveTo(287.7,324.9,290.2,327.4,290.2,330.6);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.fill();
-Movie.ctxScratch.stroke();
-Movie.ctxScratch.restore();
-Movie.ctxScratch.save();
-Movie.ctxScratch.fillStyle = "#ffffff";
-Movie.ctxScratch.beginPath();
-Movie.ctxScratch.moveTo(278.3,336.2);
-Movie.ctxScratch.bezierCurveTo(278.3,339.4,275.7,342,272.6,341.9);
-Movie.ctxScratch.bezierCurveTo(269.40000000000003,341.9,266.90000000000003,339.29999999999995,266.90000000000003,336.2);
-Movie.ctxScratch.bezierCurveTo(266.90000000000003,333.09999999999997,269.50000000000006,330.5,272.6,330.5);
-Movie.ctxScratch.bezierCurveTo(275.7,330.5,278.3,333,278.3,336.2);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.fill();
-Movie.ctxScratch.stroke();
-Movie.ctxScratch.restore();
-Movie.ctxScratch.save();
-Movie.ctxScratch.fillStyle = "#ffffff";
-Movie.ctxScratch.beginPath();
-Movie.ctxScratch.moveTo(266.3,341.2);
-Movie.ctxScratch.bezierCurveTo(266.3,344.4,263.7,346.9,260.6,346.9);
-Movie.ctxScratch.bezierCurveTo(257.40000000000003,346.9,254.90000000000003,344.29999999999995,254.90000000000003,341.2);
-Movie.ctxScratch.bezierCurveTo(254.90000000000003,338.09999999999997,257.50000000000006,335.5,260.6,335.5);
-Movie.ctxScratch.bezierCurveTo(263.7,335.5,266.3,338.1,266.3,341.2);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.fill();
-Movie.ctxScratch.stroke();
-Movie.ctxScratch.restore();
-Movie.ctxScratch.save();
-Movie.ctxScratch.fillStyle = "#ffffff";
-Movie.ctxScratch.beginPath();
-Movie.ctxScratch.moveTo(254.4,346.3);
-Movie.ctxScratch.bezierCurveTo(254.4,349.5,251.8,352,248.70000000000002,352);
-Movie.ctxScratch.bezierCurveTo(245.60000000000002,352,243.00000000000003,349.4,243.00000000000003,346.3);
-Movie.ctxScratch.bezierCurveTo(243.00000000000003,343.20000000000005,245.60000000000002,340.6,248.70000000000002,340.6);
-Movie.ctxScratch.bezierCurveTo(251.8,340.6,254.4,343.2,254.4,346.3);
-Movie.ctxScratch.closePath();
-Movie.ctxScratch.fill();
-Movie.ctxScratch.stroke();
-Movie.ctxScratch.restore();
-Movie.ctxScratch.restore();
-Movie.ctxScratch.restore();
-	if(BlocklyGames.LEVEL == 4){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.done();},1000);};
+  Movie.ctxScratch.translate(0,0);
+  Movie.ctxScratch.translate(0,0);
+  Movie.ctxScratch.translate(0,0);
+  Movie.ctxScratch.scale(.55,.55);
+  Movie.ctxScratch.translate(0,685);
+  Movie.ctxScratch.strokeStyle = 'rgba(0,0,0,0)';
+  Movie.ctxScratch.lineCap = 'butt';
+  Movie.ctxScratch.lineJoin = 'miter';
+  Movie.ctxScratch.miterLimit = 4;
+  Movie.ctxScratch.save();
+  Movie.ctxScratch.fillStyle = "#ffffff";
+  Movie.ctxScratch.beginPath();
+  Movie.ctxScratch.moveTo(167.7,157.3);
+  Movie.ctxScratch.lineTo(560.4,157.3);
+  Movie.ctxScratch.quadraticCurveTo(560.4,157.3,560.4,157.3);
+  Movie.ctxScratch.lineTo(560.4,390.3);
+  Movie.ctxScratch.quadraticCurveTo(560.4,390.3,560.4,390.3);
+  Movie.ctxScratch.lineTo(167.7,390.3);
+  Movie.ctxScratch.quadraticCurveTo(167.7,390.3,167.7,390.3);
+  Movie.ctxScratch.lineTo(167.7,157.3);
+  Movie.ctxScratch.quadraticCurveTo(167.7,157.3,167.7,157.3);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.fill();
+  Movie.ctxScratch.stroke();
+  Movie.ctxScratch.restore();
+  Movie.ctxScratch.save();
+  Movie.ctxScratch.fillStyle = "#ed93a4";
+  Movie.ctxScratch.beginPath();
+  Movie.ctxScratch.moveTo(297.2,282.1);
+  Movie.ctxScratch.bezierCurveTo(299.9,280,310.59999999999997,291.20000000000005,313.5,290.5);
+  Movie.ctxScratch.bezierCurveTo(318.2,289.4,298.4,305.1,324.9,307);
+  Movie.ctxScratch.bezierCurveTo(344.2,308.4,345.2,295.8,348.2,299.5);
+  Movie.ctxScratch.bezierCurveTo(354,263,360.9,145.6,360.2,63.80000000000001);
+  Movie.ctxScratch.bezierCurveTo(335.59999999999997,61.30000000000001,307.8,49.500000000000014,295.1,41.60000000000001);
+  Movie.ctxScratch.bezierCurveTo(292.2,96.4,296,247.5,297.2,282.1);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.fill();
+  Movie.ctxScratch.stroke();
+  Movie.ctxScratch.restore();
+  Movie.ctxScratch.save();
+  Movie.ctxScratch.fillStyle = "#ed93a4";
+  Movie.ctxScratch.beginPath();
+  Movie.ctxScratch.moveTo(450.5,282.1);
+  Movie.ctxScratch.bezierCurveTo(447.8,280,437.1,291.20000000000005,434.2,290.5);
+  Movie.ctxScratch.bezierCurveTo(429.5,289.4,449.3,305.1,422.8,307);
+  Movie.ctxScratch.bezierCurveTo(403.5,308.4,402.5,295.8,399.5,299.5);
+  Movie.ctxScratch.bezierCurveTo(393.7,263,386.8,145.6,387.5,63.80000000000001);
+  Movie.ctxScratch.bezierCurveTo(412.1,61.30000000000001,439.9,49.500000000000014,452.6,41.60000000000001);
+  Movie.ctxScratch.bezierCurveTo(455.5,96.4,451.7,247.5,450.5,282.1);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.fill();
+  Movie.ctxScratch.stroke();
+  Movie.ctxScratch.restore();
+  Movie.ctxScratch.save();
+  Movie.ctxScratch.save();
+  Movie.ctxScratch.fillStyle = "#ffffff";
+  Movie.ctxScratch.beginPath();
+  Movie.ctxScratch.moveTo(522.2,335);
+  Movie.ctxScratch.bezierCurveTo(517.9000000000001,333.9,505.90000000000003,330.7,488.40000000000003,322.8);
+  Movie.ctxScratch.bezierCurveTo(473.8,316.2,465.00000000000006,309.7,460.3,293.8);
+  Movie.ctxScratch.bezierCurveTo(458.1,286.40000000000003,455,278.5,444.7,278.5);
+  Movie.ctxScratch.bezierCurveTo(436.8,278.5,433.3,283.7,433.3,288.5);
+  Movie.ctxScratch.bezierCurveTo(433.3,291.2,434.1,293.2,434.8,294.8);
+  Movie.ctxScratch.bezierCurveTo(435.5,296.3,436,297.5,436,299.7);
+  Movie.ctxScratch.bezierCurveTo(436,300.3,435.9,300.5,435.9,300.59999999999997);
+  Movie.ctxScratch.bezierCurveTo(435.7,300.79999999999995,434.4,301.7,427.5,301.7);
+  Movie.ctxScratch.bezierCurveTo(413.8,301.7,403.1,297.4,403,297.4);
+  Movie.ctxScratch.bezierCurveTo(401.9,296.9,400.6,297,399.5,297.59999999999997);
+  Movie.ctxScratch.bezierCurveTo(398.4,298.2,397.7,299.2,397.4,300.4);
+  Movie.ctxScratch.bezierCurveTo(397.29999999999995,301.09999999999997,393.7,319.2,393.7,331.79999999999995);
+  Movie.ctxScratch.bezierCurveTo(393.7,335.19999999999993,394.2,351.9,396.3,362.69999999999993);
+  Movie.ctxScratch.bezierCurveTo(394.8,363.29999999999995,393.90000000000003,364.79999999999995,393.90000000000003,366.3999999999999);
+  Movie.ctxScratch.lineTo(393.90000000000003,380.0999999999999);
+  Movie.ctxScratch.bezierCurveTo(393.90000000000003,382.3999999999999,395.70000000000005,383.7999999999999,397.90000000000003,383.7999999999999);
+  Movie.ctxScratch.lineTo(538.9000000000001,383.7999999999999);
+  Movie.ctxScratch.bezierCurveTo(541.1000000000001,383.7999999999999,542.9000000000001,382.2999999999999,543.0000000000001,379.9999999999999);
+  Movie.ctxScratch.lineTo(543.2000000000002,366.6999999999999);
+  Movie.ctxScratch.bezierCurveTo(543.7000000000002,364.4999999999999,544.0000000000001,362.39999999999986,544.0000000000001,360.09999999999985);
+  Movie.ctxScratch.bezierCurveTo(544.1,340.3,528.2,336.5,522.2,335);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.moveTo(402,331.9);
+  Movie.ctxScratch.bezierCurveTo(402,328.29999999999995,402.4,324.2,402.8,320.09999999999997);
+  Movie.ctxScratch.bezierCurveTo(402.90000000000003,319.49999999999994,403,318.79999999999995,403,318.2);
+  Movie.ctxScratch.bezierCurveTo(403.1,317.59999999999997,403.2,316.9,403.2,316.3);
+  Movie.ctxScratch.bezierCurveTo(403.2,316.3,403.2,316.3,403.2,316.3);
+  Movie.ctxScratch.bezierCurveTo(403.7,312.5,404.2,309.1,404.7,306.5);
+  Movie.ctxScratch.bezierCurveTo(409.59999999999997,308,417.9,309.8,427.59999999999997,309.8);
+  Movie.ctxScratch.bezierCurveTo(432.2,309.8,438.99999999999994,309.8,442.29999999999995,305.7);
+  Movie.ctxScratch.bezierCurveTo(442.49999999999994,305.4,442.79999999999995,305.09999999999997,442.99999999999994,304.7);
+  Movie.ctxScratch.bezierCurveTo(443.09999999999997,304.5,443.19999999999993,304.3,443.29999999999995,304.2);
+  Movie.ctxScratch.bezierCurveTo(443.4,304,443.49999999999994,303.8,443.59999999999997,303.59999999999997);
+  Movie.ctxScratch.bezierCurveTo(443.79999999999995,303.2,443.9,302.79999999999995,443.99999999999994,302.29999999999995);
+  Movie.ctxScratch.bezierCurveTo(444.19999999999993,301.49999999999994,444.29999999999995,300.69999999999993,444.29999999999995,299.69999999999993);
+  Movie.ctxScratch.bezierCurveTo(444.29999999999995,295.8999999999999,443.19999999999993,293.3999999999999,442.49999999999994,291.5999999999999);
+  Movie.ctxScratch.bezierCurveTo(441.8999999999999,290.19999999999993,441.59999999999997,289.4999999999999,441.59999999999997,288.5999999999999);
+  Movie.ctxScratch.bezierCurveTo(441.59999999999997,288.3999999999999,441.59999999999997,288.2999999999999,441.7,288.0999999999999);
+  Movie.ctxScratch.bezierCurveTo(441.7,287.9999999999999,441.8,287.8999999999999,441.8,287.8999999999999);
+  Movie.ctxScratch.bezierCurveTo(441.90000000000003,287.7999999999999,442,287.5999999999999,442.1,287.49999999999994);
+  Movie.ctxScratch.bezierCurveTo(442.5,287.09999999999997,443.1,286.8999999999999,443.70000000000005,286.79999999999995);
+  Movie.ctxScratch.bezierCurveTo(443.90000000000003,286.79999999999995,444.1,286.69999999999993,444.40000000000003,286.69999999999993);
+  Movie.ctxScratch.bezierCurveTo(444.6,286.69999999999993,444.8,286.69999999999993,445.00000000000006,286.69999999999993);
+  Movie.ctxScratch.bezierCurveTo(448.1000000000001,286.69999999999993,450.20000000000005,287.29999999999995,452.80000000000007,296.19999999999993);
+  Movie.ctxScratch.bezierCurveTo(458.30000000000007,314.99999999999994,469.30000000000007,323.19999999999993,485.30000000000007,330.3999999999999);
+  Movie.ctxScratch.bezierCurveTo(498.30000000000007,336.19999999999993,508.4000000000001,339.7999999999999,514.7,341.69999999999993);
+  Movie.ctxScratch.bezierCurveTo(511.70000000000005,346.3999999999999,507.90000000000003,353.69999999999993,506.90000000000003,362.69999999999993);
+  Movie.ctxScratch.lineTo(404.7,362.69999999999993);
+  Movie.ctxScratch.bezierCurveTo(402.7,353.6,401.9,337.7,402,331.9);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.moveTo(535,375.6);
+  Movie.ctxScratch.lineTo(402,375.6);
+  Movie.ctxScratch.lineTo(402,370.6);
+  Movie.ctxScratch.lineTo(535.1,370.6);
+  Movie.ctxScratch.lineTo(535,375.6);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.moveTo(535.9,362.6);
+  Movie.ctxScratch.lineTo(515,362.6);
+  Movie.ctxScratch.bezierCurveTo(516.2,353.6,520.5,347.20000000000005,522.9,343.90000000000003);
+  Movie.ctxScratch.bezierCurveTo(531.1,346.3,536.1,350.3,536.1,360.3);
+  Movie.ctxScratch.bezierCurveTo(536,361,536,361.6,535.9,362.6);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.fill();
+  Movie.ctxScratch.stroke();
+  Movie.ctxScratch.restore();
+  Movie.ctxScratch.save();
+  Movie.ctxScratch.beginPath();
+  Movie.ctxScratch.moveTo(535.1,370.6);
+  Movie.ctxScratch.lineTo(535,375.6);
+  Movie.ctxScratch.lineTo(402,375.6);
+  Movie.ctxScratch.lineTo(402,370.6);
+  Movie.ctxScratch.lineTo(535.1,370.6);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.fill();
+  Movie.ctxScratch.stroke();
+  Movie.ctxScratch.restore();
+  Movie.ctxScratch.save();
+  Movie.ctxScratch.beginPath();
+  Movie.ctxScratch.moveTo(536,360.3);
+  Movie.ctxScratch.bezierCurveTo(536,361,536,361.6,535.9,362.6);
+  Movie.ctxScratch.lineTo(515,362.6);
+  Movie.ctxScratch.bezierCurveTo(516.2,353.6,520.5,347.20000000000005,522.9,343.90000000000003);
+  Movie.ctxScratch.bezierCurveTo(531,346.3,536,350.3,536,360.3);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.fill();
+  Movie.ctxScratch.stroke();
+  Movie.ctxScratch.restore();
+  Movie.ctxScratch.save();
+  Movie.ctxScratch.beginPath();
+  Movie.ctxScratch.moveTo(485.2,330.3);
+  Movie.ctxScratch.bezierCurveTo(469.2,323.1,458.2,314.90000000000003,452.7,296.1);
+  Movie.ctxScratch.bezierCurveTo(450.09999999999997,287.3,448,286.6,444.9,286.6);
+  Movie.ctxScratch.bezierCurveTo(444.7,286.6,444.5,286.6,444.29999999999995,286.6);
+  Movie.ctxScratch.bezierCurveTo(443.4,286.6,442.49999999999994,286.8,441.99999999999994,287.3);
+  Movie.ctxScratch.bezierCurveTo(441.8999999999999,287.40000000000003,441.79999999999995,287.5,441.69999999999993,287.7);
+  Movie.ctxScratch.bezierCurveTo(441.69999999999993,287.8,441.5999999999999,287.8,441.5999999999999,287.9);
+  Movie.ctxScratch.bezierCurveTo(441.5999999999999,288,441.4999999999999,288.2,441.4999999999999,288.4);
+  Movie.ctxScratch.bezierCurveTo(441.4999999999999,289.4,441.7999999999999,290.09999999999997,442.39999999999986,291.4);
+  Movie.ctxScratch.bezierCurveTo(443.1999999999999,293.2,444.1999999999999,295.7,444.1999999999999,299.5);
+  Movie.ctxScratch.bezierCurveTo(444.1999999999999,300.4,444.09999999999985,301.3,443.89999999999986,302.1);
+  Movie.ctxScratch.bezierCurveTo(442.29999999999984,309.6,433.1999999999999,309.6,427.59999999999985,309.6);
+  Movie.ctxScratch.bezierCurveTo(417.79999999999984,309.6,409.59999999999985,307.70000000000005,404.6999999999999,306.20000000000005);
+  Movie.ctxScratch.bezierCurveTo(404.09999999999985,309.70000000000005,403.2999999999999,314.70000000000005,402.6999999999999,319.90000000000003);
+  Movie.ctxScratch.bezierCurveTo(402.1999999999999,324.00000000000006,401.89999999999986,328.1,401.89999999999986,331.70000000000005);
+  Movie.ctxScratch.bezierCurveTo(401.89999999999986,337.50000000000006,402.6999999999999,353.50000000000006,404.59999999999985,362.50000000000006);
+  Movie.ctxScratch.lineTo(506.6999999999998,362.50000000000006);
+  Movie.ctxScratch.bezierCurveTo(507.6999999999998,353.50000000000006,511.49999999999983,346.20000000000005,514.4999999999998,341.50000000000006);
+  Movie.ctxScratch.bezierCurveTo(508.2,339.7,498.2,336.1,485.2,330.3);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.moveTo(424.3,354.5);
+  Movie.ctxScratch.bezierCurveTo(417.3,354.5,411.6,348.8,411.6,341.8);
+  Movie.ctxScratch.bezierCurveTo(411.6,334.8,417.3,329.1,424.3,329.1);
+  Movie.ctxScratch.bezierCurveTo(431.3,329.1,437,334.8,437,341.8);
+  Movie.ctxScratch.bezierCurveTo(437,348.8,431.3,354.5,424.3,354.5);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.moveTo(464.5,334.3);
+  Movie.ctxScratch.bezierCurveTo(461.3,334.3,458.8,331.7,458.8,328.6);
+  Movie.ctxScratch.bezierCurveTo(458.8,325.40000000000003,461.40000000000003,322.90000000000003,464.5,322.90000000000003);
+  Movie.ctxScratch.bezierCurveTo(467.6,322.90000000000003,470.2,325.50000000000006,470.2,328.6);
+  Movie.ctxScratch.bezierCurveTo(470.2,331.7,467.6,334.3,464.5,334.3);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.moveTo(476.4,340);
+  Movie.ctxScratch.bezierCurveTo(473.2,340,470.7,337.4,470.7,334.3);
+  Movie.ctxScratch.bezierCurveTo(470.7,331.1,473.3,328.6,476.4,328.6);
+  Movie.ctxScratch.bezierCurveTo(479.5,328.6,482.09999999999997,331.20000000000005,482.09999999999997,334.3);
+  Movie.ctxScratch.bezierCurveTo(482.1,337.4,479.5,340,476.4,340);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.moveTo(488.3,344.9);
+  Movie.ctxScratch.bezierCurveTo(485.1,344.9,482.6,342.29999999999995,482.6,339.2);
+  Movie.ctxScratch.bezierCurveTo(482.6,336.09999999999997,485.20000000000005,333.5,488.3,333.5);
+  Movie.ctxScratch.bezierCurveTo(491.5,333.5,494,336.1,494,339.2);
+  Movie.ctxScratch.bezierCurveTo(494.1,342.4,491.5,344.9,488.3,344.9);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.moveTo(500.3,350.1);
+  Movie.ctxScratch.bezierCurveTo(497.1,350.1,494.6,347.5,494.6,344.40000000000003);
+  Movie.ctxScratch.bezierCurveTo(494.6,341.20000000000005,497.20000000000005,338.70000000000005,500.3,338.70000000000005);
+  Movie.ctxScratch.bezierCurveTo(503.40000000000003,338.70000000000005,506,341.30000000000007,506,344.40000000000003);
+  Movie.ctxScratch.bezierCurveTo(506,347.5,503.4,350.1,500.3,350.1);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.fill();
+  Movie.ctxScratch.stroke();
+  Movie.ctxScratch.restore();
+  Movie.ctxScratch.save();
+  Movie.ctxScratch.fillStyle = "#ffffff";
+  Movie.ctxScratch.beginPath();
+  Movie.ctxScratch.moveTo(424.3,329.2);
+  Movie.ctxScratch.bezierCurveTo(417.3,329.2,411.6,334.9,411.6,341.9);
+  Movie.ctxScratch.bezierCurveTo(411.6,348.9,417.20000000000005,354.59999999999997,424.3,354.59999999999997);
+  Movie.ctxScratch.bezierCurveTo(431.3,354.59999999999997,437,348.9,437,341.9);
+  Movie.ctxScratch.bezierCurveTo(437,334.9,431.3,329.2,424.3,329.2);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.moveTo(424.3,346.4);
+  Movie.ctxScratch.bezierCurveTo(421.8,346.4,419.8,344.29999999999995,419.8,341.9);
+  Movie.ctxScratch.bezierCurveTo(419.8,339.29999999999995,421.8,337.4,424.3,337.4);
+  Movie.ctxScratch.bezierCurveTo(426.8,337.4,428.8,339.5,428.8,341.9);
+  Movie.ctxScratch.bezierCurveTo(428.9,344.4,426.8,346.4,424.3,346.4);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.fill();
+  Movie.ctxScratch.stroke();
+  Movie.ctxScratch.restore();
+  Movie.ctxScratch.save();
+  Movie.ctxScratch.beginPath();
+  Movie.ctxScratch.moveTo(428.9,341.9);
+  Movie.ctxScratch.bezierCurveTo(428.9,344.4,426.9,346.4,424.4,346.4);
+  Movie.ctxScratch.bezierCurveTo(421.9,346.4,419.9,344.29999999999995,419.9,341.9);
+  Movie.ctxScratch.bezierCurveTo(419.9,339.29999999999995,421.9,337.4,424.4,337.4);
+  Movie.ctxScratch.bezierCurveTo(426.8,337.3,428.9,339.4,428.9,341.9);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.fill();
+  Movie.ctxScratch.stroke();
+  Movie.ctxScratch.restore();
+  Movie.ctxScratch.save();
+  Movie.ctxScratch.fillStyle = "#ffffff";
+  Movie.ctxScratch.beginPath();
+  Movie.ctxScratch.moveTo(470.2,328.6);
+  Movie.ctxScratch.bezierCurveTo(470.2,331.8,467.59999999999997,334.3,464.5,334.3);
+  Movie.ctxScratch.bezierCurveTo(461.3,334.3,458.8,331.7,458.8,328.6);
+  Movie.ctxScratch.bezierCurveTo(458.8,325.40000000000003,461.40000000000003,322.90000000000003,464.5,322.90000000000003);
+  Movie.ctxScratch.bezierCurveTo(467.6,322.9,470.2,325.4,470.2,328.6);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.fill();
+  Movie.ctxScratch.stroke();
+  Movie.ctxScratch.restore();
+  Movie.ctxScratch.save();
+  Movie.ctxScratch.fillStyle = "#ffffff";
+  Movie.ctxScratch.beginPath();
+  Movie.ctxScratch.moveTo(482.1,334.2);
+  Movie.ctxScratch.bezierCurveTo(482.1,337.4,479.5,339.9,476.40000000000003,339.9);
+  Movie.ctxScratch.bezierCurveTo(473.20000000000005,339.9,470.70000000000005,337.29999999999995,470.70000000000005,334.2);
+  Movie.ctxScratch.bezierCurveTo(470.70000000000005,331,473.30000000000007,328.5,476.40000000000003,328.5);
+  Movie.ctxScratch.bezierCurveTo(479.5,328.5,482.1,331.1,482.1,334.2);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.fill();
+  Movie.ctxScratch.stroke();
+  Movie.ctxScratch.restore();
+  Movie.ctxScratch.save();
+  Movie.ctxScratch.fillStyle = "#ffffff";
+  Movie.ctxScratch.beginPath();
+  Movie.ctxScratch.moveTo(494.1,339.2);
+  Movie.ctxScratch.bezierCurveTo(494.1,342.4,491.5,344.9,488.40000000000003,344.9);
+  Movie.ctxScratch.bezierCurveTo(485.20000000000005,344.9,482.70000000000005,342.29999999999995,482.70000000000005,339.2);
+  Movie.ctxScratch.bezierCurveTo(482.70000000000005,336.09999999999997,485.30000000000007,333.5,488.40000000000003,333.5);
+  Movie.ctxScratch.bezierCurveTo(491.5,333.5,494.1,336.1,494.1,339.2);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.fill();
+  Movie.ctxScratch.stroke();
+  Movie.ctxScratch.restore();
+  Movie.ctxScratch.save();
+  Movie.ctxScratch.fillStyle = "#ffffff";
+  Movie.ctxScratch.beginPath();
+  Movie.ctxScratch.moveTo(506,344.3);
+  Movie.ctxScratch.bezierCurveTo(506,347.5,503.4,350,500.3,350);
+  Movie.ctxScratch.bezierCurveTo(497.1,350,494.6,347.4,494.6,344.3);
+  Movie.ctxScratch.bezierCurveTo(494.6,341.1,497.20000000000005,338.6,500.3,338.6);
+  Movie.ctxScratch.bezierCurveTo(503.4,338.6,506,341.2,506,344.3);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.fill();
+  Movie.ctxScratch.stroke();
+  Movie.ctxScratch.restore();
+  Movie.ctxScratch.restore();
+  Movie.ctxScratch.save();
+  Movie.ctxScratch.save();
+  Movie.ctxScratch.fillStyle = "#ffffff";
+  Movie.ctxScratch.beginPath();
+  Movie.ctxScratch.moveTo(352.5,364.5);
+  Movie.ctxScratch.bezierCurveTo(354.7,353.7,355.1,337,355.1,333.6);
+  Movie.ctxScratch.bezierCurveTo(355,321.1,351.40000000000003,302.90000000000003,351.3,302.20000000000005);
+  Movie.ctxScratch.bezierCurveTo(351.1,301.00000000000006,350.3,300.00000000000006,349.2,299.40000000000003);
+  Movie.ctxScratch.bezierCurveTo(348.09999999999997,298.8,346.8,298.8,345.7,299.20000000000005);
+  Movie.ctxScratch.bezierCurveTo(345.59999999999997,299.20000000000005,334.9,303.50000000000006,321.2,303.50000000000006);
+  Movie.ctxScratch.bezierCurveTo(314.3,303.50000000000006,313,302.6000000000001,312.8,302.40000000000003);
+  Movie.ctxScratch.bezierCurveTo(312.8,302.40000000000003,312.7,302.1,312.7,301.50000000000006);
+  Movie.ctxScratch.bezierCurveTo(312.7,299.40000000000003,313.2,298.20000000000005,313.9,296.6000000000001);
+  Movie.ctxScratch.bezierCurveTo(314.59999999999997,295.00000000000006,315.4,293.00000000000006,315.4,290.30000000000007);
+  Movie.ctxScratch.bezierCurveTo(315.4,285.50000000000006,311.79999999999995,280.30000000000007,304,280.30000000000007);
+  Movie.ctxScratch.bezierCurveTo(293.8,280.30000000000007,290.6,288.20000000000005,288.4,295.6000000000001);
+  Movie.ctxScratch.bezierCurveTo(283.7,311.50000000000006,274.9,318.1000000000001,260.29999999999995,324.6000000000001);
+  Movie.ctxScratch.bezierCurveTo(243,332.7,231,336,226.7,337);
+  Movie.ctxScratch.bezierCurveTo(220.7,338.4,204.79999999999998,342.3,204.7,361.9);
+  Movie.ctxScratch.bezierCurveTo(204.7,364.2,205,366.4,205.5,368.59999999999997);
+  Movie.ctxScratch.lineTo(205.7,381.79999999999995);
+  Movie.ctxScratch.bezierCurveTo(205.79999999999998,383.99999999999994,207.6,385.59999999999997,209.79999999999998,385.59999999999997);
+  Movie.ctxScratch.lineTo(350.79999999999995,385.59999999999997);
+  Movie.ctxScratch.bezierCurveTo(353.09999999999997,385.59999999999997,354.9,384.2,354.9,381.99999999999994);
+  Movie.ctxScratch.lineTo(354.9,368.29999999999995);
+  Movie.ctxScratch.bezierCurveTo(355,366.6,354,365.2,352.5,364.5);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.moveTo(212.9,362.2);
+  Movie.ctxScratch.bezierCurveTo(212.9,352.2,217.9,348.4,226.1,346);
+  Movie.ctxScratch.bezierCurveTo(228.5,349.4,232.79999999999998,355.6,234,364.6);
+  Movie.ctxScratch.lineTo(213,364.6);
+  Movie.ctxScratch.bezierCurveTo(213,363.6,213,362.9,212.9,362.2);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.moveTo(347,377.6);
+  Movie.ctxScratch.lineTo(213.9,377.6);
+  Movie.ctxScratch.lineTo(213.8,372.6);
+  Movie.ctxScratch.lineTo(347,372.6);
+  Movie.ctxScratch.lineTo(347,377.6);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.moveTo(344.3,364.6);
+  Movie.ctxScratch.lineTo(242.2,364.6);
+  Movie.ctxScratch.bezierCurveTo(241.2,355.6,237.39999999999998,348.3,234.39999999999998,343.6);
+  Movie.ctxScratch.bezierCurveTo(235.2,343.40000000000003,236.09999999999997,343.1,236.99999999999997,342.8);
+  Movie.ctxScratch.bezierCurveTo(243.39999999999998,340.8,252.49999999999997,337.40000000000003,263.9,332.40000000000003);
+  Movie.ctxScratch.bezierCurveTo(279.9,325.20000000000005,290.9,317.00000000000006,296.4,298.20000000000005);
+  Movie.ctxScratch.bezierCurveTo(299,289.40000000000003,301.09999999999997,288.70000000000005,304.2,288.70000000000005);
+  Movie.ctxScratch.bezierCurveTo(305.2,288.70000000000005,306.4,288.90000000000003,307,289.40000000000003);
+  Movie.ctxScratch.bezierCurveTo(307.1,289.50000000000006,307.2,289.6,307.3,289.8);
+  Movie.ctxScratch.bezierCurveTo(307.3,289.90000000000003,307.40000000000003,289.90000000000003,307.40000000000003,290);
+  Movie.ctxScratch.bezierCurveTo(307.40000000000003,290.1,307.50000000000006,290.3,307.50000000000006,290.5);
+  Movie.ctxScratch.bezierCurveTo(307.50000000000006,291.5,307.20000000000005,292.2,306.6000000000001,293.5);
+  Movie.ctxScratch.bezierCurveTo(305.80000000000007,295.3,304.80000000000007,297.8,304.80000000000007,301.6);
+  Movie.ctxScratch.bezierCurveTo(304.80000000000007,311.70000000000005,315.20000000000005,311.70000000000005,321.4000000000001,311.70000000000005);
+  Movie.ctxScratch.bezierCurveTo(331.2000000000001,311.70000000000005,339.4000000000001,309.80000000000007,344.30000000000007,308.30000000000007);
+  Movie.ctxScratch.bezierCurveTo(345.4000000000001,314.4000000000001,347.00000000000006,325.70000000000005,347.1000000000001,333.80000000000007);
+  Movie.ctxScratch.bezierCurveTo(347,339.7,346.2,355.6,344.3,364.6);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.fill();
+  Movie.ctxScratch.stroke();
+  Movie.ctxScratch.restore();
+  Movie.ctxScratch.save();
+  Movie.ctxScratch.beginPath();
+  Movie.ctxScratch.moveTo(347,372.6);
+  Movie.ctxScratch.lineTo(347,377.6);
+  Movie.ctxScratch.lineTo(213.9,377.6);
+  Movie.ctxScratch.lineTo(213.8,372.6);
+  Movie.ctxScratch.lineTo(347,372.6);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.fill();
+  Movie.ctxScratch.stroke();
+  Movie.ctxScratch.restore();
+  Movie.ctxScratch.save();
+  Movie.ctxScratch.beginPath();
+  Movie.ctxScratch.moveTo(234,364.6);
+  Movie.ctxScratch.lineTo(213,364.6);
+  Movie.ctxScratch.bezierCurveTo(212.9,363.6,212.9,362.90000000000003,212.9,362.1);
+  Movie.ctxScratch.bezierCurveTo(212.9,352.1,217.9,348.3,226.1,345.90000000000003);
+  Movie.ctxScratch.bezierCurveTo(228.5,349.4,232.8,355.6,234,364.6);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.fill();
+  Movie.ctxScratch.stroke();
+  Movie.ctxScratch.restore();
+  Movie.ctxScratch.save();
+  Movie.ctxScratch.beginPath();
+  Movie.ctxScratch.moveTo(344.2,308.3);
+  Movie.ctxScratch.bezierCurveTo(339.3,309.8,331,311.7,321.3,311.7);
+  Movie.ctxScratch.bezierCurveTo(315.1,311.7,304.7,311.7,304.7,301.59999999999997);
+  Movie.ctxScratch.bezierCurveTo(304.7,297.79999999999995,305.7,295.29999999999995,306.5,293.49999999999994);
+  Movie.ctxScratch.bezierCurveTo(307.1,292.19999999999993,307.4,291.49999999999994,307.4,290.49999999999994);
+  Movie.ctxScratch.bezierCurveTo(307.4,290.29999999999995,307.4,290.19999999999993,307.29999999999995,289.99999999999994);
+  Movie.ctxScratch.bezierCurveTo(307.29999999999995,289.8999999999999,307.29999999999995,289.79999999999995,307.19999999999993,289.79999999999995);
+  Movie.ctxScratch.bezierCurveTo(307.0999999999999,289.69999999999993,306.99999999999994,289.49999999999994,306.8999999999999,289.4);
+  Movie.ctxScratch.bezierCurveTo(306.2999999999999,288.79999999999995,305.0999999999999,288.59999999999997,304.0999999999999,288.59999999999997);
+  Movie.ctxScratch.bezierCurveTo(300.9999999999999,288.59999999999997,298.8999999999999,289.2,296.2999999999999,298.09999999999997);
+  Movie.ctxScratch.bezierCurveTo(290.7999999999999,316.9,279.7999999999999,325.09999999999997,263.7999999999999,332.29999999999995);
+  Movie.ctxScratch.bezierCurveTo(252.3999999999999,337.4,243.2999999999999,340.79999999999995,236.8999999999999,342.79999999999995);
+  Movie.ctxScratch.bezierCurveTo(235.9999999999999,343.09999999999997,235.09999999999988,343.29999999999995,234.2999999999999,343.59999999999997);
+  Movie.ctxScratch.bezierCurveTo(237.2999999999999,348.29999999999995,241.0999999999999,355.59999999999997,242.0999999999999,364.59999999999997);
+  Movie.ctxScratch.lineTo(344.19999999999993,364.59999999999997);
+  Movie.ctxScratch.bezierCurveTo(346.19999999999993,355.59999999999997,346.8999999999999,339.7,346.8999999999999,333.79999999999995);
+  Movie.ctxScratch.bezierCurveTo(346.9,325.7,345.3,314.5,344.2,308.3);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.moveTo(248.7,352.1);
+  Movie.ctxScratch.bezierCurveTo(245.6,352.1,243,349.5,243,346.40000000000003);
+  Movie.ctxScratch.bezierCurveTo(243,343.30000000000007,245.6,340.70000000000005,248.7,340.70000000000005);
+  Movie.ctxScratch.bezierCurveTo(251.89999999999998,340.70000000000005,254.39999999999998,343.30000000000007,254.39999999999998,346.40000000000003);
+  Movie.ctxScratch.bezierCurveTo(254.4,349.5,251.8,352.1,248.7,352.1);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.moveTo(260.6,346.9);
+  Movie.ctxScratch.bezierCurveTo(257.40000000000003,346.9,254.90000000000003,344.29999999999995,254.90000000000003,341.2);
+  Movie.ctxScratch.bezierCurveTo(254.90000000000003,338.09999999999997,257.50000000000006,335.5,260.6,335.5);
+  Movie.ctxScratch.bezierCurveTo(263.70000000000005,335.5,266.3,338.1,266.3,341.2);
+  Movie.ctxScratch.bezierCurveTo(266.3,344.4,263.7,346.9,260.6,346.9);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.moveTo(272.6,341.9);
+  Movie.ctxScratch.bezierCurveTo(269.40000000000003,341.9,266.90000000000003,339.29999999999995,266.90000000000003,336.2);
+  Movie.ctxScratch.bezierCurveTo(266.90000000000003,333.09999999999997,269.50000000000006,330.5,272.6,330.5);
+  Movie.ctxScratch.bezierCurveTo(275.7,330.5,278.3,333.1,278.3,336.2);
+  Movie.ctxScratch.bezierCurveTo(278.3,339.4,275.7,342,272.6,341.9);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.moveTo(284.5,336.3);
+  Movie.ctxScratch.bezierCurveTo(281.3,336.3,278.8,333.7,278.8,330.6);
+  Movie.ctxScratch.bezierCurveTo(278.8,327.40000000000003,281.40000000000003,324.90000000000003,284.5,324.90000000000003);
+  Movie.ctxScratch.bezierCurveTo(287.7,324.90000000000003,290.2,327.50000000000006,290.2,330.6);
+  Movie.ctxScratch.bezierCurveTo(290.2,333.7,287.7,336.3,284.5,336.3);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.moveTo(324.6,356.5);
+  Movie.ctxScratch.bezierCurveTo(317.6,356.5,311.90000000000003,350.8,311.90000000000003,343.8);
+  Movie.ctxScratch.bezierCurveTo(311.90000000000003,336.8,317.6,331.1,324.6,331.1);
+  Movie.ctxScratch.bezierCurveTo(331.6,331.1,337.3,336.8,337.3,343.8);
+  Movie.ctxScratch.bezierCurveTo(337.3,350.8,331.6,356.5,324.6,356.5);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.fill();
+  Movie.ctxScratch.stroke();
+  Movie.ctxScratch.restore();
+  Movie.ctxScratch.save();
+  Movie.ctxScratch.fillStyle = "#ffffff";
+  Movie.ctxScratch.beginPath();
+  Movie.ctxScratch.moveTo(324.6,331.2);
+  Movie.ctxScratch.bezierCurveTo(317.6,331.2,311.90000000000003,336.9,311.90000000000003,343.9);
+  Movie.ctxScratch.bezierCurveTo(311.90000000000003,350.9,317.6,356.59999999999997,324.6,356.59999999999997);
+  Movie.ctxScratch.bezierCurveTo(331.6,356.59999999999997,337.3,350.9,337.3,343.9);
+  Movie.ctxScratch.bezierCurveTo(337.3,336.9,331.6,331.2,324.6,331.2);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.moveTo(324.6,348.4);
+  Movie.ctxScratch.bezierCurveTo(322.1,348.4,320.1,346.29999999999995,320.1,343.9);
+  Movie.ctxScratch.bezierCurveTo(320.1,341.4,322.1,339.4,324.6,339.4);
+  Movie.ctxScratch.bezierCurveTo(327.1,339.4,329.1,341.4,329.1,343.9);
+  Movie.ctxScratch.bezierCurveTo(329.2,346.4,327.1,348.4,324.6,348.4);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.fill();
+  Movie.ctxScratch.stroke();
+  Movie.ctxScratch.restore();
+  Movie.ctxScratch.save();
+  Movie.ctxScratch.beginPath();
+  Movie.ctxScratch.moveTo(329.2,343.9);
+  Movie.ctxScratch.bezierCurveTo(329.2,346.4,327.09999999999997,348.4,324.7,348.4);
+  Movie.ctxScratch.bezierCurveTo(322.3,348.4,320.2,346.29999999999995,320.2,343.9);
+  Movie.ctxScratch.bezierCurveTo(320.2,341.4,322.2,339.4,324.7,339.4);
+  Movie.ctxScratch.bezierCurveTo(327.2,339.4,329.2,341.3,329.2,343.9);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.fill();
+  Movie.ctxScratch.stroke();
+  Movie.ctxScratch.restore();
+  Movie.ctxScratch.save();
+  Movie.ctxScratch.fillStyle = "#ffffff";
+  Movie.ctxScratch.beginPath();
+  Movie.ctxScratch.moveTo(290.2,330.6);
+  Movie.ctxScratch.bezierCurveTo(290.2,333.8,287.59999999999997,336.3,284.5,336.3);
+  Movie.ctxScratch.bezierCurveTo(281.3,336.3,278.8,333.7,278.8,330.6);
+  Movie.ctxScratch.bezierCurveTo(278.8,327.40000000000003,281.40000000000003,324.90000000000003,284.5,324.90000000000003);
+  Movie.ctxScratch.bezierCurveTo(287.7,324.9,290.2,327.4,290.2,330.6);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.fill();
+  Movie.ctxScratch.stroke();
+  Movie.ctxScratch.restore();
+  Movie.ctxScratch.save();
+  Movie.ctxScratch.fillStyle = "#ffffff";
+  Movie.ctxScratch.beginPath();
+  Movie.ctxScratch.moveTo(278.3,336.2);
+  Movie.ctxScratch.bezierCurveTo(278.3,339.4,275.7,342,272.6,341.9);
+  Movie.ctxScratch.bezierCurveTo(269.40000000000003,341.9,266.90000000000003,339.29999999999995,266.90000000000003,336.2);
+  Movie.ctxScratch.bezierCurveTo(266.90000000000003,333.09999999999997,269.50000000000006,330.5,272.6,330.5);
+  Movie.ctxScratch.bezierCurveTo(275.7,330.5,278.3,333,278.3,336.2);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.fill();
+  Movie.ctxScratch.stroke();
+  Movie.ctxScratch.restore();
+  Movie.ctxScratch.save();
+  Movie.ctxScratch.fillStyle = "#ffffff";
+  Movie.ctxScratch.beginPath();
+  Movie.ctxScratch.moveTo(266.3,341.2);
+  Movie.ctxScratch.bezierCurveTo(266.3,344.4,263.7,346.9,260.6,346.9);
+  Movie.ctxScratch.bezierCurveTo(257.40000000000003,346.9,254.90000000000003,344.29999999999995,254.90000000000003,341.2);
+  Movie.ctxScratch.bezierCurveTo(254.90000000000003,338.09999999999997,257.50000000000006,335.5,260.6,335.5);
+  Movie.ctxScratch.bezierCurveTo(263.7,335.5,266.3,338.1,266.3,341.2);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.fill();
+  Movie.ctxScratch.stroke();
+  Movie.ctxScratch.restore();
+  Movie.ctxScratch.save();
+  Movie.ctxScratch.fillStyle = "#ffffff";
+  Movie.ctxScratch.beginPath();
+  Movie.ctxScratch.moveTo(254.4,346.3);
+  Movie.ctxScratch.bezierCurveTo(254.4,349.5,251.8,352,248.70000000000002,352);
+  Movie.ctxScratch.bezierCurveTo(245.60000000000002,352,243.00000000000003,349.4,243.00000000000003,346.3);
+  Movie.ctxScratch.bezierCurveTo(243.00000000000003,343.20000000000005,245.60000000000002,340.6,248.70000000000002,340.6);
+  Movie.ctxScratch.bezierCurveTo(251.8,340.6,254.4,343.2,254.4,346.3);
+  Movie.ctxScratch.closePath();
+  Movie.ctxScratch.fill();
+  Movie.ctxScratch.stroke();
+  Movie.ctxScratch.restore();
+  Movie.ctxScratch.restore();
+  Movie.ctxScratch.restore();
+  //if(BlocklyGames.LEVEL == 4){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.done();},1000);};
 }
 
 ////need to change it to reflect pants
@@ -2593,7 +2624,7 @@ Movie.boots = function(){
   Movie.ctxScratch.fill();
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
-  if(BlocklyGames.LEVEL == 3){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
+  //if(BlocklyGames.LEVEL == 3){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
 }
 
 Movie.cowboyboots = function(){
@@ -2703,7 +2734,7 @@ Movie.cowboyboots = function(){
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
-  if(BlocklyGames.LEVEL == 3){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
+  //if(BlocklyGames.LEVEL == 3){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
 }
 
 /**
@@ -2713,6 +2744,7 @@ Movie.cowboyboots = function(){
 Movie.penColour = function(colour) {
   Movie.ctxScratch.strokeStyle = colour;
   Movie.ctxScratch.fillStyle = colour;
+  Movie.ctxDisplay.fillStyle = colour;
 };
 
 /**
@@ -2721,22 +2753,18 @@ Movie.penColour = function(colour) {
 Movie.checkFrameAnswer = function() {
   // Compare the Alpha (opacity) byte of each pixel in the user's image and
   // the sample answer image.
+  //alert('checking');
   var userImage =
-      Movie.ctxScratch.getImageData(0, 0, Movie.WIDTH, Movie.HEIGHT);
-  var answer = document.getElementById('axies');
+      Movie.ctxDisplay.getImageData(0, 0, Movie.WIDTH, Movie.HEIGHT);
+  var answer = document.getElementById('prevAnswer');
   if (answer) {
     var ctxAnswer = answer.getContext('2d');
     var answerImage = ctxAnswer.getImageData(0, 0, Movie.WIDTH, Movie.HEIGHT);
     var len = Math.min(userImage.data.length, answerImage.data.length);
-    var delta = 0;
-    // Pixels are in RGBA format.  Only check the Alpha bytes.
-    for (var i = 3; i < len; i += 4) {
-      // Check the Alpha byte.
-      if (Math.abs(userImage.data[i] - answerImage.data[i]) > 64) {
-        delta++;
-      }
+    for(var i = 0; i<userImage.data.length; i++){
+        if(userImage.data[i] != answerImage.data[i]) return false;
     }
-    Movie.pixelErrors[Movie.frameNumber] = delta;
+    return true;
   }
 };
 
@@ -2750,13 +2778,14 @@ Movie.checkAnswers = function() {
     // Only check answers at the end of the run.
     return;
   }*/
-  if (Movie.isCorrect() && !Movie.success) {
+  //alert(Movie.ctxDisplay.fillStyle);
+  if (Movie.ctxDisplay.fillStyle != '#ffffff') {
     Movie.success = true;
     BlocklyInterface.saveToLocalStorage();
     if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
       // No congrats for last level, it is open ended.
       Blockly.playAudio('win', 0.5);
-      BlocklyDialogs.congratulations();
+      BlocklyDialogs.levelup();
     }
   }
 };
