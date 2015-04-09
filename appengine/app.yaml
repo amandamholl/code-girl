@@ -1,4 +1,4 @@
-application: code-girl-pat
+application: code-girl-15
 version: 1
 runtime: python27
 api_version: 1
@@ -25,6 +25,10 @@ handlers:
   script: login.application
   secure: always
   
+# Slick folder. For homepage slider.
+- url: /slick/
+  static_dir: slick
+  secure: always
 
 # Index page.
 - url: /
