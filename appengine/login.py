@@ -10,5 +10,5 @@ class MyHandler(webapp2.RequestHandler):
 			self.response.out.write("<html><body><a href='%s'>Sign in or register</a></body></html>" %
                         users.create_login_url('/movie'))
 
-        
+ #add code to query datastore?        
 application = webapp2.WSGIApplication([('/login', MyHandler),], debug=True)

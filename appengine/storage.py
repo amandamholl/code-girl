@@ -24,6 +24,7 @@ __author__ = "q.neutron@gmail.com (Quynh Neutron)"
 import cgi
 import logging
 from random import randint
+from google.appengine.api import users
 from google.appengine.ext import db
 from google.appengine.api import memcache
 
@@ -39,6 +40,21 @@ class Xml(db.Model):
   # A row in the database.
   xml_hash = db.IntegerProperty()
   xml_content = db.TextProperty()
+
+class Author(db.Model):
+  # a model for representing a user and the generated key to their stored blocks
+  identity = db.StringProperty(required=True) 
+  block_key = db.StringProperty(indexed=False)
+  date = db.DateTimeProperty(auto_now_add=True)
+ 
+DEFAULT_USER_GROUP = 'default_user_group'
+
+def stored_user_key(stored_user_group=DEFAULT_USER_GROUP):
+  #Constructs a datastore key for a StoredBlocks entity
+  #default_user_group is the key to make sure all StoreBlocks entities are in the same group
+    
+  return db.Key("StoredBlocks", stored_user_group)
+
 
 def xmlToKey(xml_content):
   # Store XML and return a generated key.
@@ -60,6 +76,10 @@ def xmlToKey(xml_content):
     xml = db.Text(xml_content, encoding="utf_8")
     row = Xml(key_name = xml_key, xml_hash = xml_hash, xml_content = xml)
     row.put()
+	
+  a = Author(identity=users.get_current_user().user_id(), block_key=xml_key)
+  a.put()
+  						
   return xml_key
 
 def keyToXml(key_provided):
@@ -81,9 +101,12 @@ def keyToXml(key_provided):
   return xml.encode("utf-8")
 
 if __name__ == "__main__":
-  print "Content-Type: text/plain\n"
+  redirectURL = users.create_logout_url('/')
+  
+  print "Content-Type: text/html"
   forms = cgi.FieldStorage()
   if "xml" in forms:
     print(xmlToKey(forms["xml"].value))
   if "key" in forms:
     print(keyToXml(forms["key"].value))
+ 
