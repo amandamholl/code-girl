@@ -253,14 +253,13 @@ Movie.renderSuperhero_ = function() {
   var ctx = document.getElementById('superhero').getContext('2d');
   ctx.save();
   ctx.beginPath();
-  ctx.rect(0, 0,
-      ctx.canvas.width, ctx.canvas.height);
+  ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
   ctx.fillStyle = '#ffffff';
   ctx.fill();
   ctx.restore();
   ctx.save();
   ctx.scale(.55,.55);
-  ctx.translate(0,30);
+  ctx.translate(-10,10);
   ctx.strokeStyle = 'rgba(0,0,0,0)';
   ctx.lineCap = 'butt';
   ctx.lineJoin = 'miter';
@@ -1365,12 +1364,13 @@ Movie.display = function() {
   }*/
 
   // Clear the display with white.
-  /*Movie.ctxDisplay.beginPath();
-  Movie.ctxDisplay.rect(0, 0,
+  //Movie.ctxDisplay.beginPath();
+  Movie.ctxDisplay.clearRect(0, 0,
       Movie.ctxDisplay.canvas.width, Movie.ctxDisplay.canvas.height);
-  Movie.ctxDisplay.fillStyle = '#ffffff';
-  Movie.ctxDisplay.fill();*/
-
+  //Movie.ctxDisplay.fillStyle = '#ffffff';
+  //Movie.ctxDisplay.fill();
+  
+  
   //var superhero = document.getElementById('superhero');
   //Movie.ctxDisplay.drawImage(superhero, 0, 0);
   
@@ -1479,8 +1479,8 @@ Movie.longsleeve = function(){
   Movie.ctxScratch.closePath();
   //Movie.ctxScratch.clip();
   //Movie.ctxScratch.translate(0,0);
-  Movie.ctxScratch.translate(64,178);
-  Movie.ctxScratch.scale(2.9,2.68);
+  Movie.ctxScratch.translate(54,162);
+  Movie.ctxScratch.scale(3,2.8);
   Movie.ctxScratch.translate(0,0);
   Movie.ctxScratch.strokeStyle = 'rgba(0,0,0,0)';
   Movie.ctxScratch.lineCap = 'butt';
@@ -1537,8 +1537,8 @@ Movie.longsleeve = function(){
 
 Movie.tshirt = function() {
   Movie.ctxScratch.save();
-  Movie.ctxScratch.scale(.68,.68);
-  Movie.ctxScratch.translate(178,252);
+  Movie.ctxScratch.scale(.7,.7);
+  Movie.ctxScratch.translate(163,223);
   Movie.ctxScratch.strokeStyle = 'rgba(0,0,0,0)';
   Movie.ctxScratch.lineCap = 'butt';
   Movie.ctxScratch.lineJoin = 'miter';
@@ -1587,8 +1587,8 @@ Movie.tshirt = function() {
 
 Movie.earrings =function(){
   Movie.ctxScratch.save();
-  Movie.ctxScratch.scale(.58,.58);
-  Movie.ctxScratch.translate(57,-10);
+  Movie.ctxScratch.scale(.59,.59);
+  Movie.ctxScratch.translate(43,-40);
   Movie.ctxScratch.beginPath();
   Movie.ctxScratch.moveTo(0,0);
   Movie.ctxScratch.lineTo(612,0);
@@ -1636,10 +1636,10 @@ Movie.earrings =function(){
   //if(BlocklyGames.LEVEL == 4){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.done();},1000);};
 };
 
-Movie.skirt =function(){
+Movie.skirt = function(){
   Movie.ctxScratch.save();
-  Movie.ctxScratch.scale(.55,.55);
-  Movie.ctxScratch.translate(75,265);
+  Movie.ctxScratch.scale(.60,.61);
+  Movie.ctxScratch.translate(36,198);
   Movie.ctxScratch.beginPath();
   Movie.ctxScratch.moveTo(0,0);
   Movie.ctxScratch.lineTo(612,0);
@@ -1684,8 +1684,8 @@ Movie.skirt =function(){
 
 Movie.shorts =function(){
   Movie.ctxScratch.save();
-  Movie.ctxScratch.scale(.22,.25);
-  Movie.ctxScratch.translate(802,1060);
+  Movie.ctxScratch.scale(.23,.25);
+  Movie.ctxScratch.translate(740,1000);
   Movie.ctxScratch.strokeStyle = 'rgba(0,0,0,0)';
   Movie.ctxScratch.lineCap = 'butt';
   Movie.ctxScratch.lineJoin = 'miter';
@@ -1769,7 +1769,7 @@ Movie.shorts =function(){
 
 Movie.bow = function() {
   Movie.ctxScratch.save();
-  Movie.ctxScratch.translate(-85,-240);
+  Movie.ctxScratch.translate(-85,-260);
   Movie.ctxScratch.beginPath();
   Movie.ctxScratch.moveTo(0,0);
   Movie.ctxScratch.lineTo(612,0);
@@ -1807,8 +1807,8 @@ Movie.hightops = function() {
   Movie.ctxScratch.translate(0,0);
   Movie.ctxScratch.translate(0,0);
   Movie.ctxScratch.translate(0,0);
-  Movie.ctxScratch.scale(.55,.55);
-  Movie.ctxScratch.translate(0,685);
+  Movie.ctxScratch.scale(.58,.50);
+  Movie.ctxScratch.translate(-28,740);
   Movie.ctxScratch.strokeStyle = 'rgba(0,0,0,0)';
   Movie.ctxScratch.lineCap = 'butt';
   Movie.ctxScratch.lineJoin = 'miter';
@@ -2490,8 +2490,8 @@ Movie.pants = function() {
 
 Movie.boots = function(){
   Movie.ctxScratch.save();
-  Movie.ctxScratch.scale(.56,.56);
-  Movie.ctxScratch.translate(205,809);
+  Movie.ctxScratch.scale(.58,.58);
+  Movie.ctxScratch.translate(182,770);
   Movie.ctxScratch.beginPath();
   Movie.ctxScratch.moveTo(0,0);
   Movie.ctxScratch.lineTo(327.692,0);
@@ -2629,8 +2629,8 @@ Movie.boots = function(){
 
 Movie.cowboyboots = function(){
   Movie.ctxScratch.save();
-  Movie.ctxScratch.scale(.9,.95);
-  Movie.ctxScratch.translate(128,395);
+  Movie.ctxScratch.scale(.9,1);
+  Movie.ctxScratch.translate(122,365);
   Movie.ctxScratch.strokeStyle = 'rgba(0,0,0,0)';
   Movie.ctxScratch.lineCap = 'butt';
   Movie.ctxScratch.lineJoin = 'miter';
