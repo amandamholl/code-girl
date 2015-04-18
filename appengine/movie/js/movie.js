@@ -174,7 +174,7 @@ Movie.init = function() {
   
   
   Movie.display();
-  Movie.renderAnswer_();
+  //Movie.renderAnswer_();
   //Movie.renderHatching_();
   
   Movie.renderSuperhero_();
