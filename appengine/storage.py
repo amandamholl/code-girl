@@ -29,6 +29,7 @@ from google.appengine.ext import db
 from google.appengine.api import memcache
 
 
+
 def keyGen():
   # Generate a random string of length KEY_LEN.
   KEY_LEN = 6
@@ -45,16 +46,15 @@ class Author(db.Model):
   # a model for representing a user and the generated key to their stored blocks
   identity = db.StringProperty(required=True) 
   block_key = db.StringProperty(indexed=False)
+  level = db.StringProperty(indexed=False)
   date = db.DateTimeProperty(auto_now_add=True)
  
 DEFAULT_USER_GROUP = 'default_user_group'
-
 def stored_user_key(stored_user_group=DEFAULT_USER_GROUP):
   #Constructs a datastore key for a StoredBlocks entity
   #default_user_group is the key to make sure all StoreBlocks entities are in the same group
     
   return db.Key("StoredBlocks", stored_user_group)
-
 
 def xmlToKey(xml_content):
   # Store XML and return a generated key.
@@ -77,9 +77,11 @@ def xmlToKey(xml_content):
     row = Xml(key_name = xml_key, xml_hash = xml_hash, xml_content = xml)
     row.put()
 	
-  a = Author(identity=users.get_current_user().user_id(), block_key=xml_key)
+  level = xml_content.find("level") + 7
+  current_level = xml_content[level]
+  a = Author(identity=users.get_current_user().user_id(), level=current_level, block_key=xml_key)
   a.put()
-  						
+  
   return xml_key
 
 def keyToXml(key_provided):
