@@ -95,6 +95,8 @@ BlocklyInterface.initReadonly = function(content) {
 BlocklyInterface.loadBlocks = function(defaultXml, inherit) {
   if ('BlocklyStorage' in window && window.location.hash.length > 1) {
     // An href with #key triggers an AJAX call to retrieve saved blocks.
+	//where does this go?
+	//WANT TO USE THIS WHEN USER LOGS IN
     BlocklyStorage['retrieveXml'](window.location.hash.substring(1));
     return;
   }
@@ -119,6 +121,7 @@ BlocklyInterface.loadBlocks = function(defaultXml, inherit) {
 
   var restore = loadOnce || savedLevel || inherited || defaultXml;
   if (restore) {
+	/** what does this function do */
     BlocklyInterface.setCode(restore);
   }
 };

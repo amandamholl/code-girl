@@ -124,10 +124,10 @@ skip_files:
 - ^(.*/)?\..*$
 # Custom skip patterns.
 - ^\w+/sources/.*$
-- ^(\w+/)*js/.*$
-- ^js-read-only/blockly/.*$
-- ^js-read-only/goog/.*$
-- ^js-read-only/third_party_goog/.*$
-- ^js-read-only/JS-Interpreter/[^c].*$  # Only serve compiled.js.
+#- ^(\w+/)*js/.*$
+#- ^js-read-only/blockly/.*$
+#- ^js-read-only/goog/.*$
+#- ^js-read-only/third_party_goog/.*$
+#- ^js-read-only/JS-Interpreter/[^c].*$  # Only serve compiled.js.
 - ^.+\.soy$
-- ^.+\/uncompressed\.js$
+#- ^.+\/uncompressed\.js$

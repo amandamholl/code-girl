@@ -26,6 +26,7 @@
 
 goog.provide('Blockly.Xml');
 
+
 // TODO(scr): Fix circular dependencies
 // goog.require('Blockly.Block');
 
@@ -49,6 +50,8 @@ Blockly.Xml.workspaceToDom = function(workspace) {
     element.setAttribute('y', xy.y);
     xml.appendChild(element);
   }
+  xml.setAttribute("level", BlocklyGames.LEVEL);
+  
   return xml;
 };
 

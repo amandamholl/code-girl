@@ -58,9 +58,8 @@
 
   // Load the chosen language pack.
   var script = document.createElement('script');
-  script.src = appName + '/generated/' + lang + '/uncompressed.js';
+  script.src = appName  + '/generated/' + lang + '/uncompressed.js';
   script.type = 'text/javascript';
   document.head.appendChild(script);
-  
   
 })();
