@@ -34,9 +34,19 @@ html[dir="RTL"] .farSide {
 	height: 15px;
   display: inline-block;
 }
-.level_done, .level_dot:hover, .level_number:hover {
+.level_done{
   background-color: #ddd;
   color: #000;
+  cursor:default;
+}
+
+.level_dot:hover, .level_number:hover {
+  cursor:default;
+  color: #888;	
+}
+
+.level_done:hover{
+  color:black;
 }
 
 #containerCode {

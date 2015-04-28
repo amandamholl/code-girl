@@ -142,27 +142,27 @@ Turtle.init = function() {
 		  '  <block type="turtle_move_internal" x="70" y="120">' +
 		  
 		  '  </block>' +
-		  '  <block type="turtle_turn_internal" x="300" y="200">' +
+		  '  <block type="turtle_turn" x="300" y="200">' +
 		  
-		  '  <field name="VALUE">some</field> ' +
 		  '  </block>' +
 		  '  <block type="turtle_move_internal" x="220" y="50">' +
 		  
 		  '  </block>' +
-		  '  <block type="turtle_turn_internal" x="600" y="150">' +
-		  '  <field name="VALUE">some</field> ' +
+		  '  <block type="turtle_turn" x="600" y="150">' +
+
 		  '  </block>' +
 		  '  <block type="turtle_move_internal" x="600" y="330">' +
 		  
 		  '  </block>' +
-		  '  <block type="turtle_turn_internal" x="200" y="500">' +
-		  '  <field name="VALUE">some</field> ' +
+		  '  <block type="turtle_turn" x="200" y="500">' +
+		  
 		  '  </block>' +
+		  
 		  '  <block type="turtle_move_internal" x="100" y="350">' +
 		  
 		  '  </block>' +
-		  '  <block type="turtle_turn_internal" x="500" y="450">' +
-		  '  <field name="VALUE">some</field> ' +
+		  '  <block type="turtle_turn" x="500" y="450">' +
+
 		  '  </block>' +
 		  '</xml>';
   } 
