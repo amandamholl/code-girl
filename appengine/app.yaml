@@ -25,6 +25,11 @@ handlers:
   script: login.application
   secure: always
   
+# Logout Page
+- url: /logout
+  script: logout.application
+  secure: always
+  
 # Slick folder. For homepage slider.
 - url: /slick/
   static_dir: slick
