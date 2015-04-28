@@ -19,7 +19,7 @@ Turtle.soy.start = function(opt_data, opt_ignored, opt_ijData) {
 
 
 Turtle.soy.toolbox = function(opt_data, opt_ignored, opt_ijData) {
-  return '<xml id="toolbox" style="display: none"><category name="Directions"><block type="turtle_move_internal"></block><block type="turtle_turn_internal"><field name="VALUE">some</field></block>' + ((opt_ijData.level > 3) ? '<block type="turtle_pen"></block>' : '') + '</category><category name="Loops"><block type="turtle_repeat_internal"><field name="TIMES">4</field></block></category></xml>';
+  return '<xml id="toolbox" style="display: none"><category name="Directions"><block type="turtle_move_internal"></block>' + ((opt_ijData.level == 2) ? '<block type="turtle_turn"></block>' : '') + ((opt_ijData.level == 3) ? '<block type="turtle_turn_internal"><field name="VALUE">some</field></block>' : '') + '</category><category name="Loops"><block type="turtle_repeat_internal"><field name="TIMES">4</field></block></category></xml>';
 };
 
 

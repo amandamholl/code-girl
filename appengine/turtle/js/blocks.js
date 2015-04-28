@@ -78,7 +78,33 @@ Blockly.JavaScript['turtle_move_internal'] = function(block) {
       '(' + value + ', \'block_id_' + block.id + '\');\n';
 };
 
+Blockly.Blocks['turtle_turn'] = {
+  /**
+   * Block for turning left or right.
+   * @this Blockly.Block
+   */
+  init: function() {
+    var DIRECTIONS =
+        [['turn right', 'turnRight'],
+         ['turn left', 'turnLeft']];
+    // Append arrows to direction messages.
+    DIRECTIONS[0][0] += ' \u21BB';
+    DIRECTIONS[1][0] += ' \u21BA';
+    this.setColour(160);
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown(DIRECTIONS), 'DIR')
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip(BlocklyGames.getMsg('Turtle_turnTooltip'));
+  }
+};
 
+Blockly.JavaScript['turtle_turn'] = function(block) {
+  // Generate JavaScript for turning left or right.
+  var value = 90;
+  return block.getFieldValue('DIR') +
+      '(' + value + ', \'block_id_' + block.id + '\');\n';
+};
 
 Blockly.Blocks['turtle_turn_internal'] = {
   /**
