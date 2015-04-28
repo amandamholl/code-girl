@@ -204,7 +204,6 @@ Blockly.Blocks['sneakers'] = {
   }
 };
 
-
 Blockly.JavaScript['sneakers'] = function(block) {
   return 'sneakers();\n';
 };

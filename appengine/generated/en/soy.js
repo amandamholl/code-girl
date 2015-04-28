@@ -21,7 +21,7 @@ BlocklyGames.soy.levelLinks = function(opt_data, opt_ignored, opt_ijData) {
   var output = ' &nbsp; ';
   var iLimit122 = opt_data.maxLevel + 1;
   for (var i122 = 1; i122 < iLimit122; i122++) {
-    output += ' ' + ((i122 == opt_data.level) ? '<span class="level_number level_done" id="level' + soy.$$escapeHtml(i122) + '">' + soy.$$escapeHtml(i122) + '</span>' : (i122 == opt_data.maxLevel) ? '<a class="level_number" id="level' + soy.$$escapeHtml(i122) + '" href="?lang=' + soy.$$escapeHtml(opt_data.lang) + '&level=' + soy.$$escapeHtml(i122) + soy.$$escapeHtml(opt_data.suffix) + '">' + soy.$$escapeHtml(i122) + '</a>' : '<a class="level_dot" id="level' + soy.$$escapeHtml(i122) + '" href="?lang=' + soy.$$escapeHtml(opt_data.lang) + '&level=' + soy.$$escapeHtml(i122) + soy.$$escapeHtml(opt_data.suffix) + '"></a>');
+    output += ' ' + ((i122 == opt_data.level) ? '<span class="level_number level_done" id="level' + soy.$$escapeHtml(i122) + '">' + soy.$$escapeHtml(i122) + '</span>' : (i122 == opt_data.maxLevel) ? '<a class="level_number" id="level' + soy.$$escapeHtml(i122) + '" href="?lang=' + soy.$$escapeHtml(opt_data.lang) + '&level=' + soy.$$escapeHtml(i122) + soy.$$escapeHtml(opt_data.suffix) + '" onclick="return false;">' + soy.$$escapeHtml(i122) + '</a>' : '<a class="level_dot" id="level' + soy.$$escapeHtml(i122) + '" href="?lang=' + soy.$$escapeHtml(opt_data.lang) + '&level=' + soy.$$escapeHtml(i122) + soy.$$escapeHtml(opt_data.suffix) + '" onclick="return false;"></a>');
   }
   return output;
 };
@@ -33,7 +33,7 @@ BlocklyGames.soy.dialog = function(opt_data, opt_ignored, opt_ijData) {
 
 
 BlocklyGames.soy.doneDialog = function(opt_data, opt_ignored, opt_ijData) {
-  return '<div id="dialogDone" class="dialogHiddenContent"><div style="font-size: large; margin: 1em;">Congratulations!</div><div id="dialogLinesText" style="font-size: large; margin: 1em;"></div><pre id="containerCode"></pre><div id="dialogDoneText" style="font-size: large; margin: 1em;"></div><div id="dialogDoneButtons" class="farSide" style="padding: 1ex 3ex 0"><button id="doneCancel">Cancel</button><button id="doneOk" class="secondary">OK</button></div></div>';
+  return '<div id="dialogDone" class="dialogHiddenContent"><div id="dialogCongrats" style="font-size: large; margin: 1em;">Congratulations!</div><div id="dialogLinesText" style="font-size: large; margin: 1em;"></div><pre id="containerCode"></pre><div id="dialogDoneText" style="font-size: large; margin: 1em;"></div><div id="dialogDoneButtons" class="farSide" style="padding: 1ex 3ex 0"><button id="doneCancel">Cancel</button><button id="doneOk" class="secondary">OK</button></div></div>';
 };
 
 

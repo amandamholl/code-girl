@@ -136,6 +136,7 @@ Turtle.init = function() {
   Turtle.speedSlider = new Slider(10, 35, 130, sliderSvg);
 
   if (BlocklyGames.LEVEL == 1){
+	  
 	var defaultXml =
 		  '<xml>' +
 		  '  <block type="turtle_move_internal" x="70" y="120">' +
@@ -172,14 +173,15 @@ Turtle.init = function() {
 		  
 		  '  </block>';
   }
-  BlocklyInterface.loadBlocks(defaultXml, true);
+  
+  /* Changed from true to false to fix block issue */
+  BlocklyInterface.loadBlocks(defaultXml, false);
 
   Turtle.ctxDisplay = document.getElementById('display').getContext('2d');
   Turtle.ctxAnswer = document.getElementById('answer').getContext('2d');
   Turtle.ctxScratch = document.getElementById('scratch').getContext('2d');
   Turtle.drawAnswer();
   Turtle.reset();
-
   BlocklyGames.bindClick('runButton', Turtle.runButtonClick);
   BlocklyGames.bindClick('resetButton', Turtle.resetButtonClick);
 

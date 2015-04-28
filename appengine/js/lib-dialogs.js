@@ -375,6 +375,9 @@ BlocklyDialogs.levelup = function() {
     var linesText = document.getElementById('dialogLinesText');
     linesText.textContent = 'Play a challenge to unlock new features.';
   };
+  
+  var congrats = document.getElementById('dialogCongrats');
+  content.removeChild(congrats);
 
   var code = document.getElementById('containerCode');
   content.removeChild(code);
@@ -430,7 +433,7 @@ BlocklyDialogs.done = function() {
   // Add the user's code.
   if (Blockly.mainWorkspace) {
     var linesText = document.getElementById('dialogLinesText');
-    linesText.textContent = 'You have finished creating your avatar! Click "OK" Return to the homepage or "Cancel" continue dressing up your avatar.';
+    linesText.textContent = 'You have finished creating your avatar! Click "Save" to save a picture of your avatar or "Cancel" continue dressing up your avatar.';
   };
   
   var code = document.getElementById('containerCode');
@@ -440,9 +443,29 @@ BlocklyDialogs.done = function() {
   cancel.addEventListener('click', BlocklyDialogs.hideDialog, true);
   cancel.addEventListener('touchend', BlocklyDialogs.hideDialog, true);
   var ok = document.getElementById('doneOk');
+  document.getElementById('doneOk').innerHTML='Save';
+	
+	/*window.onload = function() {
+        console.log(canvas.toDataURL());
+    }*/
 
-  ok.addEventListener('click', function(){window.open('/','_self')}, true);
-  ok.addEventListener('touchend', function(){window.open('/','_self')}, true);
+  ok.addEventListener('click', function(){
+	html2canvas([document.getElementById('visualization')], {
+    onrendered: function(canvas) {  
+        var myImage = canvas.toDataURL("image/png");
+            window.open(myImage);
+    }
+	}); 
+	}, true);
+  ok.addEventListener('touchend', function(){
+	html2canvas([document.getElementById('visualization')], {
+    onrendered: function(canvas) {  
+        var myImage = canvas.toDataURL("image/png");
+            window.open(myImage);
+    }
+	});   
+	  
+	}, true);
   
   BlocklyDialogs.showDialog(content, null, false, true, style,
       function() {
