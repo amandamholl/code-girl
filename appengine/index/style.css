@@ -155,4 +155,5 @@ figure{
 #clearDataPara{
   clear: both;
   position: relative;
+  text-align:center;
 }

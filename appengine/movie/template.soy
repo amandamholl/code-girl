@@ -113,38 +113,6 @@
         {msg meaning="Movie.helpText4" desc="Instructions. Add accessories to the avatar."}
           Add accessories to your avatar using the toolbar.
         {/msg}
-      {elseif $ij.level == 5}
-        {msg meaning="Movie.helpText5" desc="Instructions.  The goal is to draw a shape that looks a bit like Mickey Mouse or Deadmau5."}
-          Making the mouse's head move is easy. Can you work out the math to make the ears move too?
-        {/msg}
-      {elseif $ij.level == 6}
-        {msg meaning="Movie.helpText6" desc="Instructions."}
-          Two simple lines. Just figure out what the line ends are doing.
-        {/msg}
-      {elseif $ij.level == 7}
-        {msg meaning="Movie.helpText7" desc="Instructions."}
-          The mathematical formula for this falling ball is complicated. Here's the answer:
-        {/msg}
-        <br><br>
-        <code style="font-size: 150%; margin: 0 1em;">y = 100 - (((time - 50) &divide; 5) ^ 2)</code>
-      {elseif $ij.level == 8}
-        {msg meaning="Movie.helpText8" desc="Instructions."}
-          Use the 'if' block to draw red and blue balls for the first half of the movie. Then draw a green ball for the second half of the movie.
-        {/msg}
-      {elseif $ij.level == 9}
-        {msg meaning="Movie.helpText9" desc="Instructions."}
-          Can you make a ball that follows the wire? The wire has already been drawn for you. Once you can do this, you can do anything.
-        {/msg}
-      {elseif $ij.level == 10}
-        {msg meaning="Movie.helpText10" desc="Instructions."}
-          Make a movie of anything you want. You've got a huge number of new blocks you can explore. Have fun!
-        {/msg}
-        {if not $ij.html}
-          <br><br>
-          {msg meaning="Movie.helpText10Reddit" desc="Instructions on posting your movie to Reddit (a social website)."}
-            Use the "See Gallery" button to see movies that other people have made. If you make an interesting movie, use the "Submit to Gallery" button to publish it.
-          {/msg}
-        {/if}
       {/if}
     </div>
     {call BlocklyGames.soy.ok /}

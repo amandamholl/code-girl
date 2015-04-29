@@ -87,7 +87,7 @@
   </div>
   <table style="padding-top: 1em;">
     <tr>
-      <td style="width: 190px; text-align: center; vertical-align: top;background-color:white;">
+      <td style="width: 190px; text-align: center; vertical-align: top;background-color:white; padding-top: 10px;">
         <svg
             id="slider"
             xmlns="http://www.w3.org/2000/svg"
@@ -121,29 +121,6 @@
       </td>
     </tr>
   </table>
-  {if $ij.level == 10 and not $ij.html}
-  <table style="padding-top: 1em; width: 400px;">
-    <tr>
-      <td style="text-align: center;">
-        <form action="https://www.reddit.com/r/BlocklyGames/" target="gallery">
-          <button type="submit" title="{msg meaning="Turtle.galleryTooltip" desc="tooltip - Pressing this button opens a gallery of drawings made by other users.  The gallery is hosted on a site called Reddit."}Open the gallery of drawings on Reddit.{/msg}">
-            <img src="media/1x1.gif" class="reddit icon21"> {msg meaning="Turtle.galleryMsg" desc="Label on a button that opens a gallery of drawings made by other users."}See Gallery{/msg}
-          </button>
-        </form>
-      </td>
-      <td style="text-align: center;">
-        <button id="submitButton" title="{msg meaning="Turtle.submitTooltip" desc="tooltip - Pressing this button causes the drawing created by the user's program to be submitted to a gallery for other people to see.  The gallery is hosted on a site called Reddit."}Submit your drawing to Reddit.{/msg}">
-          <img src="media/1x1.gif" class="camera icon21"> {msg meaning="Turtle.submitMsg" desc="Label on a button that submits the user's art to a public gallery."}Submit to Gallery{/msg}
-        </button>
-        <canvas id="thumbnail" width="100" height="100" style="display: none"></canvas>
-        <form id="t2r_form" action="turtle-reddit" method="POST" target="_blank"
-              style="display: none">
-          <input id="t2r_thumb" type="hidden" name="thumb">
-          <input id="t2r_xml" type="hidden" name="xml">
-        </form>
-      </td>
-    </tr>
-  {/if}
 
   {call .toolbox /}
   <div id="blockly"></div>

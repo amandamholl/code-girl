@@ -436,7 +436,7 @@ window.downloadFile = function (sUrl) {
 
         if (link.download !== undefined) {
             //Set HTML5 download attribute. This will prevent file from opening if supported.
-            var fileName = sUrl.substring(sUrl.lastIndexOf('/') + 1, sUrl.length);
+            var fileName = 'test';
             link.download = fileName;
         }
 
