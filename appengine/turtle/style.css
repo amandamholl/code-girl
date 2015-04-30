@@ -60,3 +60,6 @@ html[dir="RTL"] button.primary {
 #title{
 	background-color:white;
 }
+#leftSide{
+	float:right;
+}

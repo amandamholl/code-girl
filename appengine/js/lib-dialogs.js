@@ -436,7 +436,7 @@ window.downloadFile = function (sUrl) {
 
         if (link.download !== undefined) {
             //Set HTML5 download attribute. This will prevent file from opening if supported.
-            var fileName = 'test';
+            var fileName = 'CodeGirl';
             link.download = fileName;
         }
 
@@ -518,6 +518,18 @@ BlocklyDialogs.done = function() {
   //document.getElementById('dialogDoneText').textContent = text;
 };
 
+/**
+ * Login Dialog
+ */
+BlocklyDialogs.login = function() {
+	alert('login');
+  var content = document.getElementById('login');
+  var style = {
+    width: '40%',
+    left: '30%',
+    top: '3em'
+  };
+}
 
 /**
  * Congratulates the user for completing the level and offers to

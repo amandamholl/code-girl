@@ -68,6 +68,9 @@ Index.init = function() {
   script.src = './index/js/test.js';
   script.type = 'text/javascript';
   document.body.appendChild(script);
+  
+  //BlocklyGames.bindClick('login', Index.login);
+  
 };
 
 window.addEventListener('load', Index.init, false);
@@ -87,6 +90,11 @@ Index.clearData_ = function() {
   }
   location.reload();
 };
+
+Index.login = function() {
+	alert('in index');
+	//BlocklyDialogs.login();
+}
 
 ;(function($){
 

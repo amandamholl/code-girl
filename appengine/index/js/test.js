@@ -8,4 +8,7 @@
   arrows: true,
   pauseOnHover: false,
 });
+
+
 });
+
