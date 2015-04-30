@@ -44,6 +44,7 @@ BlocklyInterface.init = function() {
 
   // Disable the link button if page isn't backed by App Engine storage.
   var linkButton = document.getElementById('linkButton');
+  var logoutButton = document.getElementById('signoutButton');	
   if ('BlocklyStorage' in window) {
     BlocklyStorage['HTTPREQUEST_ERROR'] =
         BlocklyGames.getMsg('Games_httpRequestError');
@@ -55,6 +56,9 @@ BlocklyInterface.init = function() {
     if (linkButton) {
       BlocklyGames.bindClick(linkButton, BlocklyStorage['link']);
     }
+	if (logoutButton) {
+		BlocklyGames.bindClick(logoutButton, BlocklyStorage['link']);
+	}
   } else if (linkButton) {
     linkButton.style.display = 'none';
   }
@@ -62,6 +66,8 @@ BlocklyInterface.init = function() {
   var languageMenu = document.getElementById('languageMenu');
   languageMenu.addEventListener('change',
       BlocklyInterface.changeLanguage, true);
+	  
+    
 };
 
 /**
