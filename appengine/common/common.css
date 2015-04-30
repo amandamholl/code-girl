@@ -220,6 +220,11 @@ a {
 	display:inline-block;
 }
 
+#logo a:hover img{
+	-webkit-filter: drop-shadow(0px 3px 3px #ccc);
+    filter:         drop-shadow(0px 3px 3px #ccc); 
+}
+
 .farSide{
 	float: right;
 	margin: 18px 18px 0px 0px;
