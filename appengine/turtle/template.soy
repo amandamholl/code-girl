@@ -136,7 +136,7 @@
   {call BlocklyGames.soy.storageDialog /}
   {if $ij.level < 4}
     <div id="helpUseLoop" class="dialogHiddenContent">
-      <div style="padding-bottom: 0.7ex">
+    <div style="padding-bottom: 0.7ex; font-size: large; margin: 1em;">
         {msg meaning="Turtle.helpUseLoop" desc="Dialog telling user to seek a better answer."}
           Your solution works, but you can solve the challenge with fewer blocks. Try using "Loops."
         {/msg}
@@ -156,23 +156,23 @@
   {/if}
 
   <div id="help" class="dialogHiddenContent">
-    <div style="padding-bottom: 0.7ex">
+  <div style="padding-bottom: 0.7ex; font-size: large; margin: 1em;">
       {if $ij.level == 1}
         <h3> Learn Sequentiality! </h3>
         {msg meaning="Turtle.helpText1" desc="Instructions."}
-            Put the blocks together to help the robot draw a square! Change the value of the fields to make the robot move correctly.
+            Put the blocks together to help Ada draw a square! Change the value of the fields to make Ada move correctly.
         {/msg}
         <br><img src="turtle/square.gif" height=146 width=146 style="margin-bottom: -50px">
       {/if}
     {if $ij.level == 2}
         <h3> Learn Loops! </h3>
         {msg meaning="Turtle.helpText1" desc="Instructions."}
-          Now, use a loop from the toolbar to help the robot draw a square.
+          Now, use a loop from the toolbar to help Ada draw a square.
         {/msg}
      {/if}
     {if $ij.level == 3}
         {msg meaning="Turtle.helpText1" desc="Instructions."}
-          Now, help the robot draw a hexagon using loops.
+          Now, help Ada draw a hexagon using loops.
         {/msg}
      {/if}
     </div>

@@ -227,6 +227,9 @@ a {
 
 .farSide{
 	float: right;
+}
+
+#header .farSide{
 	margin: 18px 18px 0px 0px;
 }
 

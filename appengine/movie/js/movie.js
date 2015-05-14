@@ -195,6 +195,7 @@ Movie.init = function() {
     }
   }
   BlocklyGames.bindClick('unlock', Movie.unlock);
+  //BlocklyGames.bindClick('save', Movie.unlock);
 };
 
 if (window.location.pathname.match(/readonly.html$/)) {
@@ -1787,8 +1788,8 @@ Movie.skirt = function(){
 
 Movie.shorts =function(){
   Movie.ctxScratch.save();
-  Movie.ctxScratch.scale(.22,.24);
-  Movie.ctxScratch.translate(740,1050);
+  Movie.ctxScratch.scale(.23,.24);
+  Movie.ctxScratch.translate(748,1055);
   Movie.ctxScratch.strokeStyle = 'rgba(0,0,0,0)';
   Movie.ctxScratch.lineCap = 'butt';
   Movie.ctxScratch.lineJoin = 'miter';

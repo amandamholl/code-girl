@@ -475,7 +475,7 @@ BlocklyDialogs.done = function() {
   // Add the user's code.
   if (Blockly.mainWorkspace) {
     var linesText = document.getElementById('dialogLinesText');
-    linesText.textContent = 'You have finished creating your avatar! Click "Save" to save a picture of your avatar or "Cancel" continue dressing up your avatar.';
+    linesText.textContent = 'You have finished creating your avatar! Click "OK" to save a picture of your avatar or "Cancel" continue dressing up your avatar.';
   };
   
   var code = document.getElementById('containerCode');
@@ -485,7 +485,7 @@ BlocklyDialogs.done = function() {
   cancel.addEventListener('click', BlocklyDialogs.hideDialog, true);
   cancel.addEventListener('touchend', BlocklyDialogs.hideDialog, true);
   var ok = document.getElementById('doneOk');
-  document.getElementById('doneOk').innerHTML='Save';
+  document.getElementById('doneOk').innerHTML='OK';
 
   ok.addEventListener('click', function(){
 	html2canvas([document.getElementById('visualization')], {

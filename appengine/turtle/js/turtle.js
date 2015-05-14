@@ -250,7 +250,7 @@ Turtle.showCategoryHelp = function() {
   var help = document.getElementById('helpToolbox');
   var style = {
     width: '25%',
-    left: '525px',
+    left: '175px',
     top: '5em'
   };
   var origin = document.getElementById(':0');  // Toolbox's tree root.

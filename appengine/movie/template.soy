@@ -75,9 +75,15 @@
       {param lang: $ij.lang /}
       {param suffix}{/param}
       {/call}
-      <div class="farSide" id="unlock">
-        <button class="secondary" title="Unlock">Unlock Accessories</button>
-      </div>
+      {if $ij.level == 4}
+        <div class="farSide" id="unlock">
+          <button class="secondary" title="Save">Save Avatar</button>
+        </div>
+      {else}
+        <div class="farSide" id="unlock">
+          <button class="secondary" title="Unlock">Unlock Accessories</button>
+        </div>
+      {/if}
     </div>
     {call .toolbox /}
     <div id="blockly">
@@ -96,22 +102,22 @@
   {call BlocklyGames.soy.storageDialog /}
 
   <div id="help" class="dialogHiddenContent">
-    <div style="padding-bottom: 0.7ex">
+  <div style="padding-bottom: 0.7ex; font-size: large; margin: 1em;">
       {if $ij.level == 1}
         {msg meaning="Movie.helpText1" desc="Instructions."}
-          Customize your avatar using the toolbar! Start with the shirts.
+          Customize Grace using the toolbar! Start with the shirts.
         {/msg}
       {elseif $ij.level == 2}
         {msg meaning="Movie.helpText2a" desc="Instructions.  Add shoes to the avatar."}
-          Add bottoms to your avatar using the toolbar.
+          Add bottoms to Grace using the toolbar.
         {/msg}
       {elseif $ij.level == 3}
         {msg meaning="Movie.helpText3" desc="Instructions.  Add shoes to the avatar."}
-          Add shoes to your avatar using the toolbar.
+          Add shoes to Grace using the toolbar.
         {/msg}
       {elseif $ij.level == 4}
         {msg meaning="Movie.helpText4" desc="Instructions. Add accessories to the avatar."}
-          Add accessories to your avatar using the toolbar.
+          Add accessories to Grace using the toolbar.
         {/msg}
       {/if}
     </div>
