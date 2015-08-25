@@ -17,10 +17,6 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview A scrubber control for video.
- * @author fraser@google.com (Neil Fraser)
- */
 'use strict';
 
 goog.provide('Scrubber');

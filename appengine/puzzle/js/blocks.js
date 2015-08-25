@@ -17,10 +17,6 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview Blocks for Blockly's Puzzle application.
- * @author fraser@google.com (Neil Fraser)
- */
 'use strict';
 
 goog.provide('Puzzle.Blocks');

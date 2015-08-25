@@ -17,10 +17,6 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview JavaScript for Blockly's Turtle application.
- * @author fraser@google.com (Neil Fraser)
- */
 'use strict';
 
 goog.provide('Turtle');

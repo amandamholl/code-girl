@@ -17,10 +17,6 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview A slider control in SVG.
- * @author fraser@google.com (Neil Fraser)
- */
 'use strict';
 
 goog.provide('Slider');

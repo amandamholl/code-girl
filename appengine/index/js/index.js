@@ -17,10 +17,6 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview JavaScript for Blockly Game's index page.
- * @author fraser@google.com (Neil Fraser)
- */
 'use strict';
 
 goog.provide('Index');

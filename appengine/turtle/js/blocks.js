@@ -17,10 +17,7 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview Blocks for Blockly's Turtle Graphics application.
- * @author fraser@google.com (Neil Fraser)
- */
+
 'use strict';
 
 goog.provide('Turtle.Blocks');

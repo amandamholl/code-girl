@@ -17,10 +17,6 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview Common support code for Blockly apps.
- * @author fraser@google.com (Neil Fraser)
- */
 'use strict';
 
 goog.provide('BlocklyInterface');

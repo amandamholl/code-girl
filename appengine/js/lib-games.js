@@ -17,10 +17,6 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview Common support code for all Blockly apps and the index.
- * @author fraser@google.com (Neil Fraser)
- */
 'use strict';
 
 goog.provide('BlocklyGames');

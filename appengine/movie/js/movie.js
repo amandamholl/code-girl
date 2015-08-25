@@ -17,10 +17,6 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview JavaScript for Blockly's Movie application.
- * @author fraser@google.com (Neil Fraser)
- */
 'use strict';
 
 goog.provide('Movie');
