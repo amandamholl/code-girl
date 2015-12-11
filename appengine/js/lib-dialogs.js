@@ -336,7 +336,7 @@ BlocklyDialogs.abortOffer = function() {
   var style = {
     width: '40%',
     left: '30%',
-    top: '3em'
+    //top: '3em'
   };
 
   var cancel = document.getElementById('abortCancel');
@@ -363,7 +363,7 @@ BlocklyDialogs.levelup = function() {
   var style = {
     width: '40%',
     left: '30%',
-    top: '3em'
+    //top: '3em'
   };
 
   // Add the user's code.
@@ -402,6 +402,14 @@ BlocklyDialogs.levelup = function() {
   if(BlocklyGames.LEVEL == 3){
   	ok.addEventListener('click', function(){window.open('/turtle?lang=en?level=2','_self')}, true);
   	ok.addEventListener('touchend', function(){window.open('/turtle?lang=en?level=2','_self')}, true);
+  }
+  if(BlocklyGames.LEVEL == 4){
+  	ok.addEventListener('click', function(){window.open('/bird?lang=en?level=3','_self')}, true);
+  	ok.addEventListener('touchend', function(){window.open('/bird?lang=en?level=3','_self')}, true);
+  }
+  if(BlocklyGames.LEVEL == 5){
+  	ok.addEventListener('click', function(){window.open('/maze?lang=en?level=9','_self')}, true);
+  	ok.addEventListener('touchend', function(){window.open('/maze?lang=en?level=9','_self')}, true);
   }
   BlocklyDialogs.showDialog(content, null, false, true, style,
       function() {
@@ -465,7 +473,7 @@ BlocklyDialogs.done = function() {
   var style = {
     width: '40%',
     left: '30%',
-    top: '3em'
+    //top: '3em'
   };
 
   // Add the user's code.
@@ -523,7 +531,7 @@ BlocklyDialogs.login = function() {
   var style = {
     width: '40%',
     left: '30%',
-    top: '3em'
+    //top: '3em'
   };
 }
 
@@ -536,7 +544,7 @@ BlocklyDialogs.congratulations = function() {
   var style = {
     width: '40%',
     left: '30%',
-    top: '3em'
+   // top: '3em'
   };
   // Add the user's code.
   if (Blockly.mainWorkspace) {
@@ -555,14 +563,20 @@ BlocklyDialogs.congratulations = function() {
     var pre = document.getElementById('containerCode');
 	
 	if(BlocklyGames.NAME == 'puzzle'){
-		pre.innerHTML="<p>New features unlocked!</p><img class='featureUnlocked' src='./movie/shorts.svg' width='80px' border=0 /><img class='featureUnlocked' src='./movie/skirt.svg' width='80px' border=0/>";
+		pre.innerHTML="<p>New features unlocked!</p><img class='featureUnlocked' src='./movie/shorts.svg' width='80px' border=0 /><img class='featureUnlocked' src='./movie/skirt.svg' width='80px' border=0/><img class='featureUnlocked' src='./movie/pants.svg' height='75px' border=0/><img class='featureUnlocked' src='./movie/long_skirt.svg' height='75px' border=0/>";
 	}
 	else if(BlocklyGames.NAME == 'turtle' && BlocklyGames.LEVEL == 1){
-		pre.innerHTML="<p>New features unlocked!</p><img class='featureUnlocked' src='./movie/boots.svg' width='80px' border=0 /><img class='featureUnlocked' src='./movie/cowboyboot.svg' width='80px' border=0/>";
+		pre.innerHTML="<p>New features unlocked!</p><img class='featureUnlocked' src='./movie/boots.svg' width='80px' border=0 /><img class='featureUnlocked' src='./movie/cowboyboot.svg' width='80px' border=0/><img class='featureUnlocked' src='./movie/shoe.svg' width='80px' border=0/><img class='featureUnlocked' src='./movie/hightop.svg' width='80px' border=0/>";
 	}
 	else if(BlocklyGames.NAME == 'turtle' && BlocklyGames.LEVEL == 2){
-		pre.innerHTML="<p>New features unlocked!</p><img class='featureUnlocked' src='./movie/earrings.svg' width='80px' border=0 /><img class='featureUnlocked' src='./movie/bow.svg' width='80px' border=0/>";
-	};	
+		pre.innerHTML="<p>New features unlocked!</p><img class='featureUnlocked' src='./movie/bow.svg' width='80px' border=0/><img class='featureUnlocked' src='./movie/baseball.svg' width='80px' border=0/><img class='featureUnlocked' src='./movie/retro_glasses.svg' width='80px' border=0/><img class='featureUnlocked' src='./movie/necklace.svg' width='80px' border=0/>";
+	}
+	else if(BlocklyGames.NAME == 'bird' && BlocklyGames.LEVEL == 3){
+		pre.innerHTML="<p>New features unlocked!</p><img class='featureUnlocked' src='./movie/briefcase.svg' width='80px' border=0 /><img class='featureUnlocked' src='./movie/purse.svg' width='80px' border=0/><img class='featureUnlocked' src='./movie/backpack.svg' width='80px' border=0/><img class='featureUnlocked' src='./movie/fancy_purse.svg' width='80px' border=0/>";
+	}
+	else if(BlocklyGames.NAME == 'maze' && BlocklyGames.LEVEL == 9){
+		pre.innerHTML="<p>New features unlocked!</p><img class='featureUnlocked' src='./movie/dress.svg' width='80px' height='71px' border=0 /><img class='featureUnlocked' src='./movie/crown.svg' width='80px' border=0/><img class='featureUnlocked' src='./movie/wand.svg' width='80px' border=0/>";
+	};		
   }
   var cancel = document.getElementById('doneCancel');
   cancel.addEventListener('click', BlocklyDialogs.hideDialog, true);

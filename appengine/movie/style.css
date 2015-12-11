@@ -2,20 +2,32 @@ button.primary {
   /* Can't use "text-align: start" due to IE. */
   text-align: left;
 }
+#header{
+	z-index:50;
+}
 html[dir="RTL"] button.primary {
   text-align: right;
 }
 #workspace{
-  position: fixed;
+  position: absolute;
   top: 90px;
-  width: 100%;
-  
+  width: 98.5%;
+  left:10px;
+}
+#page-container{
+	overflow-y: auto;
+    position: absolute;
+    zoom: 1;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
 }
 #levelLinks{
   height: 40px;
   padding: 10px;
   background-color: white;
-  margin-right: 20px;
+  //margin-right: 20px;
   -webkit-box-shadow: 0px 5px 2px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
   -moz-box-shadow:    0px 5px 2px #ccc;  /* Firefox 3.5 - 3.6 */
   box-shadow:         0px 5px 2px #ccc;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
@@ -30,13 +42,14 @@ html[dir="RTL"] button.primary {
 #visualization{
   float: right;
   position: relative;
-  left: -20px;
+  //left: -20px;
+  z-index:0;
+  margin-bottom:10px;
 }
 #blockly{
-  position: fixed;
-  top:90px;
-  bottom: 10px;
-  margin-top:62px;
+  position: absolute;
+  top:64px;
+  height:85%;
 }
 /* clean this up */
 #display, #prevAnswer {

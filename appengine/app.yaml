@@ -82,6 +82,24 @@ handlers:
   script: reddit.py
   secure: always
 
+# Bird app.
+- url: /bird
+  static_files: bird.html
+  upload: bird\.html
+  secure: always
+- url: /bird/
+  static_dir: bird
+  secure: always
+
+# Maze app.
+- url: /maze
+  static_files: maze.html
+  upload: maze\.html
+  secure: always
+- url: /maze/
+  static_dir: maze
+  secure: always
+
 # Shared files.
 - url: /readonly.html
   static_files: readonly.html

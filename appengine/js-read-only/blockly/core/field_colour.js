@@ -41,6 +41,7 @@ goog.require('goog.ui.ColorPicker');
  * @extends {Blockly.Field}
  * @constructor
  */
+
 Blockly.FieldColour = function(colour, opt_changeHandler) {
   Blockly.FieldColour.superClass_.constructor.call(this, '\u00A0\u00A0\u00A0');
 
@@ -49,6 +50,20 @@ Blockly.FieldColour = function(colour, opt_changeHandler) {
   this.setValue(colour);
 };
 goog.inherits(Blockly.FieldColour, Blockly.Field);
+
+/**
+ * By default use the global constants for colours.
+ * @type {Array.<string>}
+ * @private
+ */
+Blockly.FieldColour.prototype.colours_ = null;
+
+/**
+ * By default use the global constants for columns.
+ * @type {number}
+ * @private
+ */
+Blockly.FieldColour.prototype.columns_ = 0;
 
 /**
  * Install this field on a block.
@@ -90,6 +105,8 @@ Blockly.FieldColour.prototype.getValue = function() {
   return this.colour_;
 };
 
+
+
 /**
  * Set the colour.
  * @param {string} colour The new colour in '#rrggbb' format.
@@ -106,6 +123,7 @@ Blockly.FieldColour.prototype.setValue = function(colour) {
     this.sourceBlock_.workspace.fireChangeEvent();
   }
 };
+
 
 /**
  * Get the text from this field.  Used when the block is collapsed.
@@ -134,6 +152,28 @@ Blockly.FieldColour.COLOURS = goog.ui.ColorPicker.SIMPLE_GRID_COLORS;
 Blockly.FieldColour.COLUMNS = 7;
 
 /**
+ * Set a custom colour grid for this field.
+ * @param {Array.<string>} colours Array of colours for this block,
+ *     or null to use default (Blockly.FieldColour.COLOURS).
+ * @return {!Blockly.FieldColour} Returns itself (for method chaining).
+ */
+Blockly.FieldColour.prototype.setColours = function(colours) {
+  this.colours_ = colours;
+  return this;
+};
+
+/**
+ * Set a custom grid size for this field.
+ * @param {number} columns Number of columns for this block,
+ *     or 0 to use default (Blockly.FieldColour.COLUMNS).
+ * @return {!Blockly.FieldColour} Returns itself (for method chaining).
+ */
+Blockly.FieldColour.prototype.setColumns = function(columns) {
+  this.columns_ = columns;
+  return this;
+};
+
+/**
  * Create a palette under the colour field.
  * @private
  */
@@ -141,8 +181,8 @@ Blockly.FieldColour.prototype.showEditor_ = function() {
   Blockly.WidgetDiv.show(this, Blockly.FieldColour.widgetDispose_);
   // Create the palette using Closure.
   var picker = new goog.ui.ColorPicker();
-  picker.setSize(Blockly.FieldColour.COLUMNS);
-  picker.setColors(Blockly.FieldColour.COLOURS);
+  picker.setSize(this.columns_ || Blockly.FieldColour.COLUMNS);
+  picker.setColors(this.colours_ || Blockly.FieldColour.COLOURS);
 
   // Position the palette to line up with the field.
   // Record windowSize and scrollOffset before adding the palette.

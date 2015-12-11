@@ -203,6 +203,7 @@ Blockly.WorkspaceSvg.prototype.removeTopBlock = function(block) {
 Blockly.WorkspaceSvg.prototype.clear = function() {
   Blockly.hideChaff();
   Blockly.WorkspaceSvg.superClass_.clear.call(this);
+  
 };
 
 /**
@@ -370,6 +371,7 @@ Blockly.WorkspaceSvg.prototype.isDeleteArea = function(e) {
     if (this.deleteAreaTrash_.contains(xy)) {
       this.trashcan.setOpen_(true);
       Blockly.Css.setCursor(Blockly.Css.Cursor.DELETE);
+	  //localStorage.clear();
       return true;
     }
     this.trashcan.setOpen_(false);

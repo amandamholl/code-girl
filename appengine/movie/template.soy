@@ -67,61 +67,71 @@
         </button>
     </div>
   </div>
-  <div id="workspace">
-    <div id="levelLinks">
-      {call BlocklyGames.soy.levelLinks}
-      {param level: $ij.level /}
-      {param maxLevel: $ij.maxLevel /}
-      {param lang: $ij.lang /}
-      {param suffix}{/param}
-      {/call}
-      {if $ij.level == 4}
-        <div class="farSide" id="unlock">
-          <button class="secondary" title="Save">Save Avatar</button>
-        </div>
-      {else}
-        <div class="farSide" id="unlock">
-          <button class="secondary" title="Unlock">Unlock Accessories</button>
-        </div>
-      {/if}
+  <div id="page-container">
+    <div id="workspace">
+      <div id="levelLinks">
+        {call BlocklyGames.soy.levelLinks}
+        {param level: $ij.level /}
+        {param maxLevel: $ij.maxLevel /}
+        {param lang: $ij.lang /}
+        {param suffix}{/param}
+        {/call}
+        {if $ij.level == 6}
+          <div class="farSide" id="unlock">
+            <button class="secondary" title="Save">Save Avatar</button>
+          </div>
+        {else}
+          <div class="farSide" id="unlock">
+            <button class="secondary" title="Unlock">Unlock Accessories</button>
+          </div>
+        {/if}
+      </div>
+      {call .toolbox /}
+      <div id="blockly">
+      </div>
+      <div id="visualization">
+        <canvas id="scratch" width="400" height="580" style="display: none"></canvas>
+        <canvas id="superhero" width="400" height="580" style="display: block"></canvas>
+        <canvas id="hatching" width="400" height="580" style="display: none"></canvas>
+        <canvas id="axies" width="400" height="580" style="display: none"></canvas>
+        <canvas id="display" width="400" height="580" style="vertical-align: bottom;z-index:20"></canvas>
+      </div>
     </div>
-    {call .toolbox /}
-    <div id="blockly">
-    </div>
-    <div id="visualization">
-      <canvas id="scratch" width="400" height="580" style="display: none"></canvas>
-      <canvas id="superhero" width="400" height="580" style="display: block"></canvas>
-      <canvas id="hatching" width="400" height="580" style="display: none"></canvas>
-      <canvas id="axies" width="400" height="580" style="display: none"></canvas>
-      <canvas id="display" width="400" height="580" style="vertical-align: bottom;z-index:20"></canvas>
-    </div>
-  </div>
-  {call BlocklyGames.soy.dialog /}
-  {call BlocklyGames.soy.doneDialog /}
-  {call BlocklyGames.soy.abortDialog /}
-  {call BlocklyGames.soy.storageDialog /}
+    {call BlocklyGames.soy.dialog /}
+    {call BlocklyGames.soy.doneDialog /}
+    {call BlocklyGames.soy.abortDialog /}
+    {call BlocklyGames.soy.storageDialog /}
 
-  <div id="help" class="dialogHiddenContent">
-  <div style="padding-bottom: 0.7ex; font-size: large; margin: 1em;">
-      {if $ij.level == 1}
-        {msg meaning="Movie.helpText1" desc="Instructions."}
-          Customize Grace using the toolbar! Start with the shirts.
-        {/msg}
-      {elseif $ij.level == 2}
-        {msg meaning="Movie.helpText2a" desc="Instructions.  Add shoes to the avatar."}
-          Add bottoms to Grace using the toolbar.
-        {/msg}
-      {elseif $ij.level == 3}
-        {msg meaning="Movie.helpText3" desc="Instructions.  Add shoes to the avatar."}
-          Add shoes to Grace using the toolbar.
-        {/msg}
-      {elseif $ij.level == 4}
-        {msg meaning="Movie.helpText4" desc="Instructions. Add accessories to the avatar."}
-          Add accessories to Grace using the toolbar.
-        {/msg}
-      {/if}
+    <div id="help" class="dialogHiddenContent">
+    <div style="padding-bottom: 0.7ex; font-size: large; margin: 1em;">
+        {if $ij.level == 1}
+          {msg meaning="Movie.helpText1" desc="Instructions."}
+            Customize Grace using the toolbar! Start with the shirts.
+          {/msg}
+        {elseif $ij.level == 2}
+          {msg meaning="Movie.helpText2a" desc="Instructions.  Add shoes to the avatar."}
+            Add bottoms to Grace using the toolbar.
+          {/msg}
+        {elseif $ij.level == 3}
+          {msg meaning="Movie.helpText3" desc="Instructions.  Add shoes to the avatar."}
+            Add shoes to Grace using the toolbar.
+          {/msg}
+        {elseif $ij.level == 4}
+          {msg meaning="Movie.helpText4" desc="Instructions. Add accessories to the avatar."}
+            Add accessories to Grace using the toolbar.
+          {/msg}
+        {elseif $ij.level == 5}
+          {msg meaning="Movie.helpText4" desc="Instructions. Choose a bag for the avatar to carry."}
+            Choose a bag for Grace to carry.
+          {/msg}
+        {elseif $ij.level == 6}
+          {msg meaning="Movie.helpText4" desc="Instructions. Choose princess accessories for Grace if you want."}
+            Choose princess accessories for Grace if you want. Otherwise, save your avatar.
+          {/msg}
+        {/if}
+      </div>
+      {call BlocklyGames.soy.ok /}
     </div>
-    {call BlocklyGames.soy.ok /}
   </div>
 {/template}
 
@@ -131,6 +141,36 @@
 {template .toolbox}
 
   <xml id="toolbox" style="display: none">
+    <category name="{msg meaning="Games.movie" desc="IBID"}Grace{/msg}">
+        <block type="hair">
+          <value name="HCOLOUR">
+            <block type="haircolour_picker">
+                <field name="HCOLOUR">#a3550b</field>
+            </block>
+          </value>
+        </block>
+        <block type="curly_hair">
+          <value name="HCOLOUR">
+            <block type="haircolour_picker">
+                <field name="HCOLOUR">#a3550b</field>
+            </block>
+          </value>
+        </block>
+        <block type="eyes">
+          <value name="ECOLOUR">
+            <block type="eyecolour_picker">
+                <field name="ECOLOUR">#29abe2</field>
+            </block>
+        </value>
+        </block>
+        <block type="skin">
+          <value name="SCOLOUR">
+            <block type="skin_colour_picker">
+                <field name="SCOLOUR">#ffdfbe</field>
+            </block>
+        </value>
+        </block>
+    </category>
     {if $ij.level >= 1}
     <category name="{msg meaning="Games.movie" desc="IBID"}Shirts{/msg}">
         <block type="tshirt">
@@ -141,15 +181,24 @@
         </value>*/
         </block>
         <block type="longsleeve">
-
+        </block>
+        <block type="vest">
+        </block>
+        <block type="blouse">
+        </block>
+        <block type="jersey">
+        </block>
+        <block type="coat">
         </block>
     </category>
     {/if}
     {if $ij.level >= 2}
     <category name="{msg meaning="Games.movie" desc="IBID"}Bottoms{/msg}">
-        /*<block type="pants">
-        </block>*/
+        <block type="pants">
+        </block>
         <block type = "skirt">
+        </block>
+        <block type = "long_skirt">
         </block>
         <block type = "shorts">
         </block>
@@ -169,6 +218,9 @@
         <block type="sneakers">
 
         </block>
+        <block type="flats">
+
+        </block>
     </category>
     {/if}
     {if $ij.level >= 4}
@@ -176,6 +228,36 @@
         <block type = "bow">
         </block>
         <block type = "earrings">
+        </block>
+        <block type = "hat">
+        </block>
+        <block type = "baseball">
+        </block>
+        <block type = "necklace">
+        </block>
+        <block type = "retro_glasses">
+        </block>
+    </category>
+    {/if}
+    {if $ij.level >= 5}
+    <category name="{msg meaning="Games.movie" desc="IBID"}Bags{/msg}">
+        <block type = "briefcase">
+        </block>
+        <block type = "purse">
+        </block>
+        <block type = "purse2">
+        </block>
+        <block type = "backpack">
+        </block>
+    </category>
+    {/if}
+    {if $ij.level >= 6}
+    <category name="{msg meaning="Games.movie" desc="IBID"}Princess{/msg}">
+        <block type = "dress">
+        </block>
+        <block type = "crown">
+        </block>
+        <block type = "wand">
         </block>
     </category>
     {/if}

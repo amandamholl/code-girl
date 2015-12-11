@@ -273,7 +273,7 @@ Puzzle.checkAnswers = function() {
   var style = {
     width: '25%',
     left: rtl ? '5%' : '70%',
-    top: '5em'
+    //top: '5em'
   };
   var action = errors ? BlocklyDialogs.stopDialogKeyDown :
       BlocklyInterface.indexPage;
@@ -367,7 +367,7 @@ Puzzle.showHelp = function(animate) {
   var style = {
     width: '50%',
     left: '25%',
-    top: '5em'
+    //top: '5em'
   };
   BlocklyDialogs.showDialog(help, button, animate, true, style,
       BlocklyDialogs.stopDialogKeyDown);
