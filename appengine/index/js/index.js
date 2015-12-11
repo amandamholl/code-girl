@@ -28,7 +28,7 @@ goog.require('BlocklyGames');
 /**
  * Array of application names.
  */
-Index.APPS = ['puzzle', 'turtle', 'movie', 'bird'];
+Index.APPS = ['puzzle', 'turtle', 'movie', 'bird', 'maze'];
 
 /**
  * Initialize Blockly and the maze.  Called on page load.
@@ -65,7 +65,8 @@ Index.init = function() {
   script.type = 'text/javascript';
   document.body.appendChild(script);
   
-  //BlocklyGames.bindClick('login', Index.login);
+  //var login = document.getElementsByClassName('login')[0];
+  //BlocklyGames.bindClick(login, Index.login);
   
 };
 
@@ -90,7 +91,7 @@ Index.clearData_ = function() {
 Index.login = function() {
 	alert('in index');
 	//BlocklyDialogs.login();
-}
+};
 
 ;(function($){
 
