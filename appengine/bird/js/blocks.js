@@ -55,7 +55,7 @@ Blockly.JavaScript['bird_noWorm'] = function(block) {
   return ['noWorm()', Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
-Blockly.Blocks['bird_heading'] = {
+Blockly.Blocks['bird_direction'] = {
   /**
    * Block for moving bird in a direction.
    * @this Blockly.Block
@@ -63,17 +63,17 @@ Blockly.Blocks['bird_heading'] = {
   init: function() {
     this.setColour(290);
     this.appendDummyInput()
-        .appendField(BlocklyGames.getMsg('Bird_heading'))
+        .appendField(BlocklyGames.getMsg('Bird_direction'))
         .appendField(new Blockly.FieldAngle('90'), 'ANGLE');
     this.setPreviousStatement(true);
-    this.setTooltip(BlocklyGames.getMsg('Bird_headingTooltip'));
+    this.setTooltip(BlocklyGames.getMsg('Bird_directionTooltip'));
   }
 };
 
-Blockly.JavaScript['bird_heading'] = function(block) {
+Blockly.JavaScript['bird_direction'] = function(block) {
   // Generate JavaScript for moving bird in a direction.
   var dir = parseFloat(block.getFieldValue('ANGLE'));
-  return 'heading(' + dir + ', \'block_id_' + block.id + '\');\n';
+  return 'direction(' + dir + ', \'block_id_' + block.id + '\');\n';
 };
 
 Blockly.Blocks['bird_position'] = {

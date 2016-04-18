@@ -38,22 +38,21 @@ BlocklyGames.NAME = 'maze';
  * Go to the next level.
  */
 BlocklyInterface.nextLevel = function() {
-  /*if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
+  if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
     window.location = window.location.protocol + '//' +
-        window.location.host + window.location.pathname +
-        '?lang=' + BlocklyGames.LANG + '&level=' + (BlocklyGames.LEVEL + 1) +
-        '&skin=' + Maze.SKIN_ID;
+        window.location.host + '/movie?lang=' +
+        BlocklyGames.LANG + '&level=' + (BlocklyGames.LEVEL);
   } else {
     BlocklyInterface.indexPage();
-  }*/
-  if (BlocklyGames.LEVEL == 9){
+  }
+  /*if (BlocklyGames.LEVEL == 9){
 	  window.location = window.location.protocol + '//' +
         window.location.host + '/movie?lang=' + BlocklyGames.LANG + '&level=6';
-  }
+  }*/
 };
 
 Maze.MAX_BLOCKS = [undefined, // Level 0.
-    Infinity, Infinity, 2, 5, 5, 5, 5, 10, Infinity, 10][BlocklyGames.LEVEL];
+    Infinity, Infinity, 2, Infinity, Infinity, Infinity, 5, Infinity, Infinity, 10][BlocklyGames.LEVEL];
 
 // Crash type constants.
 Maze.CRASH_STOP = 1;
@@ -502,7 +501,7 @@ Maze.init = function() {
     var top = visualization.offsetTop;
     //blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
 	blocklyDiv.style.top = '90px';
-    blocklyDiv.style.left = rtl ? '10px' : '425px';
+    blocklyDiv.style.left = rtl ? '10px' : '10px';
     blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
   };
   window.addEventListener('scroll', function() {
@@ -557,16 +556,16 @@ Maze.init = function() {
     // Make connecting blocks easier for beginners.
     Blockly.SNAP_RADIUS *= 2;
   }
-  if (BlocklyGames.LEVEL == 10) {
+  if (BlocklyGames.LEVEL == 5 || BlocklyGames.LEVEL == 6) {
     if (!BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
                                           BlocklyGames.LEVEL)) {
       // Level 10 gets an introductory modal dialog.
       // Skip the dialog if the user has already won.
       var content = document.getElementById('dialogHelpWallFollow');
       var style = {
-        'width': '30%',
-        'left': '35%',
-        'top': '12em'
+        'width': '50%',
+        'left': '25%',
+        //'top': '12em'
       };
       BlocklyDialogs.showDialog(content, null, false, true, style,
           BlocklyDialogs.stopDialogKeyDown);
@@ -579,19 +578,19 @@ Maze.init = function() {
     setTimeout(function() {
       Blockly.addChangeListener(function() {Maze.levelHelp()});
       Maze.levelHelp();
-    }, 10000);
+    }, 2000);
 	//alert(BlocklyGames.LEVEL);
 	//Maze.levelHelp();
   }
 
   // Add the spinning Pegman icon to the done dialog.
   // <img id="pegSpin" src="media/1x1.gif">
-  var buttonDiv = document.getElementById('dialogDoneButtons');
+  /*var buttonDiv = document.getElementById('dialogDoneButtons');
   var pegSpin = document.createElement('img');
   pegSpin.id = 'pegSpin';
   pegSpin.src = 'media/1x1.gif';
   pegSpin.style.backgroundImage = 'url(' + Maze.SKIN.sprite + ')';
-  buttonDiv.parentNode.insertBefore(pegSpin, buttonDiv);
+  buttonDiv.parentNode.insertBefore(pegSpin, buttonDiv);*/
 
   // Lazy-load the JavaScript interpreter.
   setTimeout(BlocklyInterface.importInterpreter, 1);
@@ -712,14 +711,14 @@ Maze.levelHelp = function() {
         origin = toolbar[3].getSvgRoot();
       }
     }
-  } else if (BlocklyGames.LEVEL == 5) {
+  } /*else if (BlocklyGames.LEVEL == 5) {
     if (Maze.SKIN_ID == 0 && !Maze.showPegmanMenu.activatedOnce) {
       content = document.getElementById('dialogHelpSkins');
       style = {'width': '360px', 'top': '60px'};
       style[Blockly.RTL ? 'left' : 'right'] = '20px';
       origin = document.getElementById('pegmanButton');
     }
-  } else if (BlocklyGames.LEVEL == 6) {
+  }*/ else if (BlocklyGames.LEVEL == 6) {
     if (userBlocks.indexOf('maze_if') == -1) {
       content = document.getElementById('dialogHelpIf');
       style = {'width': '360px', 'top': '400px'};

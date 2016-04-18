@@ -62,8 +62,8 @@ Blockly.Blocks['maze_turn'] = {
         [[BlocklyGames.getMsg('Maze_turnLeft'), 'turnLeft'],
          [BlocklyGames.getMsg('Maze_turnRight'), 'turnRight']];
     // Append arrows to direction messages.
-    DIRECTIONS[0][0] += ' \u21BA';
-    DIRECTIONS[1][0] += ' \u21BB';
+    DIRECTIONS[0][0] += ' \u21B0';
+    DIRECTIONS[1][0] += ' \u21B1';
     this.setColour(290);
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown(DIRECTIONS), 'DIR');
@@ -90,8 +90,8 @@ Blockly.Blocks['maze_if'] = {
          [BlocklyGames.getMsg('Maze_pathLeft'), 'isPathLeft'],
          [BlocklyGames.getMsg('Maze_pathRight'), 'isPathRight']];
     // Append arrows to direction messages.
-    DIRECTIONS[1][0] += ' \u21BA';
-    DIRECTIONS[2][0] += ' \u21BB';
+    DIRECTIONS[1][0] += ' \u21B0';
+    DIRECTIONS[2][0] += ' \u21B1';
     this.setColour(210);
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown(DIRECTIONS), 'DIR');
@@ -123,8 +123,8 @@ Blockly.Blocks['maze_ifElse'] = {
          [BlocklyGames.getMsg('Maze_pathLeft'), 'isPathLeft'],
          [BlocklyGames.getMsg('Maze_pathRight'), 'isPathRight']];
     // Append arrows to direction messages.
-    DIRECTIONS[1][0] += ' \u21BA';
-    DIRECTIONS[2][0] += ' \u21BB';
+    DIRECTIONS[1][0] += ' \u21B0';
+    DIRECTIONS[2][0] += ' \u21B1';
     this.setColour(210);
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown(DIRECTIONS), 'DIR');

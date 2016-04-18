@@ -147,7 +147,7 @@ html[dir="RTL"] #pegmanButton>span {
 #workspace {
     position: fixed;
     top: 90px;
-    width: 100%;
+	right:15px;
 }
 #levelLinks {
     height: 40px;
@@ -167,4 +167,9 @@ html[dir="RTL"] #pegmanButton>span {
 .level_dot, .level_number {
     position: relative;
     top: 10px;
+}
+
+#leftSide{
+	float:right;
+	
 }

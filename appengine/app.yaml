@@ -61,7 +61,7 @@ handlers:
   static_dir: puzzle
   secure: always
 
-# Turtle app.
+# turtle app.
 - url: /turtle
   static_files: turtle.html
   upload: turtle\.html
@@ -80,6 +80,24 @@ handlers:
   secure: always
 - url: /movie-reddit
   script: reddit.py
+  secure: always
+
+# Pond apps.
+- url: /dress
+  static_files: pond-basic.html
+  upload: pond-basic\.html
+  secure: always
+- url: /pond/
+  static_dir: pond
+  secure: always
+
+# Pattern app.
+- url: /pattern
+  static_files: pattern.html
+  upload: pattern\.html
+  secure: always
+- url: /pattern/
+  static_dir: pattern
   secure: always
 
 # Bird app.

@@ -1,0 +1,149 @@
+{namespace Pond.Basic.soy}
+
+/**
+ * This is a Closure Template.
+ *
+ * To regenerate just English, run:
+ *   make pond-basic-en
+ *
+ * To regenerate all languages, run:
+ *   make languages
+ */
+
+/**
+ * Translated messages for use in JavaScript.
+ */
+{template .messages}
+  {call Pond.soy.messages /}
+  <div style="display: none">
+  </div>
+{/template}
+
+/**
+ * Web page structure.
+ */
+{template .start}
+  {call .messages /}
+  <div id="header">
+    <div id="logo">
+        <a href="./"> <img src="./index/horizontal-logo-01.png"></a>
+    </div>
+    <div class="farSide">
+        <select id="languageMenu"></select>
+        <button id="signoutButton" onClick="location.href='/'">
+        {{msg meaning="Games.signout" desc="IBID"}}Signout{{/msg}} &nbsp;<i class="fa fa-sign-out"></i>
+        </button>
+        <button id="linkButton" title="{msg meaning="Games.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}">
+          <img src="media/1x1.gif" class="link icon21">
+        </button>
+        &nbsp;
+        <button id="helpButton">
+          {{msg meaning="Games.help" desc="IBID"}}Help{{/msg}} &nbsp;<i class="fa fa-question"></i>
+        </button>
+    </div>
+  </div>
+  /*<table width="100%">
+    <tr>
+      <td>
+        <h1>
+          {call BlocklyGames.soy.titleSpan}
+            {param appName}
+              {msg meaning="Games.pondBasic" desc="IBID"}Pond{/msg}
+            {/param}
+          {/call}
+        </h1>
+      </td>
+      <td class="farSide">
+        <select id="languageMenu"></select>
+        &nbsp;
+        <button id="linkButton" title="{msg meaning="Games.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}">
+          <img src="media/1x1.gif" class="link icon21">
+        </button>
+        &nbsp;
+        <button id="helpButton">
+          {{msg meaning="Games.help" desc="IBID"}}Help{{/msg}}
+        </button>
+      </td>
+    </tr>
+  </table>*/
+  <div id="workspace">
+    {call Pond.soy.visualization /}
+
+    {call .toolbox /}
+    <div id="blockly"></div>
+  </div>
+
+  {call BlocklyGames.soy.dialog /}
+  {call BlocklyGames.soy.doneDialog /}
+  {call BlocklyGames.soy.storageDialog /}
+
+  {if $ij.level == 3}
+    {call Pond.soy.helpUseScan /}
+  {/if}
+
+  <div id="help" class="dialogHiddenContent">
+    <div style="padding-bottom: 0.7ex">
+      {if $ij.level == 1}
+        <h3> Grace needs your help getting dressed for a mission! </h3>
+        {msg meaning="Pond.helpText1"
+             desc="Instructions. Do not translate the word 'cannon'."}
+          Put Grace's superhero outfit on in the correct order.
+        {/msg}
+        <br><br><img src="pond/docs/order.png" width=146 style="margin-top:-10px;margin-bottom: -50px">
+      {/if}
+    </div>
+    {call BlocklyGames.soy.ok /}
+  </div>
+{/template}
+
+/**
+ * Toolbox.
+ */
+{template .toolbox}
+  <xml id="toolbox" style="display: none">
+    <category name="{msg meaning="Games.pondBasic" desc="IBID"}Clothes{/msg}">
+      <block type="tshirt">
+      </block>
+      <block type="skirt">
+      </block>
+      <block type="boots">
+      </block>
+    </category>
+    <category name="Accessories">
+      <block type="mask">
+      </block>
+      <block type="gloves">
+      </block>
+      <block type="cape">
+      </block>
+      <block type="logo">
+      </block>
+      <block type="belt">
+      </block>
+      <block type="shield">
+      </block>
+    </category>
+{if $ij.level >= 2}
+    <category name="{msg meaning="Games.catLogic" desc="IBID"}Logic{/msg}">
+  {if $ij.level >= 5}
+      <block type="pond_controls_if"></block>
+      <block type="logic_compare"></block>
+  {/if}
+  {if $ij.level >= 7}
+      <block type="logic_operation"></block>
+  {/if}
+      <block type="logic_boolean"></block>
+    </category>
+    <category name="{msg meaning="Games.catLoops" desc="IBID"}Loops{/msg}">
+      <block type="pond_loops_while"></block>
+    </category>
+{/if}
+    
+{if $ij.level >= 7}
+    <category name="{msg meaning="Games.catVariables" desc="IBID"}Variables{/msg}" custom="VARIABLE"></category>
+  {if $ij.level >= 8}
+    <category name="{msg meaning="Games.catProcedures" desc="IBID"}Functions{/msg}" custom="PROCEDURE"></category>
+  {/if}
+{/if}
+  </xml>
+{/template}

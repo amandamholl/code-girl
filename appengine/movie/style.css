@@ -8,11 +8,16 @@ button.primary {
 html[dir="RTL"] button.primary {
   text-align: right;
 }
+#wrapper{
+	position:relative;
+	height:85%;
+}
 #workspace{
   position: absolute;
   top: 90px;
   width: 98.5%;
   left:10px;
+  height:100%;
 }
 #page-container{
 	overflow-y: auto;
@@ -41,14 +46,16 @@ html[dir="RTL"] button.primary {
 }
 #visualization{
   float: right;
-  position: relative;
+  position: absolute;
   //left: -20px;
   z-index:0;
+  right:0;
+  top: 66px;
   margin-bottom:10px;
 }
 #blockly{
   position: absolute;
-  top:64px;
+  top:66px;
   height:85%;
 }
 /* clean this up */

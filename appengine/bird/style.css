@@ -73,3 +73,16 @@ html[dir="RTL"] button.primary {
     position: relative;
     top: 10px;
 }
+
+img.help{
+	margin-right:10px;
+}
+
+#leftSide{
+	float:right;
+	position:relative;
+	left:-20px;
+}
+#dialog{
+	top:5px;
+}

@@ -17,9 +17,9 @@
   {call BlocklyGames.soy.messages /}
   <div style="display: none">
     <span id="Bird_noWorm">{msg meaning="Bird.noWorm" desc="block text - Grace is not in possession of a magic wand.  This phrase is prefixed with 'if'."}does not have magic wand{/msg}</span>
-    <span id="Bird_heading">{msg meaning="Bird.heading" desc="block text - the compass direction toward which a traveler or vehicle is or should be moving; course."}heading{/msg}</span>
+    <span id="Bird_direction">{msg meaning="Bird.direction" desc="block text - the compass direction toward which a traveler or vehicle is or should be moving; course."}direction{/msg}</span>
     <span id="Bird_noWormTooltip">{msg meaning="Bird.noWormTooltip" desc="tooltip - Grace wants to get the magic wand."}The condition when Grace has not gotten the magic wand.{/msg}</span>
-    <span id="Bird_headingTooltip">{msg meaning="Bird.headingTooltip" desc="tooltip - Move in the direction of the given angle, where 0 means going horizontally to the right, and 90 straight up and 270 straight down."}Move in the direction of the given angle: 0 is to the right, 90 is straight up, etc.{/msg}</span>
+    <span id="Bird_directionTooltip">{msg meaning="Bird.directionTooltip" desc="tooltip - Move in the direction of the given angle, where 0 means going horizontally to the right, and 90 straight up and 270 straight down."}Move in the direction of the given angle: 0 is to the right, 90 is straight up, etc.{/msg}</span>
     <span id="Bird_positionTooltip">{msg meaning="Bird.positionTooltip" desc="tooltip - (x, y) marks the coordinate of bird, (0, 0) is the bottom left corner and (100, 100) top right."}x and y mark Grace's position. When x = 0 Grace is near the left edge, when x = 100 it's near the right edge. When y = 0 Grace is at the bottom, when y = 100 it's at the top.{/msg}</span>
   </div>
 {/template}
@@ -37,14 +37,14 @@
         <select id="languageMenu"></select>
         &nbsp;
         <button id="signoutButton" onClick="location.href='/'">
-        {{msg meaning="Games.signout" desc="IBID"}}Signout{{/msg}}
+        {{msg meaning="Games.signout" desc="IBID"}}Signout{{/msg}} &nbsp;<i class="fa fa-sign-out"></i>
         </button>
         <button id="linkButton" title="{msg meaning="Games.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}">
           <img src="media/1x1.gif" class="link icon21">
         </button>
         &nbsp;
         <button id="helpButton">
-          {{msg meaning="Games.help" desc="IBID"}}Help{{/msg}}
+          {{msg meaning="Games.help" desc="IBID"}}Help{{/msg}} &nbsp; <i class="fa fa-question"></i>
         </button>
     </div>
   </div>
@@ -58,8 +58,14 @@
       {param suffix}{/param}
       {/call}
     </div>*/
+
+
+  {call .toolbox /}
+  <div id="blockly"></div>
+
+  <div id="leftSide">
   <div id="visualization">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svgBird" width="400px" height="400px" style="background-color:rgba(255,255,255,.95)">
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svgBird" width="400px" height="400px" style="background-color:rgba(255,255,255,.95)">
     </svg>
   </div>
 
@@ -77,39 +83,50 @@
       </td>
     </tr>
   </table>
-
-  {call .toolbox /}
-  <div id="blockly"></div>
+  </div>
 
   {call BlocklyGames.soy.dialog /}
   {call BlocklyGames.soy.doneDialog /}
   {call BlocklyGames.soy.abortDialog /}
   {call BlocklyGames.soy.storageDialog /}
 
+  <div id="help" class="dialogHiddenContent">
+  <div style="padding-bottom: 0.7ex; font-size: large; margin: 1em;">
+    {if $ij.level == 3}
+        <h3> Learn If-Else Statements! </h3>
+        {msg meaning="Bird.helpText1" desc="Instructions."}
+            Put the blocks together and choose directions for Grace to fly to help Grace reach the magic wand and rescue Ada.
+        {/msg}
+        <br><img src="bird/instructions.gif" height=146 width=146 style="margin-bottom: -50px">
+     {/if}
+    </div>
+    {call BlocklyGames.soy.ok /}
+  </div>
+
   <div id="dialogHelp" class="dialogHiddenContent">
     {if $ij.level == 1}
       <table><tr><td rowspan=2>
         <img src="common/help.png">
       </td><td>
-        <div class="farSide"><img src="bird/help_heading.png" class="mirrorImg" height=27 width=141></div>
+        <div class="farSide"><img src="bird/help_direction.png" class="mirrorImg" height=27 width=141></div>
       </td></tr><tr><td>
-        {msg meaning="Bird.helpHeading" desc="callout - This is shown as instruction for the first level."}Change the heading angle to make Grace get the magic wand and rescue Ada.{/msg}
+        {msg meaning="Bird.helpdirection" desc="callout - This is shown as instruction for the first level."}Change the direction angle to make Grace get the magic wand and rescue Ada.{/msg}
       </td></tr></table>
     {elseif $ij.level == 2}
       <table><tr><td>
         <img src="common/help.png">
       </td><td>
-        {msg meaning="Bird.helpHasWorm" desc="callout - This is shown when the 'does not have magic wand' block is introduced."}Use this block to go in one heading if you have the magic wand, or a different heading if you don't have the magic wand.{/msg}
+        {msg meaning="Bird.helpHasWorm" desc="callout - This is shown when the 'does not have magic wand' block is introduced."}Use this block to go in one direction if you have the magic wand, or a different direction if you don't have the magic wand.{/msg}
       </td><td>
         <img src="bird/help_up.png">
       </td></tr></table>
-    {elseif $ij.level == 4}
+    {elseif $ij.level == 3}
       <table><tr><td>
-        <img src="common/help.png">
-      </td><td>
-        {msg meaning="Bird.helpX" desc="callout - This is shown when the 'x smaller than 50' block is introduced."}'x' is your current horizontal position. Use this block to go in one heading if 'x' is less than a number, or a different heading otherwise.{/msg}
-      </td><td>
         <img src="bird/help_up.png">
+      </td><td>
+        {msg meaning="Bird.helpHasWorm" desc="callout - This is shown when the 'does not have magic wand' block is introduced."}Use this block to go in one direction if you have the magic wand, or a different direction if you don't have the magic wand.{/msg}
+      </td><td>
+        <img class="help" width="72" height="72" src="maze/bulb.png">
       </td></tr></table>
     {elseif $ij.level == 5}
       <table><tr><td>
@@ -154,7 +171,7 @@
  */
 {template .toolbox}
   <xml id="toolbox" style="display: none;">
-    <block type="bird_heading"></block>
+    <block type="bird_direction"></block>
     {if $ij.level >= 2}
       <block type="bird_noWorm"></block>
       {if $ij.level >= 4}

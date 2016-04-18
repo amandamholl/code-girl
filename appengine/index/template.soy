@@ -31,8 +31,13 @@
     </div>
     <div id="login">
         <FORM>
-<BUTTON class="login" Type="BUTTON" ONCLICK="window.location.href='/login'">Login or Sign Up </BUTTON>
+          <BUTTON class="login" Type="BUTTON" ONCLICK="window.location.href='/login'">Login or Sign Up &nbsp;<i class="fa fa-sign-in"></i></BUTTON>
         </FORM>
+    </div>
+    <div id="logout" style="visibility: hidden">
+        <button id="signoutButton" onClick="location.href='/'">
+        {{msg meaning="Games.signout" desc="IBID"}}Signout{{/msg}}
+        </button>
     </div>
   </div>
   <div id="page-container">

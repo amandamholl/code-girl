@@ -18,7 +18,7 @@ class MyHandler(webapp2.RequestHandler):
 			  % (level, blockKey))
 		    
         else:
-			self.response.out.write("<html><body><a href='%s'>Sign in or register</a></body></html>" %
-                        users.create_login_url('/movie'))
+          self.redirect("%s" % users.create_login_url('/puzzle'))
+          #self.response.out.write("%s")
       
 application = webapp2.WSGIApplication([('/login', MyHandler),], debug=True)

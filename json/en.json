@@ -11,6 +11,7 @@
 	"Games.bird": "Bird",
 	"Games.turtle": "Turtle",
 	"Games.movie": "Movie",
+  	"Games.dress": "Dress",
 	"Games.pondBasic": "Pond",
 	"Games.pondAdvanced": "JS Pond",
 	"Games.linesOfCode1": "You solved this level with 1 line of JavaScript:",

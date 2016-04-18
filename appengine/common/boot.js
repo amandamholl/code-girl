@@ -27,7 +27,6 @@
   // Application path.
   var appName = location.pathname.match(/\/([-\w]+)(\.html)?$/);
   appName = appName ? appName[1].replace('-', '/') : 'index';
-  
 
   // Supported languages (consistent across all apps).
   window['BlocklyGamesLanguages'] = [
@@ -58,6 +57,10 @@
 
   // Load the chosen language pack.
   var script = document.createElement('script');
+  if(appName=="dress"){
+	appName="pond/basic";
+  }
+  //alert(appName);
   script.src = appName  + '/generated/' + lang + '/uncompressed.js';
   script.type = 'text/javascript';
   document.head.appendChild(script);

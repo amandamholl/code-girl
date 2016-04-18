@@ -52,48 +52,53 @@
         <select id="languageMenu"></select>
         &nbsp;
         <button id="signoutButton" onClick="location.href='/'">
-        {{msg meaning="Games.signout" desc="IBID"}}Signout{{/msg}}
+        {{msg meaning="Games.signout" desc="IBID"}}Signout{{/msg}} &nbsp;<i class="fa fa-sign-out"></i>
         </button>
         <button id="linkButton" title="{msg meaning="Games.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}">
           <img src="media/1x1.gif" class="link icon21">
         </button>
         &nbsp;
         <button id="helpButton">
-          {{msg meaning="Games.help" desc="IBID"}}Help{{/msg}}
+          {{msg meaning="Games.help" desc="IBID"}}Help{{/msg}} &nbsp;<i class="fa fa-question"></i>
         </button>
-    </div>
-  </div>
-  <div id="workspace">
-    <div id="visualization">
-      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svgMaze" width="400px" height="400px">
-        <g id="look">
-          <path d="M 0,-15 a 15 15 0 0 1 15 15" />
-          <path d="M 0,-35 a 35 35 0 0 1 35 35" />
-          <path d="M 0,-55 a 55 55 0 0 1 55 55" />
-        </g>
-      </svg>
-      <table width="400">
-        <tr>
-          <td style="width: 190px; text-align: center; vertical-align: top;">
-          <td>
-            <button id="runButton" class="primary" title="{msg meaning="Maze.runTooltip" desc="tooltip - Pressing this button runs the computer program the user has written to move the player through the maze."}Makes the player do what the blocks say.{/msg}">
-              <img src="media/1x1.gif" class="run icon21"> {msg meaning="Games.runProgram" desc="IBID"}Run Program{/msg}
-            </button>
-            <button id="resetButton" class="primary" style="display: none" title="{msg meaning="Maze.resetTooltip" desc="tooltip - Pressing this button restores the player to the start position and enables the user's program to be run again."}Put the player back at the start of the maze.{/msg}">
-              <img src="media/1x1.gif" class="stop icon21"> {msg meaning="Games.resetProgram" desc="IBID"}Reset{/msg}
-            </button>
-          </td>
-        </tr>
-      </table>
-      <div id="capacityBubble">
-        <div id="capacity"></div>
-      </div>
     </div>
   </div>
 
 
   {call .toolbox /}
   <div id="blockly"></div>
+
+  <div id="leftSide">
+
+    <div id="workspace">
+      <div id="visualization">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svgMaze" width="400px" height="400px">
+          <g id="look">
+            <path d="M 0,-15 a 15 15 0 0 1 15 15" />
+            <path d="M 0,-35 a 35 35 0 0 1 35 35" />
+            <path d="M 0,-55 a 55 55 0 0 1 55 55" />
+          </g>
+        </svg>
+        <table width="400">
+          <tr>
+            <td style="width: 190px; text-align: center; vertical-align: top;">
+            <td>
+              <button id="runButton" class="primary" title="{msg meaning="Maze.runTooltip" desc="tooltip - Pressing this button runs the computer program the user has written to move the player through the maze."}Makes the player do what the blocks say.{/msg}">
+                <img src="media/1x1.gif" class="run icon21"> {msg meaning="Games.runProgram" desc="IBID"}Run Program{/msg}
+              </button>
+              <button id="resetButton" class="primary" style="display: none" title="{msg meaning="Maze.resetTooltip" desc="tooltip - Pressing this button restores the player to the start position and enables the user's program to be run again."}Put the player back at the start of the maze.{/msg}">
+                <img src="media/1x1.gif" class="stop icon21"> {msg meaning="Games.resetProgram" desc="IBID"}Reset{/msg}
+              </button>
+            </td>
+          </tr>
+        </table>
+        <div id="capacityBubble">
+          <div id="capacity"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 
   /*<div id="pegmanMenu"></div>*/
 
@@ -167,7 +172,7 @@
       </td></tr></table>
     </div>
   {elseif $ij.level == 5}
-    <div id="dialogHelpSkins" class="dialogHiddenContent">
+    /*<div id="dialogHelpSkins" class="dialogHiddenContent">
       <table><tr><td>
         <img src="common/help.png">
       </td><td>
@@ -175,16 +180,36 @@
       </td><td>
         <img src="maze/help_up.png">
       </td></tr></table>
+    </div>*/
+    <div id="dialogHelpWallFollow" class="dialogHiddenContent">
+      <div style="font-size: large; margin: 1em;">
+        <p>
+        {msg meaning="Maze.helpWallFollow" desc="callout - This gives the users instructions on how to complete the challenge."}
+          Move the person to the end of the maze <img src="maze/marker.png"> to win the challenge.
+        {/msg}
+        </p>
+      <img src="maze/maze.gif" style="margin-bottom:-50px;margin-top:-10px">
+      </div>
+      {call BlocklyGames.soy.ok /}
     </div>
   {elseif $ij.level == 6}
     <div id="dialogHelpIf" class="dialogHiddenContent">
       <table><tr><td>
-        <img src="maze/help_up.png">
+        <img src="maze/help_up.png" style="margin-top:5px">
       </td><td>
         {msg meaning="Maze.helpIf" desc="callout - This is shown when the 'if' block is introduced.  An example of an 'if' block is: 'if there is a path to the left, turn left'."}An 'if' block will do something only if the condition is true. Try turning left if there is a path to the left.{/msg}
-      </td><td>
-        <img src="common/help.png">
       </td></tr></table>
+    </div>
+    <div id="dialogHelpWallFollow" class="dialogHiddenContent">
+      <div style="font-size: large; margin: 1em;">
+        <p>
+        {msg meaning="Maze.helpWallFollow" desc="callout - This gives the users instructions on how to complete the challenge."}
+          Move the person to the end of the maze <img src="maze/marker.png"> to win the challenge.
+        {/msg}
+        </p>
+<img src="maze/maze.gif" style="margin-bottom:-50px;margin-top:-10px">
+      </div>
+      {call BlocklyGames.soy.ok /}
     </div>
   {elseif $ij.level == 7}
     <div id="dialogHelpMenu" class="dialogHiddenContent">

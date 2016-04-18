@@ -99,6 +99,10 @@ button.login{
   margin:18px 18px 0px 0px;
 }
 
+#logout button{
+  margin:18px 18px 0px 0px;
+}
+
 button.primary {
   border: 1px solid #43949b;
   background-color: #43949b;

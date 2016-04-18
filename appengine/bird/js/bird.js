@@ -49,7 +49,7 @@ BlocklyInterface.nextLevel = function() {
     BlocklyInterface.indexPage();
   }*/
   window.location = window.location.protocol + '//' +
-        window.location.host + '/movie?lang=' + BlocklyGames.LANG + '&level=5';
+        window.location.host + '/movie?lang=' + BlocklyGames.LANG + '&level=4';
 };
 
 /**
@@ -328,7 +328,7 @@ Bird.init = function() {
     var top = visualization.offsetTop;
     //blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
 	blocklyDiv.style.top = Math.max(10, 90) + 'px';
-    blocklyDiv.style.left = rtl ? '10px' : '425px';
+    blocklyDiv.style.left = rtl ? '10px' : '10px';
     blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
   };
   window.addEventListener('scroll', function() {
@@ -348,7 +348,7 @@ Bird.init = function() {
  // Blockly.loadAudio_(['bird/whack.mp3', 'bird/whack.ogg'], 'whack');
  // Blockly.loadAudio_(['bird/worm.mp3', 'bird/worm.ogg'], 'worm');
   // Not really needed, there are no user-defined functions or variables.
-  Blockly.JavaScript.addReservedWords('noWorm,heading,getX,getY');
+  Blockly.JavaScript.addReservedWords('noWorm,direction,getX,getY');
 
   Bird.drawMap();
 
@@ -356,7 +356,7 @@ Bird.init = function() {
   if (BlocklyGames.LEVEL == 1) {
     defaultXml =
       '<xml>' +
-      '  <block type="bird_heading" x="70" y="70"></block>' +
+      '  <block type="bird_direction" x="70" y="70"></block>' +
       '</xml>';
   } else if (BlocklyGames.LEVEL < 5) {
     defaultXml =
@@ -375,16 +375,10 @@ Bird.init = function() {
 
   BlocklyGames.bindClick('runButton', Bird.runButtonClick);
   BlocklyGames.bindClick('resetButton', Bird.resetButtonClick);
+  
+  Bird.showHelp();
 
-  // Open interactive help.  But wait 5 seconds for the
-  // user to think a bit before they are told what to do.
-  setTimeout(function() {
-    Blockly.addChangeListener(function() {Bird.levelHelp()});
-    Bird.levelHelp();
-  }, 5000);
-  if (BlocklyGames.LEVEL > 8) {
-    setTimeout(BlocklyDialogs.abortOffer, 5 * 60 * 1000);
-  }
+  
 
   // Lazy-load the JavaScript interpreter.
   setTimeout(BlocklyInterface.importInterpreter, 1);
@@ -395,18 +389,55 @@ Bird.init = function() {
 window.addEventListener('load', Bird.init);
 
 /**
+ * Show the help pop-up.
+ */
+Bird.showHelp = function() {
+  var help = document.getElementById('help');
+  var button = document.getElementById('helpButton');
+  var style = {
+    width: '50%',
+    left: '25%',
+    //top: '5em'
+  };
+
+  BlocklyDialogs.showDialog(help, button, true, true, style, Bird.hideHelp);
+  BlocklyDialogs.startDialogKeyDown();
+};
+
+/**
+ * Hide the help pop-up.
+ */
+Bird.hideHelp = function() {
+  BlocklyDialogs.stopDialogKeyDown();
+  // Open interactive help.  But wait 5 seconds for the
+  // user to think a bit before they are told what to do.
+  setTimeout(function() {
+    Blockly.addChangeListener(function() {Bird.levelHelp()});
+    Bird.levelHelp();
+  }, 3000);
+  if (BlocklyGames.LEVEL > 8) {
+    setTimeout(BlocklyDialogs.abortOffer, 5 * 60 * 1000);
+  }
+};
+
+/**
  * When the workspace changes, update the help as needed.
  */
 Bird.levelHelp = function() {
-  if (Blockly.Block.dragMode_ != 0) {
+	
+  /*if (Blockly.Block.dragMode_ != 0) {
     // Don't change helps during drags.
+	alert(BlocklyGames.LEVEL);
     return;
-  } else if (Bird.result == Bird.ResultType.SUCCESS ||
+  } else */
+  if (Bird.result == Bird.ResultType.SUCCESS ||
              BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
                                                BlocklyGames.LEVEL)) {
+												   
     // The user has already won.  They are just playing around.
     return;
   }
+   
   var userBlocks = Blockly.Xml.domToText(
       Blockly.Xml.workspaceToDom(Blockly.mainWorkspace));
   var toolbar = Blockly.mainWorkspace.flyout_.workspace_.getTopBlocks(true);
@@ -415,7 +446,7 @@ Bird.levelHelp = function() {
   var style = null;
   if (BlocklyGames.LEVEL == 1) {
     if (userBlocks.indexOf('>90<') != -1 ||
-        userBlocks.indexOf('bird_heading') == -1) {
+        userBlocks.indexOf('bird_direction') == -1) {
       style = {'width': '370px', 'top': '140px'};
       style[Blockly.RTL ? 'right' : 'left'] = '215px';
       var blocks = Blockly.mainWorkspace.getTopBlocks(true);
@@ -425,10 +456,11 @@ Bird.levelHelp = function() {
         origin = toolbar[0].getSvgRoot();
       }
     }
-  } else if (BlocklyGames.LEVEL == 2) {
+  } else if (BlocklyGames.LEVEL == 3) {
+	 
     if (userBlocks.indexOf('bird_noWorm') == -1) {
-      style = {'width': '350px', 'top': '170px'};
-      style[Blockly.RTL ? 'right' : 'left'] = '180px';
+      style = {'width': '350px', 'top': '100px'};
+      style[Blockly.RTL ? 'right' : 'left'] = '20px';
       origin = toolbar[1].getSvgRoot();
     }
   } else if (BlocklyGames.LEVEL == 4) {
@@ -580,9 +612,9 @@ Bird.initInterpreter = function(interpreter, scope) {
   // API
   var wrapper;
   wrapper = function(angle, id) {
-    Bird.heading(angle.valueOf(), id.toString());
+    Bird.direction(angle.valueOf(), id.toString());
   };
-  interpreter.setProperty(scope, 'heading',
+  interpreter.setProperty(scope, 'direction',
       interpreter.createNativeFunction(wrapper));
   wrapper = function() {
     return interpreter.createPrimitive(!Bird.hasWorm);
@@ -616,7 +648,7 @@ Bird.execute = function() {
   var start = code.indexOf('if (');
   var end = code.indexOf('}\n');
   if (start != -1 && end != -1) {
-    // Ugly hack: if there is an 'if' statement, ignore isolated heading blocks.
+    // Ugly hack: if there is an 'if' statement, ignore isolated direction blocks.
     code = code.substring(start, end + 2);
   }
   code = 'while(true) {\n' +
@@ -802,7 +834,7 @@ Bird.gotoPoint = function(p) {
  * @throws {true} If the nest is reached.
  * @throws {false} If the bird collides with a wall.
  */
-Bird.heading = function(angle, id) {
+Bird.direction = function(angle, id) {
   var angleRadians = goog.math.toRadians(angle);
   Bird.pos.x += Math.cos(angleRadians);
   Bird.pos.y += Math.sin(angleRadians);

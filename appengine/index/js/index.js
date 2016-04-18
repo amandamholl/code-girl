@@ -24,11 +24,10 @@ goog.provide('Index');
 goog.require('Index.soy');
 goog.require('BlocklyGames');
 
-
 /**
  * Array of application names.
  */
-Index.APPS = ['puzzle', 'turtle', 'movie', 'bird', 'maze'];
+Index.APPS = ['puzzle', 'turtle', 'movie', 'bird', 'maze', 'pond'];
 
 /**
  * Initialize Blockly and the maze.  Called on page load.
@@ -54,17 +53,23 @@ Index.init = function() {
       }
     }
   }
+  //console.log(BlocklyStorage);
   if (storedData) {
     var clearButtonPara = document.getElementById('clearDataPara');
     clearButtonPara.style.visibility = 'visible';
     var clearButton = document.getElementById('clearData');
     BlocklyGames.bindClick(clearButton, Index.clearData_);
+	/* Need to change when this done */
+	//var logout = document.getElementById('logout');
+	//logout.style.visibility = 'visible';
+	//var login = document.getElementById('login');
+	//login.style.display = 'none';
   }
   var script = document.createElement('script');
   script.src = './index/js/test.js';
   script.type = 'text/javascript';
   document.body.appendChild(script);
-  
+  console.log(window.sessionStorage);
   //var login = document.getElementsByClassName('login')[0];
   //BlocklyGames.bindClick(login, Index.login);
   
@@ -89,7 +94,7 @@ Index.clearData_ = function() {
 };
 
 Index.login = function() {
-	alert('in index');
+	//alert('in index');
 	//BlocklyDialogs.login();
 };
 

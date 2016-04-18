@@ -85,8 +85,8 @@ Blockly.Blocks['turtle_turn'] = {
         [['turn right', 'turnRight'],
          ['turn left', 'turnLeft']];
     // Append arrows to direction messages.
-    DIRECTIONS[0][0] += ' \u21BB';
-    DIRECTIONS[1][0] += ' \u21BA';
+    DIRECTIONS[0][0] += ' \u21B1';
+    DIRECTIONS[1][0] += ' \u21B0';
     this.setColour(160);
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown(DIRECTIONS), 'DIR')

@@ -8,7 +8,7 @@ class MyHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
         if user:
-		    self.response.out.write("<html><head><meta http-equiv='refresh' content='0; url=%s'></head></html>"
+          self.response.out.write("<html><head><meta http-equiv='refresh' content='0; url=%s'></head></html>"
 			  % users.create_logout_url('/'))
 		
       

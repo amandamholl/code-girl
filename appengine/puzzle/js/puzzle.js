@@ -36,7 +36,7 @@ BlocklyGames.NAME = 'puzzle';
  */
 BlocklyInterface.nextLevel = function() {
    window.location = window.location.protocol + '//' +
-        window.location.host + '/movie?lang=' + BlocklyGames.LANG + '&level=' + (BlocklyGames.LEVEL + 1);
+        window.location.host + '/movie?lang=' + BlocklyGames.LANG + '&level=' + (BlocklyGames.LEVEL);
 };
 
 /**

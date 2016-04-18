@@ -15,7 +15,7 @@ body {
   top: 0;
 }
 
-#login{
+#login,#logout{
 	float:right;
 }
 

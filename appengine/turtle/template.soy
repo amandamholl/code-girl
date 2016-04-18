@@ -69,14 +69,14 @@
         <select id="languageMenu"></select>
         &nbsp;
         <button id="signoutButton" onClick="location.href='/'">
-        {{msg meaning="Games.signout" desc="IBID"}}Signout{{/msg}}
+        {{msg meaning="Games.signout" desc="IBID"}}Signout{{/msg}} &nbsp;<i class="fa fa-sign-out"></i>
         </button>
         <button id="linkButton" title="{msg meaning="Games.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}">
           <img src="media/1x1.gif" class="link icon21">
         </button>
         &nbsp;
         <button id="helpButton">
-          {{msg meaning="Games.help" desc="IBID"}}Help{{/msg}}
+          {{msg meaning="Games.help" desc="IBID"}}Help{{/msg}} &nbsp; <i class="fa fa-question"></i>
         </button>
     </div>
   </div>
@@ -162,7 +162,7 @@
         {msg meaning="Turtle.helpText1" desc="Instructions."}
             Put the blocks together to help Ada draw a square! Change the value of the fields to make Ada move correctly.
         {/msg}
-        <br><img src="turtle/square.gif" height=146 width=146 style="margin-bottom: -50px">
+        <br><img src="turtle/blocks.png" width=146 style="margin-bottom: -10px;margin-right:10px;"><img src="turtle/square.gif" height=146 width=146 style="margin-bottom: -50px">
       {/if}
     {if $ij.level == 2}
         <h3> Learn Loops! </h3>
