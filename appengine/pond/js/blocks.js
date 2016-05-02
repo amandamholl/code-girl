@@ -193,6 +193,7 @@ Blockly.Blocks['tshirt'] = {
 	this.setPreviousStatement(true);
 	this.setNextStatement(true);
 	
+	
   }
 };
 

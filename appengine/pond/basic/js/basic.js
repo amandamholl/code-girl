@@ -129,18 +129,14 @@ Pond.Basic.init = function() {
 };
 
 Pond.display = function() {
-  //Pond.ctxDisplay.clearRect(0, 0, Pond.ctxDisplay.canvas.width, Pond.ctxDisplay.canvas.height);
-  /*Pond.ctxScratch.save();
-  Pond.ctxScratch.fillStyle = 'white';
-  Pond.ctxScratch.fillRect(0, 0,
-  Pond.ctxScratch.canvas.width, Pond.ctxScratch.canvas.height);
-  Pond.ctxScratch.restore();*/
   
   Pond.renderSuperhero_();
   // Draw and copy the user layer.
   var code = Blockly.JavaScript.workspaceToCode();
   var interpreter = new Interpreter(code, Pond.initInterpreter);
   Pond.drawFrame_(interpreter);
+  console.log(Blockly.Events.CHANGE);
+  
   Pond.ctxDisplay.drawImage(Pond.ctxScratch.canvas, 0, 0);
 }
 Pond.drawFrame_ = function(interpreter) {
