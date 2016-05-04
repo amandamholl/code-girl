@@ -113,16 +113,18 @@ Turtle.init = function() {
   if(BlocklyGames.LEVEL != 1){
   var toolbox = document.getElementById('toolbox');
   }
-  Blockly.inject(document.getElementById('blockly'),
-      {'media': 'media/',
-       'rtl': rtl,
-       'toolbox': toolbox,
-       'trashcan': true}); 
+  BlocklyGames.workspace = Blockly.inject('blockly',
+                                          {'media': 'media/',
+                                          'rtl': rtl,
+                                          'toolbox': toolbox,
+                                          'trashcan': BlocklyGames.LEVEL == 1 ? false : true ,
+                                          'zoom': BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL ?
+                                          {'controls': true, 'wheel': true} : null});
   // Prevent collisions with user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('moveForward,moveBackward,' +
-      'turnRight,turnLeft,penUp,penDown,penWidth,penColour,' +
-      'hideTurtle,showTurtle,print,font');
-
+                                      'turnRight,turnLeft,penUp,penDown,penWidth,penColour,' +
+                                      'hideTurtle,showTurtle,print,font');
+  
   if (document.getElementById('submitButton')) {
     BlocklyGames.bindClick('submitButton', Turtle.submitToReddit);
   }
@@ -182,7 +184,7 @@ Turtle.init = function() {
   BlocklyGames.bindClick('resetButton', Turtle.resetButtonClick);
 
   // Preload the win sound.
-  Blockly.loadAudio_(['turtle/win.mp3', 'turtle/win.ogg'], 'win');
+  //Blockly.loadAudio_(['turtle/win.mp3', 'turtle/win.ogg'], 'win');
   // Lazy-load the JavaScript interpreter.
   setTimeout(BlocklyInterface.importInterpreter, 1);
   // Lazy-load the syntax-highlighting.
@@ -266,7 +268,7 @@ Turtle.categoryClicked_ = false;
  * @private
  */
 Turtle.watchCategories_ = function() {
-  if (Blockly.getMainWorkspace().toolbox_.flyout_.isVisible()) {
+  if (BlocklyGames.workspace.toolbox_.flyout_.isVisible()) {
     Turtle.categoryClicked_ = true;
     BlocklyDialogs.hideDialog(false);
   }
@@ -403,7 +405,7 @@ Turtle.runButtonClick = function(e) {
   runButton.style.display = 'none';
   resetButton.style.display = 'inline';
   document.getElementById('spinner').style.visibility = 'visible';
-  Blockly.mainWorkspace.traceOn(true);
+  BlocklyGames.workspace.traceOn(true);
   Turtle.execute();
 };
 
@@ -420,7 +422,7 @@ Turtle.resetButtonClick = function(e) {
   runButton.style.display = 'inline';
   document.getElementById('resetButton').style.display = 'none';
   document.getElementById('spinner').style.visibility = 'hidden';
-  Blockly.mainWorkspace.traceOn(false);
+  BlocklyGames.workspace.traceOn(false);
   Turtle.reset();
 
   // Image cleared; prevent user from submitting to Reddit.
@@ -514,9 +516,9 @@ Turtle.execute = function() {
     setTimeout(Turtle.execute, 250);
     return;
   }
-
+  
   Turtle.reset();
-  var code = Blockly.JavaScript.workspaceToCode();
+  var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
   Turtle.interpreter = new Interpreter(code, Turtle.initInterpreter);
   Turtle.pidList.push(setTimeout(Turtle.executeChunk_, 100));
 };
@@ -542,13 +544,13 @@ Turtle.executeChunk_ = function() {
       // The last executed command requested a pause.
       go = false;
       Turtle.pidList.push(
-          setTimeout(Turtle.executeChunk_, Turtle.pause));
+                          setTimeout(Turtle.executeChunk_, Turtle.pause));
     }
   } while (go);
   // Wrap up if complete.
   if (!Turtle.pause) {
     document.getElementById('spinner').style.visibility = 'hidden';
-    Blockly.mainWorkspace.highlightBlock(null);
+    BlocklyGames.workspace.highlightBlock(null);
     Turtle.checkAnswer();
     // Image complete; allow the user to submit this image to Reddit.
     Turtle.canSubmit = true;
@@ -699,7 +701,7 @@ Turtle.checkAnswer = function() {
     BlocklyInterface.saveToLocalStorage();
     if (BlocklyGames.LEVEL <= 3) {
       // No congrats for last level, it is open ended.
-      Blockly.playAudio('win', 0.5);
+      //Blockly.playAudio('win', 0.5);
       BlocklyDialogs.congratulations();
     }
   } else {

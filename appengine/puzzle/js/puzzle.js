@@ -17,6 +17,10 @@
  * limitations under the License.
  */
 
+/**
+ * @fileoverview JavaScript for Blockly's Puzzle application.
+ * @author fraser@google.com (Neil Fraser)
+ */
 'use strict';
 
 goog.provide('Puzzle');
@@ -35,9 +39,10 @@ BlocklyGames.NAME = 'puzzle';
  * Go to the next level.
  */
 BlocklyInterface.nextLevel = function() {
-   window.location = window.location.protocol + '//' +
-        window.location.host + '/movie?lang=' + BlocklyGames.LANG + '&level=' + (BlocklyGames.LEVEL);
+  window.location = window.location.protocol + '//' +
+  window.location.host + '/movie?lang=' + BlocklyGames.LANG + '&level=' + (BlocklyGames.LEVEL);
 };
+
 
 /**
  * Initialize Blockly and the puzzle.  Called on page load.
@@ -45,29 +50,29 @@ BlocklyInterface.nextLevel = function() {
 Puzzle.init = function() {
   // Render the Soy template.
   document.body.innerHTML = Puzzle.soy.start({}, null,
-      {lang: BlocklyGames.LANG,
-       html: BlocklyGames.IS_HTML});
-
+                                             {lang: BlocklyGames.LANG,
+                                             html: BlocklyGames.IS_HTML});
+  
   BlocklyInterface.init();
-
+  
   var rtl = BlocklyGames.isRtl();
   var blocklyDiv = document.getElementById('blockly');
   var onresize = function(e) {
     blocklyDiv.style.width = (window.innerWidth - 20) + 'px';
     blocklyDiv.style.height =
-        (window.innerHeight - blocklyDiv.offsetTop - 15) + 'px';
+    (window.innerHeight - blocklyDiv.offsetTop - 15) + 'px';
   };
   onresize();
   window.addEventListener('resize', onresize);
-
-  Blockly.inject(document.getElementById('blockly'),
-      {'media': 'media/',
-       'rtl': rtl,
-       'scrollbars': false,
-       'trashcan': false});
-
+  
+  BlocklyGames.workspace = Blockly.inject('blockly',
+                                          {'media': 'media/',
+                                          'rtl': rtl,
+                                          'scrollbars': false,
+                                          'trashcan': false});
+  
   var savedBlocks =
-      BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME, BlocklyGames.LEVEL);
+  BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME, BlocklyGames.LEVEL);
   // Add the blocks.
   try {
     var loadOnce = window.sessionStorage.loadOnceBlocks;
@@ -79,10 +84,10 @@ Puzzle.init = function() {
   if (loadOnce) {
     delete window.sessionStorage.loadOnceBlocks;
     var xml = Blockly.Xml.textToDom(loadOnce);
-    Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+    Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
   } else if (savedBlocks) {
     var xml = Blockly.Xml.textToDom(savedBlocks);
-    Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+    Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
   } else {
     // Create one of every block.
     var blocksAnimals = [];
@@ -90,15 +95,15 @@ Puzzle.init = function() {
     var blocksTraits = [];
     var i = 1;
     while (BlocklyGames.getMsgOrNull('Puzzle_animal' + i)) {
-      var block = Blockly.Block.obtain(Blockly.mainWorkspace, 'animal');
+      var block = BlocklyGames.workspace.newBlock('animal');
       block.populate(i);
       blocksAnimals.push(block);
-      var block = Blockly.Block.obtain(Blockly.mainWorkspace, 'picture');
+      var block = BlocklyGames.workspace.newBlock('picture');
       block.populate(i);
       blocksPictures.push(block);
       var j = 1;
       while (BlocklyGames.getMsgOrNull('Puzzle_animal' + i + 'Trait' + j)) {
-        var block = Blockly.Block.obtain(Blockly.mainWorkspace, 'trait');
+        var block = BlocklyGames.workspace.newBlock('trait');
         block.populate(i, j);
         blocksTraits.push(block);
         j++;
@@ -129,8 +134,8 @@ Puzzle.init = function() {
     }
     // Position the blocks randomly.
     var MARGIN = 50;
-    Blockly.svgResize();
-    var workspaceBox = Blockly.svgSize();
+    Blockly.svgResize(BlocklyGames.workspace);
+    var workspaceBox = Blockly.svgSize(BlocklyGames.workspace.getParentSvg());
     workspaceBox.width -= MARGIN;
     workspaceBox.height -= MARGIN;
     var countedArea = 0;
@@ -140,10 +145,10 @@ Puzzle.init = function() {
       // Spacing is proportional to block's area.
       if (rtl) {
         var dx = blockBox.width +
-                 (countedArea / totalArea) * workspaceBox.width;
+        (countedArea / totalArea) * workspaceBox.width;
       } else {
         var dx = (countedArea / totalArea) *
-                 (workspaceBox.width - blockBox.width);
+        (workspaceBox.width - blockBox.width);
       }
       dx = Math.round(dx + Math.random() * MARGIN);
       var dy = Math.round(Math.random() *
@@ -152,14 +157,14 @@ Puzzle.init = function() {
       countedArea += block.cached_area_;
     }
   }
-
+  
   BlocklyGames.bindClick('checkButton', Puzzle.checkAnswers);
   BlocklyGames.bindClick('helpButton', function(){Puzzle.showHelp(true);});
-
+  
   if (!savedBlocks) {
     Puzzle.showHelp(false);
   }
-
+  
   /**
    * HACK:
    * Chrome (v28) displays a broken image tag on any image that is also
@@ -167,26 +172,19 @@ Puzzle.init = function() {
    * If Chrome stops corrupting the Duck picture, delete this entire hack.
    */
   if (goog.userAgent.WEBKIT) {
-    var blocks = Blockly.mainWorkspace.getAllBlocks();
+    var blocks = BlocklyGames.workspace.getAllBlocks();
     for (var i = 0, block; block = blocks[i]; i++) {
       block.select();
     }
     Blockly.selected.unselect();
   }
-
+  
   // Make connecting blocks easier for beginners.
   Blockly.SNAP_RADIUS *= 2;
   // Preload the win sound.
-  Blockly.loadAudio_(['puzzle/win.mp3', 'puzzle/win.ogg'], 'win');
+  BlocklyGames.workspace.loadAudio_(['puzzle/win.mp3', 'puzzle/win.ogg'],
+                                    'win');
 };
-
-if (window.location.pathname.match(/readonly.html$/)) {
-  window.addEventListener('load', function() {
-    BlocklyInterface.initReadonly(Puzzle.soy.readonly());
-  });
-} else {
-  window.addEventListener('load', Puzzle.init);
-}
 
 /**
  * Shuffles the values in the specified array using the Fisher-Yates in-place
@@ -227,7 +225,7 @@ Puzzle.legs = function() {
  * Count and highlight the errors.
  */
 Puzzle.checkAnswers = function() {
-  var blocks = Blockly.mainWorkspace.getAllBlocks();
+  var blocks = BlocklyGames.workspace.getAllBlocks();
   var errors = 0;
   var badBlocks = [];
   for (var b = 0, block; block = blocks[b]; b++) {
@@ -238,13 +236,13 @@ Puzzle.checkAnswers = function() {
       badBlocks.push(block);
     }
   }
-
+  
   var graphValue = document.getElementById('graphValue');
   setTimeout(function() {
-      graphValue.style.width =
-          (100 * (blocks.length - errors) / blocks.length) + 'px';
-  }, 500);
-
+             graphValue.style.width =
+             (100 * (blocks.length - errors) / blocks.length) + 'px';
+             }, 500);
+  
   var messages;
   if (errors == 1) {
     messages = [BlocklyGames.getMsg('Puzzle_error1'),
@@ -253,11 +251,10 @@ Puzzle.checkAnswers = function() {
     messages = [BlocklyGames.getMsg('Puzzle_error2').replace('%1', errors),
                 BlocklyGames.getMsg('Puzzle_tryAgain')];
   } else {
-	  
     messages = [BlocklyGames.getMsg('Puzzle_error0').replace(
-        '%1', blocks.length)];
+                                                             '%1', blocks.length)];
     BlocklyInterface.saveToLocalStorage();
-	document.getElementsByClassName('secondary').addEventListener("click", BlocklyDialogs.congratulations());
+    document.getElementsByClassName('secondary').addEventListener("click", BlocklyDialogs.congratulations());
   }
   var textDiv = document.getElementById('answerMessage');
   textDiv.textContent = '';
@@ -266,20 +263,20 @@ Puzzle.checkAnswers = function() {
     line.appendChild(document.createTextNode(messages[i]));
     textDiv.appendChild(line);
   }
-
+  
   var content = document.getElementById('answers');
   var button = document.getElementById('checkButton');
   var rtl = BlocklyGames.isRtl();
   var style = {
-    width: '25%',
-    left: rtl ? '5%' : '70%',
-    //top: '5em'
+  width: '25%',
+  left: rtl ? '5%' : '70%',
+  top: '5em'
   };
   var action = errors ? BlocklyDialogs.stopDialogKeyDown :
-      BlocklyInterface.indexPage;
+  BlocklyInterface.indexPage;
   BlocklyDialogs.showDialog(content, button, true, true, style, action);
   BlocklyDialogs.startDialogKeyDown();
-
+  
   if (badBlocks.length) {
     // Pick a random bad block and blink it until the dialog closes.
     Puzzle.shuffle(badBlocks);
@@ -304,8 +301,8 @@ Puzzle.checkAnswers = function() {
  * All blocks correct.  Do the end dance.
  */
 Puzzle.endDance = function() {
-  Blockly.playAudio('win', 0.5);
-  var blocks = Blockly.mainWorkspace.getTopBlocks(false);
+  BlocklyGames.workspace.playAudio('win', 0.5);
+  var blocks = BlocklyGames.workspace.getTopBlocks(false);
   for (var i = 0, block; block = blocks[i]; i++) {
     var angle = 360 * (i / blocks.length);
     Puzzle.animate(block, angle);
@@ -324,25 +321,28 @@ Puzzle.animate = function(block, angleOffset) {
     return;
   }
   // Collect all the metrics.
-  var workspaceMetrics = Blockly.mainWorkspace.getMetrics();
+  var workspaceMetrics = BlocklyGames.workspace.getMetrics();
   var halfHeight = workspaceMetrics.viewHeight / 2;
   var halfWidth = workspaceMetrics.viewWidth / 2;
-  var blockXY = block.getRelativeToSurfaceXY();
   var blockHW = block.getHeightWidth();
+  var blockXY = block.getRelativeToSurfaceXY();
+  if (BlocklyGames.isRtl()) {
+    blockXY.x -= blockHW.width;
+  }
   var radius = Math.max(175, Math.min(halfHeight, halfWidth) -
-      Math.max(blockHW.height, blockHW.width) / 2);
-
+                        Math.max(blockHW.height, blockHW.width) / 2);
+  
   var ms = Date.now();
   // Rotate the blocks around the centre.
   var angle = angleOffset + (ms / 50 % 360);
   // Vary the radius sinusoidally.
   radius *= Math.sin(((ms % 5000) / 5000) * (Math.PI * 2)) / 8 + 7 / 8;
   var targetX = goog.math.angleDx(angle, radius) + halfWidth -
-      blockHW.width / 2;
+  blockHW.width / 2;
   var targetY = goog.math.angleDy(angle, radius) + halfHeight -
-      blockHW.height / 2;
+  blockHW.height / 2;
   var speed = 5;
-
+  
   var distance = Math.sqrt(Math.pow(targetX - blockXY.x, 2) +
                            Math.pow(targetY - blockXY.y, 2));
   if (distance < speed) {
@@ -362,14 +362,40 @@ Puzzle.animate = function(block, angleOffset) {
  * @param {boolean} animate Animate the pop-up opening.
  */
 Puzzle.showHelp = function(animate) {
+  var xml = [
+             '<xml>',
+             '<block type="animal" x="5" y="5">',
+             '<mutation animal="1"></mutation>',
+             '<title name="LEGS">1</title>',
+             '<value name="PIC">',
+             '<block type="picture">',
+             '<mutation animal="1"></mutation>',
+             '</block>',
+             '</value>',
+             '<statement name="TRAITS">',
+             '<block type="trait">',
+             '<mutation animal="1" trait="2"></mutation>',
+             '<next>',
+             '<block type="trait">',
+             '<mutation animal="1" trait="1"></mutation>',
+             '</block>',
+             '</next>',
+             '</block>',
+             '</statement>',
+             '</block>',
+             '</xml>'];
+  BlocklyInterface.injectReadonly('sample', xml);
+  
   var help = document.getElementById('help');
   var button = document.getElementById('helpButton');
   var style = {
-    width: '50%',
-    left: '25%',
-    //top: '5em'
+  width: '50%',
+  left: '25%',
+  top: '5em'
   };
   BlocklyDialogs.showDialog(help, button, animate, true, style,
-      BlocklyDialogs.stopDialogKeyDown);
+                            BlocklyDialogs.stopDialogKeyDown);
   BlocklyDialogs.startDialogKeyDown();
 };
+
+window.addEventListener('load', Puzzle.init);

@@ -110,12 +110,12 @@ Movie.init = function() {
     //blocklyDiv.style.left = rtl ? '10px' : '420px';
 	var div = document.getElementById("page-container");
 	
-	if(window.innerWidth>div.clientWidth)
-		var subtract = 440;
+	if(window.innerWidth > div.clientWidth)
+		var subtract = 445;
 	else
-		var subtract = 425;
-    blocklyDiv.style.width = (window.innerWidth - subtract) + 'px';
-	//console.log(div.scrollWidth+ "-----"+div.clientWidth );
+		var subtract = 430;
+  blocklyDiv.style.width = (window.innerWidth - subtract) + 'px';
+	//console.log(window.innerWidth+ "-----"+div.clientWidth );
   };
   window.addEventListener('scroll', function() {
       onresize();
@@ -124,6 +124,7 @@ Movie.init = function() {
   window.addEventListener('resize', onresize);
   onresize();
 
+  
   if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
     /*Blockly.FieldColour.COLUMNS = 3;*/
     /*Blockly.FieldColour.COLOURS =
@@ -137,11 +138,15 @@ Movie.init = function() {
   }
 
   var toolbox = document.getElementById('toolbox');
-  Blockly.inject(document.getElementById('blockly'),
-      {'media': 'media/',
-       'rtl': rtl,
-       'toolbox': toolbox,
-       'trashcan': true});
+  BlocklyGames.workspace = Blockly.inject('blockly',
+                                          {'media': 'media/',
+                                          'rtl': rtl,
+                                          'toolbox': toolbox,
+                                          'trashcan': true,
+                                          'zoom': BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL ?
+                                          {'controls': true, 'wheel': true} : null});
+  
+  //console.log(BlocklyGames.workspace);
 	   
  /* Code from puzzle.js -- saves blocks and reloads them if page reloads */
   var iterator = BlocklyGames.LEVEL;
@@ -182,7 +187,7 @@ Movie.init = function() {
     BlocklyGames.bindClick('submitButton', Movie.submitToReddit);
   }*/
 
-  var defaultXml = '<xml></xml>';
+  //var defaultXml = '<xml></xml>';
   //BlocklyInterface.loadBlocks(defaultXml, false);
 
   Movie.ctxDisplay = document.getElementById('display').getContext('2d');
@@ -194,10 +199,10 @@ Movie.init = function() {
   //Movie.renderHatching_();
   //var colour = window.prompt("Enter a colour for her hair ");
   Movie.renderSuperhero_('#a3550b', "hair");
-  Blockly.addChangeListener(Movie.display);
+  BlocklyGames.workspace.addChangeListener(Movie.display);
 
   // Preload the win sound.
-  Blockly.loadAudio_(['movie/win.mp3', 'movie/win.ogg'], 'win');
+  //BlocklyGames.workspace.loadAudio_(['movie/win.mp3', 'movie/win.ogg'], 'win');
   // Lazy-load the syntax-highlighting.
   setTimeout(BlocklyInterface.importPrettify, 1);
 
@@ -268,7 +273,7 @@ function dataURItoBlob(dataURI) {
 
 Movie.unlock = function() {
 	//alert('here');
-  Blockly.playAudio('win', 0.5);
+  //Blockly.playAudio('win', 0.5);
   BlocklyInterface.saveToLocalStorage(); 
   if(BlocklyGames.LEVEL < 7){
 	  BlocklyDialogs.levelup();
@@ -2889,7 +2894,7 @@ Movie.display = function() {
   
   
   // Draw and copy the user layer.
-  var code = Blockly.JavaScript.workspaceToCode();
+  var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
   var interpreter = new Interpreter(code, Movie.initInterpreter);
   Movie.drawFrame_(interpreter);
   Movie.ctxDisplay.drawImage(Movie.ctxScratch.canvas, 0, 0);
@@ -13086,7 +13091,7 @@ Movie.checkAnswers = function() {
     BlocklyInterface.saveToLocalStorage();
     if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
       // No congrats for last level, it is open ended.
-      Blockly.playAudio('win', 0.5);
+      //BlocklyGames.workspace.playAudio('win', 0.5);
       BlocklyDialogs.levelup();
     }
   }

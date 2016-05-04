@@ -17,6 +17,10 @@
  * limitations under the License.
  */
 
+/**
+ * @fileoverview Common support code for Blockly apps.
+ * @author fraser@google.com (Neil Fraser)
+ */
 'use strict';
 
 goog.provide('BlocklyInterface');
@@ -24,6 +28,8 @@ goog.provide('BlocklyInterface');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.Msg');
 goog.require('Blockly');
+
+goog.require('goog.string');
 
 
 /**
@@ -40,7 +46,6 @@ BlocklyInterface.init = function() {
 
   // Disable the link button if page isn't backed by App Engine storage.
   var linkButton = document.getElementById('linkButton');
-  var logoutButton = document.getElementById('signoutButton');	
   if ('BlocklyStorage' in window) {
     BlocklyStorage['HTTPREQUEST_ERROR'] =
         BlocklyGames.getMsg('Games_httpRequestError');
@@ -48,45 +53,19 @@ BlocklyInterface.init = function() {
     BlocklyStorage['HASH_ERROR'] = BlocklyGames.getMsg('Games_hashError');
     BlocklyStorage['XML_ERROR'] = BlocklyGames.getMsg('Games_xmlError');
     // Swap out the BlocklyStorage's alert() for a nicer dialog.
-    BlocklyStorage['alert'] = BlocklyGames.storageAlert;
+    BlocklyStorage['alert'] = BlocklyDialogs.storageAlert;
     if (linkButton) {
       BlocklyGames.bindClick(linkButton, BlocklyStorage['link']);
     }
-	if (logoutButton) {
-		BlocklyGames.bindClick(logoutButton, BlocklyStorage['link']);
-	}
   } else if (linkButton) {
     linkButton.style.display = 'none';
   }
 
   var languageMenu = document.getElementById('languageMenu');
-  languageMenu.addEventListener('change',
-      BlocklyInterface.changeLanguage, true);
-	  
-    
-};
-
-/**
- * Initialize Blockly for a readonly iframe.  Called on page load.
- * XML argument may be generated from the console with:
- * encodeURIComponent(Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(Blockly.mainWorkspace)).slice(5, -6))
- * @param {string} content XML encoding of Blocky blocks.
- */
-BlocklyInterface.initReadonly = function(content) {
-  // Render the Soy template.
-  document.body.innerHTML = content;
-
-  var div = document.getElementById('blockly');
-  div.style.height = window.innerHeight + 'px';
-  Blockly.inject(div,
-      {media: 'media/',
-       readOnly: true,
-       rtl: BlocklyGames.isRtl(),
-       scrollbars: false});
-
-  // Add the blocks.
-  var xml = BlocklyGames.getStringParamFromUrl('xml', '');
-  BlocklyInterface.setCode('<xml>' + xml + '</xml>');
+  if (languageMenu) {
+    languageMenu.addEventListener('change',
+        BlocklyInterface.changeLanguage, true);
+  }
 };
 
 /**
@@ -97,8 +76,6 @@ BlocklyInterface.initReadonly = function(content) {
 BlocklyInterface.loadBlocks = function(defaultXml, inherit) {
   if ('BlocklyStorage' in window && window.location.hash.length > 1) {
     // An href with #key triggers an AJAX call to retrieve saved blocks.
-	//where does this go?
-	//WANT TO USE THIS WHEN USER LOGS IN
     BlocklyStorage['retrieveXml'](window.location.hash.substring(1));
     return;
   }
@@ -123,7 +100,6 @@ BlocklyInterface.loadBlocks = function(defaultXml, inherit) {
 
   var restore = loadOnce || savedLevel || inherited || defaultXml;
   if (restore) {
-	/** what does this function do */
     BlocklyInterface.setCode(restore);
   }
 };
@@ -139,8 +115,26 @@ BlocklyInterface.setCode = function(code) {
   } else {
     // Blockly editor.
     var xml = Blockly.Xml.textToDom(code);
-    Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+    // Clear the workspace to avoid merge.
+    BlocklyGames.workspace.clear();
+    Blockly.Xml.domToWorkspace(xml, BlocklyGames.workspace);
   }
+};
+
+/**
+ * Get the user's code (XML or JS) from the editor (Blockly or ACE).
+ * @return {string} XML or JS code.
+ */
+BlocklyInterface.getCode = function() {
+  if (BlocklyInterface.editor) {
+    // Text editor.
+    var text = BlocklyInterface.editor['getValue']();
+  } else {
+    // Blockly editor.
+    var xml = Blockly.Xml.workspaceToDom(BlocklyGames.workspace);
+    var text = Blockly.Xml.domToText(xml);
+  }
+  return text;
 };
 
 /**
@@ -152,13 +146,7 @@ BlocklyInterface.saveToLocalStorage = function() {
     return;
   }
   var name = BlocklyGames.NAME + BlocklyGames.LEVEL;
-  if (BlocklyInterface.editor) {
-    var text = BlocklyInterface.editor['getValue']();
-  } else {
-    var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
-    var text = Blockly.Xml.domToText(xml);
-  }
-  window.localStorage[name] = text;
+  window.localStorage[name] = BlocklyInterface.getCode();
 };
 
 /**
@@ -179,7 +167,7 @@ BlocklyInterface.changeLanguage = function() {
     if (BlocklyInterface.editor) {
       var text = BlocklyInterface.editor['getValue']();
     } else {
-      var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+      var xml = Blockly.Xml.workspaceToDom(BlocklyGames.workspace);
       var text = Blockly.Xml.domToText(xml);
     }
     window.sessionStorage.loadOnceBlocks = text;
@@ -194,12 +182,29 @@ BlocklyInterface.changeLanguage = function() {
  */
 BlocklyInterface.highlight = function(id) {
   if (id) {
-    var m = id.match(/^block_id_(\d+)$/);
+    var m = id.match(/^block_id_([^']+)$/);
     if (m) {
       id = m[1];
     }
   }
-  Blockly.mainWorkspace.highlightBlock(id);
+  BlocklyGames.workspace.highlightBlock(id);
+};
+
+/**
+ * Inject readonly Blockly.  Only inserts once.
+ * @param {string} id ID of div to be injected into.
+ * @param {string|!Array.<string>} xml XML string(s) describing blocks.
+ */
+BlocklyInterface.injectReadonly = function(id, xml) {
+  var div = document.getElementById(id);
+  if (!div.firstChild) {
+    var rtl = BlocklyGames.isRtl();
+    var workspace = Blockly.inject(div, {'rtl': rtl, 'readOnly': true});
+    if (typeof xml != 'string') {
+      xml = xml.join('');
+    }
+    Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml), workspace);
+  }
 };
 
 /**
@@ -209,7 +214,7 @@ BlocklyInterface.highlight = function(id) {
  */
 BlocklyInterface.stripCode = function(code) {
   // Strip out serial numbers.
-  return code.replace(/(,\s*)?'block_id_\d+'\)/g, ')').trimRight();
+  return goog.string.trimRight(code.replace(/(,\s*)?'block_id_[^']+'\)/g, ')'));
 };
 
 /**
@@ -263,7 +268,7 @@ BlocklyInterface.importInterpreter = function() {
  */
 BlocklyInterface.importPrettify = function() {
   //<link rel="stylesheet" type="text/css" href="common/prettify.css">
-  /*<script type="text/javascript" src="common/prettify.js"></script>*/
+  //<script type="text/javascript" src="common/prettify.js"></script>
   var link = document.createElement('link');
   link.setAttribute('rel', 'stylesheet');
   link.setAttribute('type', 'text/css');
@@ -276,6 +281,7 @@ BlocklyInterface.importPrettify = function() {
 };
 
 // Export symbols that would otherwise be renamed by Closure compiler.
-// storage.js is not compiled and calls setCode.
+// storage.js is not compiled and calls setCode and getCode.
 window['BlocklyInterface'] = BlocklyInterface;
 BlocklyInterface['setCode'] = BlocklyInterface.setCode;
+BlocklyInterface['getCode'] = BlocklyInterface.getCode;

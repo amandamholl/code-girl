@@ -29,7 +29,17 @@
 #display {
   border: 10px solid #fae5e2;
   vertical-align: bottom;
-  background-color:white;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0px;
+  width:400px;
+  height:400px;
+}
+
+#superhero{
+	background-color:white;
 }
 
 #playerStatTable {

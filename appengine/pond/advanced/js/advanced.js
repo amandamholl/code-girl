@@ -74,7 +74,7 @@ Pond.Advanced.init = function() {
     var top = visualization.offsetTop;
     var div = document.getElementById('editor');
     div.style.top = Math.max(10, top - window.pageYOffset) + 'px';
-    div.style.left = rtl ? '10px' : '420px';
+    div.style.left = rtl ? '10px' : '400px';
     div.style.width = (window.innerWidth - 440) + 'px';
   };
   window.addEventListener('scroll', onresize);

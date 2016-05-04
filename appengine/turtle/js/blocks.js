@@ -20,6 +20,7 @@
 
 'use strict';
 
+
 goog.provide('Turtle.Blocks');
 
 goog.require('Blockly');
@@ -36,8 +37,8 @@ goog.require('Blockly.Blocks.math');
 goog.require('Blockly.JavaScript.math');
 goog.require('Blockly.Blocks.procedures');
 goog.require('Blockly.JavaScript.procedures');
-goog.require('Blockly.Blocks.text');
-goog.require('Blockly.JavaScript.text');
+goog.require('Blockly.Blocks.texts');
+goog.require('Blockly.JavaScript.texts');
 goog.require('Blockly.Blocks.variables');
 goog.require('Blockly.JavaScript.variables');
 goog.require('BlocklyGames');
@@ -162,165 +163,6 @@ Blockly.JavaScript['turtle_width'] = function(block) {
   return 'penWidth(' + width + ', \'block_id_' + block.id + '\');\n';
 };
 
-Blockly.Blocks['turtle_pen'] = {
-  /**
-   * Block for pen up/down.
-   * @this Blockly.Block
-   */
-  init: function() {
-    var STATE =
-        [[BlocklyGames.getMsg('Turtle_penUp'), 'penUp'],
-         [BlocklyGames.getMsg('Turtle_penDown'), 'penDown']];
-    this.setColour(160);
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown(STATE), 'PEN');
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip(BlocklyGames.getMsg('Turtle_penTooltip'));
-  }
-};
-
-Blockly.JavaScript['turtle_pen'] = function(block) {
-  // Generate JavaScript for pen up/down.
-  return block.getFieldValue('PEN') +
-      '(\'block_id_' + block.id + '\');\n';
-};
-
-Blockly.Blocks['turtle_colour'] = {
-  /**
-   * Block for setting the colour.
-   * @this Blockly.Block
-   */
-  init: function() {
-    this.setColour(20);
-    this.appendValueInput('COLOUR')
-        .setCheck('Colour')
-        .appendField(BlocklyGames.getMsg('Turtle_setColour'));
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip(BlocklyGames.getMsg('Turtle_colourTooltip'));
-  }
-};
-
-Blockly.JavaScript['turtle_colour'] = function(block) {
-  // Generate JavaScript for setting the colour.
-  var colour = Blockly.JavaScript.valueToCode(block, 'COLOUR',
-      Blockly.JavaScript.ORDER_NONE) || '\'#000000\'';
-  return 'penColour(' + colour + ', \'block_id_' +
-      block.id + '\');\n';
-};
-
-Blockly.Blocks['turtle_colour_internal'] = {
-  /**
-   * Block for setting the colour.
-   * @this Blockly.Block
-   */
-  init: function() {
-    this.setColour(20);
-    this.appendDummyInput()
-        .appendField(BlocklyGames.getMsg('Turtle_setColour'))
-        .appendField(new Blockly.FieldColour("#ff0000"), "COLOUR");
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip(BlocklyGames.getMsg('Turtle_colourTooltip'));
-  }
-};
-
-Blockly.JavaScript['turtle_colour_internal'] = function(block) {
-  // Generate JavaScript for setting the colour.
-  var colour = '\'' + block.getFieldValue('COLOUR') + '\'';
-  return 'penColour(' + colour + ', \'block_id_' +
-      block.id + '\');\n';
-};
-
-Blockly.Blocks['turtle_visibility'] = {
-  /**
-   * Block for changing turtle visiblity.
-   * @this Blockly.Block
-   */
-  init: function() {
-    var STATE =
-        [[BlocklyGames.getMsg('Turtle_hideTurtle'), 'hideTurtle'],
-         [BlocklyGames.getMsg('Turtle_showTurtle'), 'showTurtle']];
-    this.setColour(160);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown(STATE), 'VISIBILITY');
-    this.setTooltip(BlocklyGames.getMsg('Turtle_turtleVisibilityTooltip'));
-  }
-};
-
-Blockly.JavaScript['turtle_visibility'] = function(block) {
-  // Generate JavaScript for changing turtle visibility.
-  return block.getFieldValue('VISIBILITY') +
-      '(\'block_id_' + block.id + '\');\n';
-};
-
-Blockly.Blocks['turtle_print'] = {
-  /**
-   * Block for printing text.
-   * @this Blockly.Block
-   */
-  init: function() {
-    this.setHelpUrl(BlocklyGames.getMsg('Turtle_printHelpUrl'));
-    this.setColour(160);
-    this.appendValueInput('TEXT')
-        .appendField(BlocklyGames.getMsg('Turtle_print'));
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip(BlocklyGames.getMsg('Turtle_printTooltip'));
-  }
-};
-
-Blockly.JavaScript['turtle_print'] = function(block) {
-  // Generate JavaScript for printing text.
-  var argument0 = String(Blockly.JavaScript.valueToCode(block, 'TEXT',
-      Blockly.JavaScript.ORDER_NONE) || '\'\'');
-  return 'print(' + argument0 + ', \'block_id_' +
-      block.id + '\');\n';
-};
-
-Blockly.Blocks['turtle_font'] = {
-  /**
-   * Block for setting the font.
-   * @this Blockly.Block
-   */
-  init: function() {
-    var FONTLIST =
-        // Common font names (intentionally not localized)
-        [['Arial', 'Arial'], ['Courier New', 'Courier New'], ['Georgia', 'Georgia'],
-         ['Impact', 'Impact'], ['Times New Roman', 'Times New Roman'],
-         ['Trebuchet MS', 'Trebuchet MS'], ['Verdana', 'Verdana']];
-    var STYLE =
-        [[BlocklyGames.getMsg('Turtle_fontNormal'), 'normal'],
-         [BlocklyGames.getMsg('Turtle_fontItalic'), 'italic'],
-         [BlocklyGames.getMsg('Turtle_fontBold'), 'bold']];
-    this.setHelpUrl(BlocklyGames.getMsg('Turtle_fontHelpUrl'));
-    this.setColour(160);
-    this.appendDummyInput()
-        .appendField(BlocklyGames.getMsg('Turtle_font'))
-        .appendField(new Blockly.FieldDropdown(FONTLIST), 'FONT');
-    this.appendDummyInput()
-        .appendField(BlocklyGames.getMsg('Turtle_fontSize'))
-        .appendField(new Blockly.FieldTextInput('18',
-                     Blockly.FieldTextInput.nonnegativeIntegerValidator),
-                     'FONTSIZE');
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown(STYLE), 'FONTSTYLE');
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip(BlocklyGames.getMsg('Turtle_fontTooltip'));
-  }
-};
-
-Blockly.JavaScript['turtle_font'] = function(block) {
-  // Generate JavaScript for setting the font.
-  return 'font(\'' + block.getFieldValue('FONT') + '\',' +
-      Number(block.getFieldValue('FONTSIZE')) + ',\'' +
-      block.getFieldValue('FONTSTYLE') + '\', \'block_id_' +
-      block.id + '\');\n';
-};
 
 Blockly.Blocks['turtle_repeat_internal'] = {
   /**
@@ -328,22 +170,28 @@ Blockly.Blocks['turtle_repeat_internal'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setHelpUrl(Blockly.Msg.CONTROLS_REPEAT_HELPURL);
-    this.setColour(120);
-    var TIMES =
-        [['3', '3'],
-         ['4', '4'],
-         ['5', '5'],
-         ['360', '360']];
-    this.appendDummyInput()
-        .appendField(Blockly.Msg.CONTROLS_REPEAT_TITLE_REPEAT)
-        .appendField(new Blockly.FieldDropdown(TIMES), 'TIMES')
-        .appendField(Blockly.Msg.CONTROLS_REPEAT_TITLE_TIMES);
+    this.jsonInit({
+      "message0": Blockly.Msg.CONTROLS_REPEAT_TITLE,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "TIMES",
+          "options": [
+            ['3', '3'],
+            ['4', '4'],
+            ['5', '5'],
+            ['360', '360']
+          ]
+        }
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": Blockly.Blocks.loops.HUE,
+      "tooltip": Blockly.Msg.CONTROLS_REPEAT_TOOLTIP,
+      "helpUrl": Blockly.Msg.CONTROLS_REPEAT_HELPURL
+    });
     this.appendStatementInput('DO')
         .appendField(Blockly.Msg.CONTROLS_REPEAT_INPUT_DO);
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip(Blockly.Msg.CONTROLS_REPEAT_TOOLTIP);
   }
 };
 

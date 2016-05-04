@@ -94,6 +94,22 @@
     </div>
     {call BlocklyGames.soy.ok /}
   </div>
+
+  <div id="error" class="dialogHiddenContent">
+    <div style="padding-bottom: 0.7ex">
+      {if $ij.level == 1}
+
+      <table><tr><td>
+        <img src="common/ErrorAlert.png" width="100" height="100">
+      </td><td>&nbsp;</td><td valign="top">
+          <h3> Error </h3>
+          Block placed in the wrong order!
+      </td></tr></table>
+
+      {/if}
+    </div>
+    {call BlocklyGames.soy.ok /}
+  </div>
 {/template}
 
 /**

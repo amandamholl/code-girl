@@ -109,6 +109,30 @@ Blockly.JavaScript['belt'] = function(block) {
   return 'belt();\n';
 };
 
+Blockly.Blocks['outfit'] = {
+  init: function() {
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_CENTRE)
+        .appendField("OUTFIT")
+        .appendField(new Blockly.FieldImage("https://www.gstatic.com/codesite/ph/images/star_on.gif", 15, 15, "*"));
+    this.appendStatementInput("Clothing")
+        .setCheck(null);
+    this.setColour(260);
+    this.setTooltip('');
+  },
+  /*onchange: function(event) {
+	console.log("hello");
+	Pond.display(event);
+  }*/
+};
+
+Blockly.JavaScript['outfit'] = function(block) {
+  var statements_clothing = Blockly.JavaScript.statementToCode(block, 'Clothing');
+  // TODO: Assemble JavaScript into code variable.
+  var code = '\n';
+  return code;
+};
+
 Blockly.Blocks['shield'] = {
   init: function() {
 	//this.setHelpUrl('http://www.example.com/');
