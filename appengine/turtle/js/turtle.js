@@ -117,6 +117,7 @@ Turtle.init = function() {
                                           {'media': 'media/',
                                           'rtl': rtl,
                                           'toolbox': toolbox,
+                                          'scrollbars': true,
                                           'trashcan': BlocklyGames.LEVEL == 1 ? false : true ,
                                           'zoom': BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL ?
                                           {'controls': true, 'wheel': true} : null});

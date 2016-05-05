@@ -518,6 +518,7 @@ Maze.init = function() {
                                           'maxBlocks': Maze.MAX_BLOCKS,
                                           'rtl': rtl,
                                           'toolbox': toolbox,
+                                          'scrollbars': true,
                                           'trashcan': true,
                                           'zoom': {'startScale': scale}});
   BlocklyGames.workspace.loadAudio_(Maze.SKIN.winSound, 'win');

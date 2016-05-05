@@ -344,6 +344,7 @@ Bird.init = function() {
                                           {'media': 'media/',
                                           'rtl': rtl,
                                           'toolbox': toolbox,
+                                          'scrollbars': true,
                                           'trashcan': true});
  // Blockly.loadAudio_(['bird/quack.ogg', 'bird/quack.mp3'], 'quack');
  // Blockly.loadAudio_(['bird/whack.mp3', 'bird/whack.ogg'], 'whack');

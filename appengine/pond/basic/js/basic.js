@@ -109,17 +109,24 @@ Pond.Basic.init = function() {
 window.addEventListener('load', Pond.Basic.init);
 
 Pond.display = function(event) {
+  Pond.ctxDisplay.clearRect(0, 0, document.getElementById('display').width, document.getElementById('display').height);
+  
   // Draw and copy the user layer.
   var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
   var interpreter = new Interpreter(code, Pond.initInterpreter);
+  
   Pond.drawFrame_(interpreter);
   var maximum = Blockly.mainWorkspace.getAllBlocks().length;
+  
+  console.log("called");
+  
   var ok = "wrong order";	// don't write
   console.log("-----------");
-  console.log(Blockly.mainWorkspace.getBlockById(event.blockId))
+  //console.log(Blockly.mainWorkspace.getBlockById(event.blockId))
   console.log(Blockly.mainWorkspace.getTopBlocks(true));
+  console.log(Blockly.mainWorkspace.getAllBlocksSorted());
   
-  var blocks = Blockly.mainWorkspace.getTopBlocks(true);	// get blocks in sorted order (top to bottom)
+  var blocks = Blockly.mainWorkspace.getAllBlocksSorted();	// get blocks in sorted order (top to bottom)
   
   /*var top = Blockly.mainWorkspace.getTopBlocks(true);	// get blocks in sorted order (top to bottom)
   var blocks = top[0].getChildren();
@@ -127,20 +134,23 @@ Pond.display = function(event) {
   
   var currentBlock = Blockly.mainWorkspace.getBlockById(event.blockId);
   var current = blocks.indexOf(currentBlock);
-  var type = Blockly.mainWorkspace.getBlockById(event.blockId)['type'];	// "type" or current block (item of clothing/accessory)
-  // if this is the only block on the canvas, then by default its okay
-  if(maximum == 1){
-	ok = "correct order";
-  }
-  else{
-  	var checkAbove = Pond.checkAbove_(current, type);
-	var checkBelow = Pond.checkBelow_(current, maximum, type);
-	if(checkAbove && checkBelow)
-		ok = "correct order";
-	else{
-		ok = "wrong order";
-		Pond.showError(currentBlock);
-	}
+  console.log(event);
+  if(event.group != "" && Blockly.mainWorkspace.getBlockById(event.blockId) != null){
+    var type = Blockly.mainWorkspace.getBlockById(event.blockId)['type'];	// "type" or current block (item of clothing/accessory)
+    // if this is the only block on the canvas, then by default its okay
+    if(maximum == 1){
+    ok = "correct order";
+    }
+    else{
+      var checkAbove = Pond.checkAbove_(current, type);
+    var checkBelow = Pond.checkBelow_(current, maximum, type);
+    if(checkAbove && checkBelow)
+      ok = "correct order";
+    else{
+      ok = "wrong order";
+      Pond.showError(currentBlock);
+    }
+    }
   }
   
   /*for(i = 0; i < maximum; i++){
@@ -187,7 +197,7 @@ Pond.display = function(event) {
 Pond.checkAbove_ = function(maximum, type){
 	//var top = Blockly.mainWorkspace.getTopBlocks(true);	// get blocks in sorted order (top to bottom)
 	//var blocks = top[0].getChildren();
-	var blocks = Blockly.mainWorkspace.getTopBlocks(true);	// get blocks in sorted order (top to bottom)
+	var blocks = Blockly.mainWorkspace.getAllBlocksSorted();	// get blocks in sorted order (top to bottom)
 	for(var i = 0; i < maximum; i++){
 		if(type == "tshirt"){
 			// Shirt: wrong if its below cape || logo || skirt || belt
@@ -208,7 +218,7 @@ Pond.checkAbove_ = function(maximum, type){
 Pond.checkBelow_ = function(current, maximum, type){
 	//var top = Blockly.mainWorkspace.getTopBlocks(true);	// get blocks in sorted order (top to bottom)
 	//var blocks = top[0].getChildren();
-	var blocks = Blockly.mainWorkspace.getTopBlocks(true);	// get blocks in sorted order (top to bottom)
+	var blocks = Blockly.mainWorkspace.getAllBlocksSorted();	// get blocks in sorted order (top to bottom)
 	for(var i = current; i < maximum; i++){
 		if(type == "skirt"){
 			// Skirt: wrong if above tshirt
@@ -238,6 +248,8 @@ Pond.checkBelow_ = function(current, maximum, type){
 
 Pond.drawFrame_ = function(interpreter) {
   // Clear the canvas.
+  Pond.ctxScratch.clearRect(0, 0, document.getElementById('scratch').width, document.getElementById('scratch').height);
+  
   
   // Levels 1-9 should be slightly transparent so eclipsed blocks may be seen.
   // Level 10 should be opaque so that the movie is clean.
@@ -1203,7 +1215,7 @@ Pond.showError = function(currentBlock) {
       BlocklyDialogs.stopDialogKeyDown);
   BlocklyDialogs.startDialogKeyDown();
   
-  BlocklyGames.workspace.removeTopBlock(currentBlock);
+  //BlocklyGames.workspace.removeTopBlock(currentBlock);
   
 };
 

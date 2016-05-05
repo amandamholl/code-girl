@@ -148,6 +148,14 @@ Blockly.Workspace.prototype.getAllBlocks = function() {
   return blocks;
 };
 
+Blockly.Workspace.prototype.getAllBlocksSorted = function() {
+  var blocks = this.getTopBlocks(true);
+  for (var i = 0; i < blocks.length; i++) {
+    blocks.push.apply(blocks, blocks[i].getChildren());
+  }
+  return blocks;
+};
+
 /**
  * Dispose of all blocks in workspace.
  */
