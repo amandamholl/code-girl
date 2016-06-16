@@ -138,13 +138,16 @@ Movie.init = function() {
   }
 
   var toolbox = document.getElementById('toolbox');
+  var scale = 1 + (1 - (1 / 10)) / 3;
+
   BlocklyGames.workspace = Blockly.inject('blockly',
                                           {'media': 'media/',
                                           'rtl': rtl,
                                           'toolbox': toolbox,
                                           'trashcan': true,
-                                          'zoom': BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL ?
-                                          {'controls': true, 'wheel': true} : null});
+                                          'zoom':{'startScale': scale}
+                                          /*'zoom': BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL ?
+                                          {'controls': true, 'wheel': true} : null*/});
 
   //console.log(BlocklyGames.workspace);
 

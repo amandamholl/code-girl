@@ -581,7 +581,7 @@ Blockly.Blocks['short_blouse'] = {
 	this.setColour(160);
 
     this.appendDummyInput()
-        .appendField("Short Sleeve Blouse")
+        .appendField("Blouse")
         .appendField(new Blockly.FieldImage("./movie/short_blouse.svg", 50, 50, "Blouse"));
 
 	this.appendValueInput('COLOUR')
@@ -652,7 +652,7 @@ Blockly.Blocks['longsleeve'] = {
     this.setInputsInline(true);
   this.setColour(160);
     this.appendDummyInput()
-        .appendField("Long sleeve")
+        .appendField("Shirt")
         .appendField(new Blockly.FieldImage("./movie/longsleeve.svg", 50, 50, "Long sleeve shirt"));
     this.appendValueInput('COLOUR')
          .setCheck('Colour');

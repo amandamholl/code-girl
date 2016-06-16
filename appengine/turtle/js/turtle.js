@@ -111,16 +111,16 @@ Turtle.init = function() {
   }
 
   if(BlocklyGames.LEVEL != 1){
-  var toolbox = document.getElementById('toolbox');
+    var toolbox = document.getElementById('toolbox');
   }
+  var scale = 1 + (1 - (1 / 10)) / 3;
   BlocklyGames.workspace = Blockly.inject('blockly',
                                           {'media': 'media/',
                                           'rtl': rtl,
                                           'toolbox': toolbox,
                                           'scrollbars': true,
                                           'trashcan': BlocklyGames.LEVEL == 1 ? false : true ,
-                                          'zoom': BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL ?
-                                          {'controls': true, 'wheel': true} : null});
+                                          'zoom': {'startScale': scale}});
   // Prevent collisions with user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('moveForward,moveBackward,' +
                                       'turnRight,turnLeft,penUp,penDown,penWidth,penColour,' +
@@ -138,7 +138,7 @@ Turtle.init = function() {
 
 	var defaultXml =
 		  '<xml>' +
-		  '  <block type="turtle_move_internal" x="70" y="120">' +
+		  '  <block type="turtle_move_internal" x="60" y="120">' +
 
 		  '  </block>' +
 		  '  <block type="turtle_turn" x="300" y="200">' +
@@ -147,20 +147,20 @@ Turtle.init = function() {
 		  '  <block type="turtle_move_internal" x="220" y="50">' +
 
 		  '  </block>' +
-		  '  <block type="turtle_turn" x="600" y="150">' +
+		  '  <block type="turtle_turn" x="550" y="150">' +
 
 		  '  </block>' +
-		  '  <block type="turtle_move_internal" x="600" y="330">' +
+		  '  <block type="turtle_move_internal" x="500" y="270">' +
 
 		  '  </block>' +
-		  '  <block type="turtle_turn" x="200" y="500">' +
+		  '  <block type="turtle_turn" x="200" y="400">' +
 
 		  '  </block>' +
 
-		  '  <block type="turtle_move_internal" x="100" y="350">' +
+		  '  <block type="turtle_move_internal" x="100" y="300">' +
 
 		  '  </block>' +
-		  '  <block type="turtle_turn" x="500" y="450">' +
+		  '  <block type="turtle_turn" x="450" y="400">' +
 
 		  '  </block>' +
 		  '</xml>';

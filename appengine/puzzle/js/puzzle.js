@@ -57,6 +57,7 @@ Puzzle.init = function() {
 
   var rtl = BlocklyGames.isRtl();
   var blocklyDiv = document.getElementById('blockly');
+  var scale = 1 + (1 - (1 / 10)) / 3;
   var onresize = function(e) {
     blocklyDiv.style.width = (window.innerWidth - 20) + 'px';
     blocklyDiv.style.height =
@@ -69,7 +70,8 @@ Puzzle.init = function() {
                                           {'media': 'media/',
                                           'rtl': rtl,
                                           'scrollbars': true,
-                                          'trashcan': false});
+                                          'trashcan': false,
+                                          'zoom':{'startScale': scale}});
 
   var savedBlocks =
   BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME, BlocklyGames.LEVEL);
@@ -150,9 +152,9 @@ Puzzle.init = function() {
         var dx = (countedArea / totalArea) *
         (workspaceBox.width - blockBox.width);
       }
-      dx = Math.round(dx + Math.random() * MARGIN);
-      var dy = Math.round(Math.random() *
-                          (workspaceBox.height - blockBox.height));
+      dx = Math.round((dx + Math.random() * MARGIN)/scale);
+      var dy = Math.round((Math.random() *
+                          (workspaceBox.height - blockBox.height))/scale);
       block.moveBy(dx, dy);
       countedArea += block.cached_area_;
     }

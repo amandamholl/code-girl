@@ -256,7 +256,7 @@ Bird.drawMap = function() {
   square.setAttribute('class', 'edges');
   square.setAttribute('width', Bird.MAP_SIZE);
   square.setAttribute('height', Bird.MAP_SIZE);
-  
+
   svg.appendChild(square);
 
   var xAxis = BlocklyGames.LEVEL > 3;
@@ -340,12 +340,15 @@ Bird.init = function() {
   onresize();
 
   var toolbox = document.getElementById('toolbox');
+  var scale = 1 + (1 - (1 / 10)) / 3;
+
   BlocklyGames.workspace = Blockly.inject('blockly',
                                           {'media': 'media/',
                                           'rtl': rtl,
                                           'toolbox': toolbox,
                                           'scrollbars': true,
-                                          'trashcan': true});
+                                          'trashcan': true,
+                                          'zoom':{'startScale': scale}});
  // Blockly.loadAudio_(['bird/quack.ogg', 'bird/quack.mp3'], 'quack');
  // Blockly.loadAudio_(['bird/whack.mp3', 'bird/whack.ogg'], 'whack');
  // Blockly.loadAudio_(['bird/worm.mp3', 'bird/worm.ogg'], 'worm');
@@ -377,10 +380,10 @@ Bird.init = function() {
 
   BlocklyGames.bindClick('runButton', Bird.runButtonClick);
   BlocklyGames.bindClick('resetButton', Bird.resetButtonClick);
-  
+
   Bird.showHelp();
 
-  
+
 
   // Lazy-load the JavaScript interpreter.
   setTimeout(BlocklyInterface.importInterpreter, 1);

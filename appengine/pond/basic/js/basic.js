@@ -73,11 +73,14 @@ Pond.Basic.init = function() {
   onresize();
 
   var toolbox = document.getElementById('toolbox');
+  var scale = 1 + (1 - (1 / 10)) / 3;
+
   BlocklyGames.workspace = Blockly.inject(document.getElementById('blockly'),
       {'media': 'media/',
        'rtl': rtl,
        'toolbox': toolbox,
-       'trashcan': true});
+       'trashcan': true,
+       'zoom':{'startScale': scale}});
   Blockly.JavaScript.addReservedWords('scan,cannon,drive,swim,stop,speed,' +
       'damage,health,loc_x,loc_y');
 
