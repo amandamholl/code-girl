@@ -31,6 +31,7 @@ Blockly.Blocks['animal'] = {
    */
   init: function() {
     this.setColour(185);
+    this.setInputsInline(false);
     this.appendDummyInput()
         .appendField('', 'NAME');
     this.appendValueInput('PIC')

@@ -93,7 +93,7 @@
 
     <table style="padding-top: 1em;">
       <tr>
-        <td style="width: 190px; text-align: center; vertical-align: top;background-color:white; padding-top: 10px;">
+        <td style="width: 190px; text-align: center; vertical-align: top;background-color:white; padding-top: 10px;" id="sliderDiv">
           <svg
               id="slider"
               xmlns="http://www.w3.org/2000/svg"
@@ -179,14 +179,20 @@
     {call BlocklyGames.soy.ok /}
   </div>
 
-  {if $ij.level == 2}
-    <div id="helpToolbox" class="dialogHiddenContent">
+
+
+  <div id="helpToolbox" class="dialogHiddenContent">
       <div><img src="turtle/help_left.png" class="mirrorImg" height=23 width=64></div>
       {msg meaning="Turtle.helpToolbox" desc="Instructions for accessing blocks that are hidden inside categories."}
         Choose a category to see the blocks.
       {/msg}
-    </div>
-  {/if}
+  </div>
+
+  <div id="helpSlider" class="dialogHiddenContent">
+      <div style="margin-right:1em;float:left"><img src="maze/help_up.png" class="mirrorImg" height=64></div>
+      <div style="margin-left:2em;">Use the slider to change how fast Ada draws the square.</div>
+  </div>
+
 {/template}
 
 /**
@@ -194,8 +200,8 @@
  */
 {template .toolbox}
   <xml id="toolbox" style="display: none">
-    
-    
+
+
       <category name="{msg meaning="Turtle.catTurtle" desc="category - Blocks related to Turtle commands."}Directions{/msg}">
         <block type="turtle_move_internal">
         </block>

@@ -50,7 +50,7 @@ Blockly.Blocks['colour_picker'] = {
         }
       ],
       "output": "Colour",
-      "colour": Blockly.Blocks.colour.HUE,
+      "colour": 190,
       "helpUrl": Blockly.Msg.COLOUR_PICKER_HELPURL
     });
     // Assign 'this' to a variable for use in the tooltip closure below.

@@ -38,6 +38,11 @@ goog.require('BlocklyInterface');
 
 BlocklyGames.NAME = 'pond-basic';
 
+BlocklyInterface.nextLevel = function() {
+  window.location = window.location.protocol + '//' +
+  window.location.host + '/movie?lang=' + BlocklyGames.LANG + '&level=7';
+};
+
 /**
  * Initialize Blockly and the pond.  Called on page load.
  */
@@ -96,45 +101,79 @@ Pond.Basic.init = function() {
     var name = BlocklyGames.getMsg(playerData.name);
     Pond.Battle.addPlayer(name, code, playerData.start, playerData.damage);
   }*/
-  
+
   //Pond.reset();
-  
+
   Pond.ctxDisplay = document.getElementById('display').getContext('2d');
   //Pond.ctxDisplay.globalCompositeOperation = 'source-over';
   Pond.ctxScratch = document.getElementById('scratch').getContext('2d');
   Pond.renderSuperhero_();
   BlocklyGames.workspace.addChangeListener(Pond.display);
+  BlocklyGames.bindClick('runButton', Pond.check);
 };
 
 window.addEventListener('load', Pond.Basic.init);
 
+
+Pond.check = function(){
+  var blocks = Blockly.mainWorkspace.getAllBlocksSorted();
+  var ok;
+  for(var i=0;i<blocks.length;i++){
+    var current = blocks[i];
+    var type = current['type'];
+    console.log(current);
+    var checkAbove = Pond.checkAbove_(i, type);
+    var checkBelow = Pond.checkBelow_(i, blocks.length, type);
+    console.log(checkBelow);
+    if(checkAbove && checkBelow)
+      ok = "correct order";
+    else{
+      ok = "wrong order";
+      break;
+    }
+  }
+  if(ok == "wrong order")
+    Pond.showError(current);
+  else if(blocks.length < 9)
+    console.log("not enough blocks");
+  else {
+    BlocklyInterface.saveToLocalStorage();
+    if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
+      // No congrats for last level, it is open ended.
+      //BlocklyGames.workspace.playAudio('win', 0.5);
+      BlocklyDialogs.congratulations();
+    }
+  }
+  console.log(ok);
+};
+
 Pond.display = function(event) {
   Pond.ctxDisplay.clearRect(0, 0, document.getElementById('display').width, document.getElementById('display').height);
-  
+
   // Draw and copy the user layer.
   var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
   var interpreter = new Interpreter(code, Pond.initInterpreter);
-  
+
   Pond.drawFrame_(interpreter);
   var maximum = Blockly.mainWorkspace.getAllBlocks().length;
-  
-  console.log("called");
-  
+
+  //console.log("called");
+
   var ok = "wrong order";	// don't write
-  console.log("-----------");
+  //console.log("-----------");
   //console.log(Blockly.mainWorkspace.getBlockById(event.blockId))
-  console.log(Blockly.mainWorkspace.getTopBlocks(true));
-  console.log(Blockly.mainWorkspace.getAllBlocksSorted());
-  
+  //console.log(Blockly.mainWorkspace.getTopBlocks(true));
+  //console.log(Blockly.mainWorkspace.getAllBlocksSorted());
+
   var blocks = Blockly.mainWorkspace.getAllBlocksSorted();	// get blocks in sorted order (top to bottom)
-  
+
   /*var top = Blockly.mainWorkspace.getTopBlocks(true);	// get blocks in sorted order (top to bottom)
   var blocks = top[0].getChildren();
 	console.log(blocks);*/
-  
+
   var currentBlock = Blockly.mainWorkspace.getBlockById(event.blockId);
   var current = blocks.indexOf(currentBlock);
-  console.log(event);
+  //console.log(event);
   if(event.group != "" && Blockly.mainWorkspace.getBlockById(event.blockId) != null){
     var type = Blockly.mainWorkspace.getBlockById(event.blockId)['type'];	// "type" or current block (item of clothing/accessory)
     // if this is the only block on the canvas, then by default its okay
@@ -152,47 +191,11 @@ Pond.display = function(event) {
     }
     }
   }
-  
-  /*for(i = 0; i < maximum; i++){
-	  /if(maximum == 1){
-		ok = "correct order";
-		break;
-	  }
-	  if(Blockly.mainWorkspace.getBlockById(event.blockId)['type'] == "tshirt"){
-	  	if(blocks[i]['type'] == "cape" || blocks[i]['type'] == "skirt" || blocks[i]['type'] == "logo" || blocks[i]['type'] == "belt"){
-			ok = "wrong order";
-			break;
-		}
-	  }
-	  else if(Blockly.mainWorkspace.getBlockById(event.blockId)['type'] == "cape"){
-		if(blocks[i]['type'] == "cape")
-			break;
-	  	if(blocks[i]['type'] == "tshirt"){
-			ok = "correct order";
-		}
-	  }
-	  else if(Blockly.mainWorkspace.getBlockById(event.blockId)['type'] == "belt"){
-		if(blocks[i]['type'] == "belt")
-			break;
-	  	if(blocks[i]['type'] == "tshirt" || blocks[i]['type'] == "skirt" ){
-			ok = "correct order";
-		}
-	  }
-	  else if(Blockly.mainWorkspace.getBlockById(event.blockId)['type'] == "skirt"){
-		if(blocks[i]['type'] == "skirt")
-			break;
-	
-	  }
-	  else{
-	  	ok = "correct order";
-		break;
-	  }
-  }
-  */
-  console.log(ok);
-  
+
+  //console.log(ok);
+
   Pond.ctxDisplay.drawImage(Pond.ctxScratch.canvas, 0, 0);
-}
+};
 
 Pond.checkAbove_ = function(maximum, type){
 	//var top = Blockly.mainWorkspace.getTopBlocks(true);	// get blocks in sorted order (top to bottom)
@@ -210,7 +213,7 @@ Pond.checkAbove_ = function(maximum, type){
 			if(blocks[i]['type'] == "belt")
 				return false;	// wrong order
 		}
-		
+
 	}
 	return true;
 }
@@ -249,8 +252,8 @@ Pond.checkBelow_ = function(current, maximum, type){
 Pond.drawFrame_ = function(interpreter) {
   // Clear the canvas.
   Pond.ctxScratch.clearRect(0, 0, document.getElementById('scratch').width, document.getElementById('scratch').height);
-  
-  
+
+
   // Levels 1-9 should be slightly transparent so eclipsed blocks may be seen.
   // Level 10 should be opaque so that the movie is clean.
   /*Movie.ctxScratch.globalAlpha =
@@ -284,13 +287,13 @@ Pond.initInterpreter = function(interpreter, scope) {
   };
   interpreter.setProperty(scope, 'mask',
       interpreter.createNativeFunction(wrapper));
-	  
+
   wrapper = function() {
     Pond.skirt();
   };
   interpreter.setProperty(scope, 'skirt',
       interpreter.createNativeFunction(wrapper));
-	  
+
   wrapper = function() {
     Pond.boots();
   };
@@ -308,7 +311,7 @@ Pond.initInterpreter = function(interpreter, scope) {
   };
   interpreter.setProperty(scope, 'cape',
       interpreter.createNativeFunction(wrapper));
-	  
+
   wrapper = function() {
     Pond.logo();
   };
@@ -320,7 +323,7 @@ Pond.initInterpreter = function(interpreter, scope) {
   };
   interpreter.setProperty(scope, 'belt',
       interpreter.createNativeFunction(wrapper));
-	  
+
   wrapper = function() {
     Pond.shield();
   };
@@ -467,7 +470,7 @@ Pond.shirt = function() {
   Pond.ctxScratch.fill();
   Pond.ctxScratch.stroke();
   Pond.ctxScratch.restore();
-  
+
   Pond.ctxScratch.restore();
   //alert("here");
 };
@@ -1187,7 +1190,7 @@ Pond.logo = function(){
   Pond.ctxScratch.fill();
   Pond.ctxScratch.stroke();
   Pond.ctxScratch.restore();
-  Pond.ctxScratch.restore();	
+  Pond.ctxScratch.restore();
 };
 
 Pond.renderSuperhero_ = function() {
@@ -1214,8 +1217,7 @@ Pond.showError = function(currentBlock) {
   BlocklyDialogs.showDialog(error, blockly, true, true, style,
       BlocklyDialogs.stopDialogKeyDown);
   BlocklyDialogs.startDialogKeyDown();
-  
-  //BlocklyGames.workspace.removeTopBlock(currentBlock);
-  
-};
 
+  //BlocklyGames.workspace.removeTopBlock(currentBlock);
+
+};

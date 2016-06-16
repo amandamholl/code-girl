@@ -113,3 +113,7 @@ html[dir="RTL"] button.primary {
 body{
   overflow-y: auto;
 }
+
+#instructions{
+  width:90%;
+}

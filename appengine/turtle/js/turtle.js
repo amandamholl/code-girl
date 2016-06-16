@@ -125,7 +125,7 @@ Turtle.init = function() {
   Blockly.JavaScript.addReservedWords('moveForward,moveBackward,' +
                                       'turnRight,turnLeft,penUp,penDown,penWidth,penColour,' +
                                       'hideTurtle,showTurtle,print,font');
-  
+
   if (document.getElementById('submitButton')) {
     BlocklyGames.bindClick('submitButton', Turtle.submitToReddit);
   }
@@ -135,44 +135,44 @@ Turtle.init = function() {
   Turtle.speedSlider = new Slider(10, 35, 130, sliderSvg);
 
   if (BlocklyGames.LEVEL == 1){
-	  
+
 	var defaultXml =
 		  '<xml>' +
 		  '  <block type="turtle_move_internal" x="70" y="120">' +
-		  
+
 		  '  </block>' +
 		  '  <block type="turtle_turn" x="300" y="200">' +
-		  
+
 		  '  </block>' +
 		  '  <block type="turtle_move_internal" x="220" y="50">' +
-		  
+
 		  '  </block>' +
 		  '  <block type="turtle_turn" x="600" y="150">' +
 
 		  '  </block>' +
 		  '  <block type="turtle_move_internal" x="600" y="330">' +
-		  
+
 		  '  </block>' +
 		  '  <block type="turtle_turn" x="200" y="500">' +
-		  
+
 		  '  </block>' +
-		  
+
 		  '  <block type="turtle_move_internal" x="100" y="350">' +
-		  
+
 		  '  </block>' +
 		  '  <block type="turtle_turn" x="500" y="450">' +
 
 		  '  </block>' +
 		  '</xml>';
-  } 
+  }
   else{
 	 var defaultXml =
 		  '<xml>' +
 		  '  <block type="turtle_move_internal" x="70" y="120">' +
-		  
+
 		  '  </block>';
   }
-  
+
   /* Changed from true to false to fix block issue */
   BlocklyInterface.loadBlocks(defaultXml, false);
 
@@ -219,12 +219,13 @@ Turtle.showHelp = function() {
   var style = {
     width: '50%',
     left: '25%',
-    //top: '5em'
+    top: '6em'
   };
 
   BlocklyDialogs.showDialog(help, button, true, true, style, Turtle.hideHelp);
   BlocklyDialogs.startDialogKeyDown();
 };
+
 
 /**
  * Hide the help pop-up.
@@ -237,7 +238,26 @@ Turtle.hideHelp = function() {
     Turtle.watchCategories_();
     setTimeout(Turtle.showCategoryHelp, 5000);
   }
+  else{
+    setTimeout(Turtle.showHelpSlider, 1000);  //Trigger tooltip about slider
+  }
 };
+
+Turtle.showHelpSlider = function(){
+  var help = document.getElementById('helpSlider');
+  var style = {
+    width: '25%',
+    left: '71%',
+    top: '80%'
+  };
+  var origin = document.getElementById('sliderDiv');
+  BlocklyDialogs.showDialog(help, origin, true, false, style, null);
+  setTimeout(Turtle.close, 5000);
+}
+
+Turtle.close = function(){
+  BlocklyDialogs.hideDialog(false);
+}
 
 /**
  * Show the help pop-up to encourage clicking on the toolbox categories.
@@ -517,7 +537,7 @@ Turtle.execute = function() {
     setTimeout(Turtle.execute, 250);
     return;
   }
-  
+
   Turtle.reset();
   var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
   Turtle.interpreter = new Interpreter(code, Turtle.initInterpreter);

@@ -57,9 +57,9 @@
         &nbsp;
         <button id="signoutButton" onClick="location.href='/logout'">{{msg meaning="Games.signout" desc="IBID"}}Signout{{/msg}} &nbsp;<i class="fa fa-sign-out"></i>
         </button>
-        <button id="linkButton" title="{msg meaning="Games.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}">
+        /*<button id="linkButton" title="{msg meaning="Games.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}">
           <img src="media/1x1.gif" class="link icon21">
-        </button>
+        </button>*/
         &nbsp;
         <button id="helpButton">
           {{msg meaning="Games.help" desc="IBID"}}Help{{/msg}} &nbsp;<i class="fa fa-question"></i>
@@ -107,11 +107,16 @@
     <div style="padding-bottom: 0.7ex; font-size: large; margin: 1em;">
         {if $ij.level == 1}
           <h3> Customize Grace! </h3>
-          {msg meaning="Movie.helpText1" desc="Instructions."}
-             Choose GRACE to change her hair, eye, and skin color. Change Grace's shirt using SHIRTS. Connect a color block to a shirt block to change the color of the shirt.
+          /*{msg meaning="Movie.helpText1" desc="Instructions."}
+             Choose GRACE to change her hair, eye, and skin color. Change Grace's shirt using SHIRTS.
           {/msg}
-          <br><img src="movie/shirts_shot.png" height=146 width=146 style="margin-top:10px;margin-bottom: -50px">
-<img src="movie/color.png" height=146 style="margin-top:10px;margin-bottom: -50px; margin-left:10px">
+          <br>
+          <img src="movie/shirts_shot.png" height=146 width=146 style="margin-top:10px;margin-bottom: -50px">
+          <img src="movie/color.png" height=146 style="margin-top:10px;margin-bottom: -50px; margin-left:10px">*/
+          <video id="instructions" autoplay controls>
+            <source src="movie/Instructions.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         {elseif $ij.level == 2}
           {msg meaning="Movie.helpText2a" desc="Instructions.  Add shoes to the avatar."}
             Add bottoms to Grace using the menu.
@@ -203,94 +208,238 @@
     {if $ij.level >= 1}
     <category name="{msg meaning="Games.movie" desc="IBID"}Shirts{/msg}">
         <block type="tshirt">
-          /*<value name="COLOUR">
+          <value name="COLOUR">
             <block type="colour_picker">
                 <field name="COLOUR">#ff9559</field>
             </block>
-        </value>*/
+          </value>
         </block>
         <block type="longsleeve">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
 
         <block type="blouse">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type="jersey">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type="short_blouse">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type="polo">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
     </category>
     {/if}
     {if $ij.level >= 2}
     <category name="{msg meaning="Games.movie" desc="IBID"}Bottoms{/msg}">
         <block type="pants">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "skirt">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "skirt2">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "long_skirt">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "shorts2">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
     </category>
     {/if}
     {if $ij.level >= 3}
     <category name="{msg meaning="Games.movie" desc="IBID"}Shoes{/msg}">
         <block type="boots">
-
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type="cowboyboots">
-
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type="hightops">
-
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type="sneakers">
-
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type="flats">
-
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type="boots2">
-
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
     </category>
     {/if}
     {if $ij.level >= 4}
     <category name="{msg meaning="Games.movie" desc="IBID"}Accessories{/msg}">
         <block type = "bow">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "earrings">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "hat">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "baseball">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "necklace">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "retro_glasses">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type="vest">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type="coat">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
     </category>
     {/if}
     {if $ij.level >= 5}
     <category name="{msg meaning="Games.movie" desc="IBID"}Bags{/msg}">
         <block type = "briefcase">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "purse">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "purse2">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "backpack">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "laptop-case">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "tote">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
 
     </category>
@@ -298,44 +447,124 @@
     {if $ij.level >= 6}
     <category name="{msg meaning="Games.movie" desc="IBID"}Princess{/msg}">
         <block type = "dress">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "dress2">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "crown">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "large_crown">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "tiara">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "wand">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "wand2">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "glass_slipper">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
     </category>
     {/if}
     {if $ij.level >= 7}
     <category name="{msg meaning="Games.movie" desc="IBID"}Superhero{/msg}">
         <block type = "mask">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "mask2">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "cape">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "gloves">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "shield">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "belt">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "logo">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
         <block type = "word">
+          <value name="COLOUR">
+            <block type="colour_picker">
+                <field name="COLOUR">#ff9559</field>
+            </block>
+          </value>
         </block>
     </category>
     {/if}
-    <category name="{msg meaning="Games.catColour" desc="IBID"}Color{/msg}">
+    /*<category name="{msg meaning="Games.catColour" desc="IBID"}Color{/msg}">
       <block type="movie_colour">
         <value name="COLOUR">
           <block type="colour_picker">
@@ -343,7 +572,7 @@
             </block>
         </value>
       </block>
-    </category>
+    </category>*/
   </xml>
 {/template}
 

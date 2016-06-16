@@ -52,9 +52,9 @@ Puzzle.init = function() {
   document.body.innerHTML = Puzzle.soy.start({}, null,
                                              {lang: BlocklyGames.LANG,
                                              html: BlocklyGames.IS_HTML});
-  
+
   BlocklyInterface.init();
-  
+
   var rtl = BlocklyGames.isRtl();
   var blocklyDiv = document.getElementById('blockly');
   var onresize = function(e) {
@@ -64,13 +64,13 @@ Puzzle.init = function() {
   };
   onresize();
   window.addEventListener('resize', onresize);
-  
+
   BlocklyGames.workspace = Blockly.inject('blockly',
                                           {'media': 'media/',
                                           'rtl': rtl,
                                           'scrollbars': true,
                                           'trashcan': false});
-  
+
   var savedBlocks =
   BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME, BlocklyGames.LEVEL);
   // Add the blocks.
@@ -157,14 +157,14 @@ Puzzle.init = function() {
       countedArea += block.cached_area_;
     }
   }
-  
+
   BlocklyGames.bindClick('checkButton', Puzzle.checkAnswers);
   BlocklyGames.bindClick('helpButton', function(){Puzzle.showHelp(true);});
-  
+
   if (!savedBlocks) {
     Puzzle.showHelp(false);
   }
-  
+
   /**
    * HACK:
    * Chrome (v28) displays a broken image tag on any image that is also
@@ -178,12 +178,11 @@ Puzzle.init = function() {
     }
     Blockly.selected.unselect();
   }
-  
+
   // Make connecting blocks easier for beginners.
   Blockly.SNAP_RADIUS *= 2;
   // Preload the win sound.
-  BlocklyGames.workspace.loadAudio_(['puzzle/win.mp3', 'puzzle/win.ogg'],
-                                    'win');
+  //BlocklyGames.workspace.loadAudio_(['puzzle/win.mp3', 'puzzle/win.ogg'],'win');
 };
 
 /**
@@ -236,13 +235,13 @@ Puzzle.checkAnswers = function() {
       badBlocks.push(block);
     }
   }
-  
+
   var graphValue = document.getElementById('graphValue');
   setTimeout(function() {
              graphValue.style.width =
              (100 * (blocks.length - errors) / blocks.length) + 'px';
              }, 500);
-  
+
   var messages;
   if (errors == 1) {
     messages = [BlocklyGames.getMsg('Puzzle_error1'),
@@ -263,7 +262,7 @@ Puzzle.checkAnswers = function() {
     line.appendChild(document.createTextNode(messages[i]));
     textDiv.appendChild(line);
   }
-  
+
   var content = document.getElementById('answers');
   var button = document.getElementById('checkButton');
   var rtl = BlocklyGames.isRtl();
@@ -276,7 +275,7 @@ Puzzle.checkAnswers = function() {
   BlocklyInterface.indexPage;
   BlocklyDialogs.showDialog(content, button, true, true, style, action);
   BlocklyDialogs.startDialogKeyDown();
-  
+
   if (badBlocks.length) {
     // Pick a random bad block and blink it until the dialog closes.
     Puzzle.shuffle(badBlocks);
@@ -301,7 +300,7 @@ Puzzle.checkAnswers = function() {
  * All blocks correct.  Do the end dance.
  */
 Puzzle.endDance = function() {
-  BlocklyGames.workspace.playAudio('win', 0.5);
+  //BlocklyGames.workspace.playAudio('win', 0.5);
   var blocks = BlocklyGames.workspace.getTopBlocks(false);
   for (var i = 0, block; block = blocks[i]; i++) {
     var angle = 360 * (i / blocks.length);
@@ -331,7 +330,7 @@ Puzzle.animate = function(block, angleOffset) {
   }
   var radius = Math.max(175, Math.min(halfHeight, halfWidth) -
                         Math.max(blockHW.height, blockHW.width) / 2);
-  
+
   var ms = Date.now();
   // Rotate the blocks around the centre.
   var angle = angleOffset + (ms / 50 % 360);
@@ -342,7 +341,7 @@ Puzzle.animate = function(block, angleOffset) {
   var targetY = goog.math.angleDy(angle, radius) + halfHeight -
   blockHW.height / 2;
   var speed = 5;
-  
+
   var distance = Math.sqrt(Math.pow(targetX - blockXY.x, 2) +
                            Math.pow(targetY - blockXY.y, 2));
   if (distance < speed) {
@@ -385,7 +384,7 @@ Puzzle.showHelp = function(animate) {
              '</block>',
              '</xml>'];
   BlocklyInterface.injectReadonly('sample', xml);
-  
+
   var help = document.getElementById('help');
   var button = document.getElementById('helpButton');
   var style = {
