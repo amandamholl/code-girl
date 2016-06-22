@@ -13,6 +13,7 @@ body {
   width: 100px;
   border: 1px solid #ddd;
 }
+
 #graphValue {
   height: 15px;
   width: 0;
@@ -22,8 +23,17 @@ body {
 }
 
 #blockly {
-  position: fixed;
   margin-top: 90px;
+}
+
+#checkButton {
+  position: relative;
+}
+
+#checkButton button.primary {
+  position: absolute;
+  top: 8px;
+  right:40px;
 }
 
 #help .blocklyMainBackground{

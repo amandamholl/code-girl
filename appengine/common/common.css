@@ -42,7 +42,7 @@ html[dir="RTL"] .farSide {
 
 .level_dot:hover, .level_number:hover {
   cursor:default;
-  color: #888;	
+  color: #888;
 }
 
 .level_done:hover{
@@ -226,7 +226,7 @@ a {
 
 #logo a:hover img{
 	-webkit-filter: drop-shadow(0px 3px 3px #ccc);
-    filter:         drop-shadow(0px 3px 3px #ccc); 
+    filter:         drop-shadow(0px 3px 3px #ccc);
 }
 
 .farSide{
@@ -240,4 +240,20 @@ a {
 .farSide button{
 	float: right;
 	margin-top: 0;
+}
+
+@media (min-width:801px) { /* tablet, landscape iPad, lo-res laptops ands desktops */
+/* move avatar to bottom, below toolbox and canvas */
+
+}
+
+
+@media (max-width:600px) { /* smartphones, Android phones, andscape iPhone */
+  #logo{
+    width: 100px; /*so buttons don't overlap*/
+  }
+  #logo img{
+    -webkit-clip-path: inset(0% 78% 0% 0%);
+    clip-path: inset(0% 78% 0% 0%);
+  }
 }

@@ -82,12 +82,12 @@
   {/if}
 
   <div id="help" class="dialogHiddenContent">
-    <div style="padding-bottom: 0.7ex">
+    <div style="padding-bottom: 0.7ex; font-size: large; margin: 1em;">
       {if $ij.level == 1}
         <h3> Grace needs your help getting dressed for a mission! </h3>
         {msg meaning="Pond.helpText1"
              desc="Instructions. Do not translate the word 'cannon'."}
-          Put Grace's superhero outfit on in the correct order.
+          Put Grace's superhero outfit on in the correct order. Press "Check outfit!" to finish.
         {/msg}
         <br><br><img src="pond/docs/order.png" width=146 style="margin-top:-10px;margin-bottom: -50px">
       {/if}
@@ -154,7 +154,7 @@
       <block type="pond_loops_while"></block>
     </category>
 {/if}
-    
+
 {if $ij.level >= 7}
     <category name="{msg meaning="Games.catVariables" desc="IBID"}Variables{/msg}" custom="VARIABLE"></category>
   {if $ij.level >= 8}

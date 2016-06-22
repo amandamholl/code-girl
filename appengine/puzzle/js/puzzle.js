@@ -58,10 +58,11 @@ Puzzle.init = function() {
   var rtl = BlocklyGames.isRtl();
   var blocklyDiv = document.getElementById('blockly');
   var scale = 1 + (1 - (1 / 10)) / 3;
+  var checkAnswer = 80;
   var onresize = function(e) {
     blocklyDiv.style.width = (window.innerWidth - 20) + 'px';
     blocklyDiv.style.height =
-    (window.innerHeight - blocklyDiv.offsetTop - 15) + 'px';
+    (window.innerHeight - blocklyDiv.offsetTop - checkAnswer - 15) + 'px';
   };
   onresize();
   window.addEventListener('resize', onresize);
