@@ -12,12 +12,11 @@ html[dir="RTL"] button.primary {
 	position:relative;
 	height:85%;
 }
-#workspace{
+#workspace {
   position: absolute;
   top: 90px;
-  width: 98.5%;
-  left:10px;
-  height:100%;
+  left: 10px;
+  z-index: -20;
 }
 #page-container{
     position: absolute;
@@ -44,18 +43,16 @@ html[dir="RTL"] button.primary {
   top: 10px;
 }
 #visualization{
-  float: right;
-  position: absolute;
-  //left: -20px;
-  z-index:0;
+  position:relative;
   right:0;
-  top: 66px;
-  margin-bottom:10px;
+  float:right;
+  top: 10px;
 }
 #blockly{
-  position: absolute;
-  top:66px;
-  height:90.6%;
+  position: relative;
+  top: 10px;
+  float:left;
+  margin-right: 10px;
 }
 /* clean this up */
 #display, #prevAnswer {
@@ -116,4 +113,20 @@ body{
 
 #instructions{
   width:90%;
+}
+
+@media (max-width:801px) { /* tablet, landscape iPad, lo-res laptops ands desktops */
+/* move avatar to bottom, below toolbox and canvas */
+  #visualization{
+    float:none;
+    margin-bottom:10px;
+  }
+
+  #levelLinks{
+    margin-right:10px;
+  }
+
+  #blockly{
+    margin-bottom:10px;
+  }
 }

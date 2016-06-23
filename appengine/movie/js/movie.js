@@ -114,7 +114,10 @@ Movie.init = function() {
 		var subtract = 445;
 	else
 		var subtract = 430;
+  if(window.innerWidth <= 801)
+    var subtract = 34;
   blocklyDiv.style.width = (window.innerWidth - subtract) + 'px';
+  blocklyDiv.style.height = (window.innerHeight - 205) + 'px';
 	//console.log(window.innerWidth+ "-----"+div.clientWidth );
   };
   window.addEventListener('scroll', function() {

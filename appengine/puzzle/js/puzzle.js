@@ -61,8 +61,7 @@ Puzzle.init = function() {
   var checkAnswer = 80;
   var onresize = function(e) {
     blocklyDiv.style.width = (window.innerWidth - 20) + 'px';
-    blocklyDiv.style.height =
-    (window.innerHeight - blocklyDiv.offsetTop - checkAnswer - 15) + 'px';
+    blocklyDiv.style.height =(window.innerHeight - blocklyDiv.offsetTop - checkAnswer - 15) + 'px';
   };
   onresize();
   window.addEventListener('resize', onresize);

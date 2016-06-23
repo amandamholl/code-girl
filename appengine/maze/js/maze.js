@@ -498,11 +498,20 @@ Maze.init = function() {
   var blocklyDiv = document.getElementById('blockly');
   var visualization = document.getElementById('visualization');
   var onresize = function(e) {
+    console.log('here');
     var top = visualization.offsetTop;
+
     //blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
-	blocklyDiv.style.top = '90px';
-    blocklyDiv.style.left = rtl ? '10px' : '10px';
-    blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
+	  blocklyDiv.style.top = '0px';
+    //blocklyDiv.style.left = rtl ? '10px' : '10px';
+    if(window.innerWidth < 801){
+      blocklyDiv.style.width = (window.innerWidth - 27) + 'px';
+      blocklyDiv.style.height = (window.innerHeight * .5) + 'px';
+    }
+    else{
+      blocklyDiv.style.width = (window.innerWidth - 438) + 'px';
+      blocklyDiv.style.height = (window.innerHeight - 105) + 'px';
+    }
   };
   window.addEventListener('scroll', function() {
       onresize();

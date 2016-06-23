@@ -1,7 +1,11 @@
+.blocklyToolboxDiv {
+  z-index:-10;
+}
 #blockly{
-  //position: absolute;
-  //top:66px;
-  height:85%;
+  position: relative;
+  top: 0;
+  float:left;
+  margin-right: 10px;
 }
 #editor {
   font-size: 16pt;
@@ -11,20 +15,15 @@
   border: 1px solid #BBA;
 }
 #visualization{
-  float: right;
-  position: absolute;
-  //left: -20px;
-  z-index:0;
+  position:relative;
   right:0;
-  //top: 66px;
-  margin-bottom:10px;
+  float:right;
 }
 #workspace{
   position: absolute;
   top: 90px;
-  width: 98.5%;
-  left:10px;
-  height:100%;
+  left: 10px;
+  z-index: -20;
 }
 #display {
   border: 10px solid #fae5e2;
@@ -33,7 +32,7 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   position: absolute;
-  top: 0px;
+  bottom:59px;
   width:400px;
   height:400px;
 }
@@ -126,4 +125,17 @@
 }
 .stop {
   background-position: -21px -21px;
+}
+
+@media (max-width:801px) { /* tablet, landscape iPad, lo-res laptops ands desktops */
+/* move avatar to bottom, below toolbox and canvas */
+  body{
+    overflow-y:scroll;
+  }
+  #blockly{
+    margin-bottom:10px;
+  }
+  #visualization{
+    float:none;
+  }
 }

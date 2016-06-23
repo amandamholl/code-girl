@@ -67,10 +67,12 @@
     </tr>
   </table>*/
   <div id="workspace">
-    {call Pond.soy.visualization /}
 
     {call .toolbox /}
     <div id="blockly"></div>
+
+    {call Pond.soy.visualization /}
+
   </div>
 
   {call BlocklyGames.soy.dialog /}
