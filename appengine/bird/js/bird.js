@@ -328,9 +328,16 @@ Bird.init = function() {
   var onresize = function(e) {
     var top = visualization.offsetTop;
     //blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
-	blocklyDiv.style.top = Math.max(10, 90) + 'px';
-    blocklyDiv.style.left = rtl ? '10px' : '10px';
-    blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
+	  //blocklyDiv.style.top = Math.max(10, 90) + 'px';
+    blocklyDiv.style.left = rtl ? '10px' : '0px';
+    if(window.innerWidth <= 801){
+      blocklyDiv.style.width = (window.innerWidth - 35) + 'px';
+      blocklyDiv.style.height = (window.innerHeight * .5) + 'px';
+    }
+    else{
+      blocklyDiv.style.width = (window.innerWidth - 432) + 'px';
+      blocklyDiv.style.height = (window.innerHeight - 105) + 'px';
+    }
   };
   window.addEventListener('scroll', function() {
       onresize();

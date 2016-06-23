@@ -5,22 +5,29 @@ button.primary {
 text{
   margin:25px;
 }
-#visualization{
-  margin-top: 90px;
+#visualization {
+  position: relative;
 }
 html[dir="RTL"] button.primary {
   text-align: right;
 }
-
 #blockly {
-  position: fixed;
-  bottom: 10px;
+  position: relative;
+  float:left;
+  margin-right: 10px;
 }
 #display {
   border: 1px solid #ccc;
 }
 #downloadImageLink {
   display: none;
+}
+
+#workspace {
+  position: absolute;
+  top: 90px;
+  left: 10px;
+  z-index: -20;
 }
 
 /* Slider. */
@@ -61,5 +68,24 @@ html[dir="RTL"] button.primary {
 	background-color:white;
 }
 #leftSide{
-	float:right;
+	position:relative;
+  right:0;
+  float:right;
+}
+
+@media (max-width:801px) { /* tablet, landscape iPad, lo-res laptops ands desktops */
+/* move avatar to bottom, below toolbox and canvas */
+  body{
+    overflow-y:scroll;
+  }
+  #blockly{
+    height:50%;
+    margin-bottom:10px;
+  }
+  #leftSide{
+    float:none;
+    left:0;
+    top:50%;
+    margin-bottom: 15px;
+  }
 }

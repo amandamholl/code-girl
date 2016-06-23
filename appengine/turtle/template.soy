@@ -81,53 +81,55 @@
     </div>
   </div>
 
-  {call .toolbox /}
-  <div id="blockly"></div>
+  <div id="workspace">
+    {call .toolbox /}
+    <div id="blockly"></div>
 
-  <div id="leftSide">
-    <div id="visualization">
-      <canvas id="scratch" width="400" height="400" style="display: none"></canvas>
-      <canvas id="answer" width="400" height="400" style="display: none"></canvas>
-      <canvas id="display" width="400" height="400"></canvas>
+    <div id="leftSide">
+      <div id="visualization">
+        <canvas id="scratch" width="400" height="400" style="display: none"></canvas>
+        <canvas id="answer" width="400" height="400" style="display: none"></canvas>
+        <canvas id="display" width="400" height="400"></canvas>
+      </div>
+
+      <table style="padding-top: 1em;">
+        <tr>
+          <td style="width: 190px; text-align: center; vertical-align: top;background-color:white; padding-top: 10px;" id="sliderDiv">
+            <svg
+                id="slider"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:svg="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                version="1.1"
+                width="150"
+                height="50">
+              <!-- Slow icon. -->
+              <clipPath id="slowClipPath">
+                <rect width=26 height=12 x=5 y=14 />
+              </clipPath>
+              <image xlink:href="turtle/seaturtle.svg" height=32 width=74 x=-21 y=0 />
+              <!-- Fast icon. -->
+              <clipPath id="fastClipPath">
+                <rect width=26 height=16 x=120 y=10 />
+              </clipPath>
+              <image xlink:href="turtle/bunny.svg" height=32 width=74 x=92 y=0 />
+            </svg>
+          </td>
+          <td style="width: 15px;">
+            <img id="spinner" style="visibility: hidden;" src="turtle/loading.gif" height=15 width=15>
+          </td>
+          <td style="width: 190px; text-align: center">
+            <button id="runButton" class="primary" title="{msg meaning="Games.runTooltip" desc="IBID"}Run the program you wrote.{/msg}">
+              <img src="media/1x1.gif" class="run icon21"> {msg meaning="Games.runProgram" desc="IBID"}Run Program{/msg}
+            </button>
+            <button id="resetButton" class="primary" style="display: none" title="{msg meaning="Games.resetTooltip" desc="IBID"}Stop the program and reset the level.{/msg}">
+              <img src="media/1x1.gif" class="stop icon21"> {msg meaning="Games.resetProgram" desc="IBID"}Reset{/msg}
+            </button>
+          </td>
+        </tr>
+      </table>
+
     </div>
-
-    <table style="padding-top: 1em;">
-      <tr>
-        <td style="width: 190px; text-align: center; vertical-align: top;background-color:white; padding-top: 10px;" id="sliderDiv">
-          <svg
-              id="slider"
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:svg="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              version="1.1"
-              width="150"
-              height="50">
-            <!-- Slow icon. -->
-            <clipPath id="slowClipPath">
-              <rect width=26 height=12 x=5 y=14 />
-            </clipPath>
-            <image xlink:href="turtle/seaturtle.svg" height=32 width=74 x=-21 y=0 />
-            <!-- Fast icon. -->
-            <clipPath id="fastClipPath">
-              <rect width=26 height=16 x=120 y=10 />
-            </clipPath>
-            <image xlink:href="turtle/bunny.svg" height=32 width=74 x=92 y=0 />
-          </svg>
-        </td>
-        <td style="width: 15px;">
-          <img id="spinner" style="visibility: hidden;" src="turtle/loading.gif" height=15 width=15>
-        </td>
-        <td style="width: 190px; text-align: center">
-          <button id="runButton" class="primary" title="{msg meaning="Games.runTooltip" desc="IBID"}Run the program you wrote.{/msg}">
-            <img src="media/1x1.gif" class="run icon21"> {msg meaning="Games.runProgram" desc="IBID"}Run Program{/msg}
-          </button>
-          <button id="resetButton" class="primary" style="display: none" title="{msg meaning="Games.resetTooltip" desc="IBID"}Stop the program and reset the level.{/msg}">
-            <img src="media/1x1.gif" class="stop icon21"> {msg meaning="Games.resetProgram" desc="IBID"}Reset{/msg}
-          </button>
-        </td>
-      </tr>
-    </table>
-
   </div>
 
   {call BlocklyGames.soy.dialog /}

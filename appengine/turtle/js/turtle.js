@@ -91,9 +91,15 @@ Turtle.init = function() {
   var visualization = document.getElementById('visualization');
   var onresize = function(e) {
     var top = visualization.offsetTop;
-    blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
+    //blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
     //blocklyDiv.style.left = rtl ? '10px' : '420px';
-    blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
+    if(window.innerWidth <= 801){
+      blocklyDiv.style.width = (window.innerWidth - 35) + 'px';
+    }
+    else{
+      blocklyDiv.style.width = (window.innerWidth - 432) + 'px';
+    }
+    blocklyDiv.style.height = (window.innerHeight - 105) + 'px';
   };
   window.addEventListener('scroll', function() {
       onresize();
