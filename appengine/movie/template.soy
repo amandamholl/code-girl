@@ -66,38 +66,37 @@
         </button>
     </div>
   </div>
-  <div id="page-container">
-    <div id="wrapper">
-    <div id="workspace">
-      <div id="levelLinks">
-        {call BlocklyGames.soy.levelLinks}
-        {param level: $ij.level /}
-        {param maxLevel: $ij.maxLevel /}
-        {param lang: $ij.lang /}
-        {param suffix}{/param}
-        {/call}
-        {if $ij.level == 7}
-          <div class="farSide" id="unlock">
-            <button class="secondary" title="Save">Save Avatar &nbsp;<i class="fa fa-floppy-o"></i></button>
-          </div>
-        {else}
-          <div class="farSide" id="unlock">
-            <button class="secondary" title="Unlock">More Accessories&nbsp; <i class="fa fa-unlock-alt"></i></button>
-          </div>
-        {/if}
-      </div>
-      {call .toolbox /}
-      <div id="blockly">
-      </div>
-      <div id="visualization">
-        <canvas id="scratch" width="400" height="580" style="display: none"></canvas>
-        <canvas id="superhero" width="400" height="580" style="display: block"></canvas>
-        <canvas id="hatching" width="400" height="580" style="display: none"></canvas>
-        <canvas id="axies" width="400" height="580" style="display: none"></canvas>
-        <canvas id="display" width="400" height="580" style="vertical-align: bottom;z-index:20"></canvas>
-      </div>
+
+  <div id="workspace">
+    <div id="levelLinks">
+      {call BlocklyGames.soy.levelLinks}
+      {param level: $ij.level /}
+      {param maxLevel: $ij.maxLevel /}
+      {param lang: $ij.lang /}
+      {param suffix}{/param}
+      {/call}
+      {if $ij.level == 7}
+        <div class="farSide" id="unlock">
+          <button class="secondary" title="Save">Save Avatar &nbsp;<i class="fa fa-floppy-o"></i></button>
+        </div>
+      {else}
+        <div class="farSide" id="unlock">
+          <button class="secondary" title="Unlock">More Accessories&nbsp; <i class="fa fa-unlock-alt"></i></button>
+        </div>
+      {/if}
     </div>
+    {call .toolbox /}
+    <div id="blockly">
     </div>
+    <div id="visualization">
+      <canvas id="scratch" width="400" height="580" style="display: none"></canvas>
+      <canvas id="superhero" width="400" height="580" style="display: block"></canvas>
+      <canvas id="hatching" width="400" height="580" style="display: none"></canvas>
+      <canvas id="axies" width="400" height="580" style="display: none"></canvas>
+      <canvas id="display" width="400" height="580" style="vertical-align: bottom;z-index:20"></canvas>
+    </div>
+  </div>
+
     {call BlocklyGames.soy.dialog /}
     {call BlocklyGames.soy.doneDialog /}
     {call BlocklyGames.soy.abortDialog /}
@@ -145,7 +144,7 @@
       </div>
       {call BlocklyGames.soy.ok /}
     </div>
-  </div>
+
 {/template}
 
 /**

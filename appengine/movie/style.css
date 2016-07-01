@@ -2,9 +2,9 @@ button.primary {
   /* Can't use "text-align: start" due to IE. */
   text-align: left;
 }
-#header{
+/*#header{
 	z-index:50;
-}
+}*/
 html[dir="RTL"] button.primary {
   text-align: right;
 }
@@ -12,7 +12,7 @@ html[dir="RTL"] button.primary {
 	position:relative;
 	height:85%;
 }
-#workspace {
+#workspace{
   position: absolute;
   top: 90px;
   left: 10px;
@@ -113,6 +113,10 @@ body{
 
 #instructions{
   width:90%;
+}
+
+.blocklyToolboxDiv {
+  z-index:-10;
 }
 
 @media (max-width:801px) { /* tablet, landscape iPad, lo-res laptops ands desktops */

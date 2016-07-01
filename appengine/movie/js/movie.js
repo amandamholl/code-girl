@@ -108,7 +108,7 @@ Movie.init = function() {
 	/* changed for style: blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px'; */
     blocklyDiv.style.top = '0 px';
     //blocklyDiv.style.left = rtl ? '10px' : '420px';
-	var div = document.getElementById("page-container");
+	var div = document.getElementById("workspace");
 
 	if(window.innerWidth > div.clientWidth)
 		var subtract = 445;
