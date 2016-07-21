@@ -170,13 +170,13 @@
 {call BlocklyGames.soy.storageDialog /}
 
   <div id="help" class="dialogHiddenContent">
-    <div style="padding-bottom: 0.7ex">
+    <div style="padding-bottom: 0.7ex; font-size: large; margin: 1em;">
       {msg meaning="Puzzle.helpText"
            desc="Instructions for the puzzle.  For context, see [https://blockly-games.appspot.com/puzzle Blockly Puzzle]."}
-        For each animal (blue), attach its picture and choose its number of legs.
+        For each animal (blue), attach its picture and choose its number of legs. Then, press "Check Answers <i class="fa fa-check-square-o"></i>" to check your answers.
       {/msg}
     </div>
-    <div id="sample" class="readonly"></div>
+    <div id="sample" class="readonly" style="margin: 1em;"></div>
     {call BlocklyGames.soy.ok /}
   </div>
   <div id="answers" class="dialogHiddenContent">

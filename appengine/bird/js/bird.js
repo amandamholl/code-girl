@@ -467,7 +467,7 @@ Bird.levelHelp = function() {
     }
   } else if (BlocklyGames.LEVEL == 3) {
     if (userBlocks.indexOf('bird_noWorm') == -1) {
-      style = {'width': '350px', 'top': '100px'};
+      style = {'width': '350px'};
       style[rtl ? 'right' : 'left'] = '20px';
       origin = toolbar[1].getSvgRoot();
     }

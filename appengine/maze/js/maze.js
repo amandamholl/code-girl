@@ -521,7 +521,8 @@ Maze.init = function() {
   onresize();
 
   var toolbox = document.getElementById('toolbox');
-  var scale = 1 + (1 - (BlocklyGames.LEVEL / BlocklyGames.MAX_LEVEL)) / 3;
+  //var scale = 1 + (1 - (BlocklyGames.LEVEL / BlocklyGames.MAX_LEVEL)) / 3;
+  var scale = 1 + (1 - (1 / 10)) / 3;
   BlocklyGames.workspace = Blockly.inject('blockly',
                                           {'media': 'media/',
                                           'maxBlocks': Maze.MAX_BLOCKS,
