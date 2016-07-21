@@ -161,7 +161,8 @@ button:hover:not(:disabled) {
   height: 100%;
   width: 100%;
   background-color: #000;
-  opacity: 0.3
+  opacity: 0.3;
+  z-index:30;
 }
 .dialogAnimate {
   transition-property: width height left top opacity;
@@ -195,6 +196,7 @@ button:hover:not(:disabled) {
 #header {
   width: 100%;
   height:80px;
+  z-index:8;
   position:fixed;
   top:0;
   left:0;

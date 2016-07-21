@@ -481,7 +481,7 @@ BlocklyDialogs.done = function() {
   var style = {
     width: '40%',
     left: '30%',
-    //top: '3em'
+    //top: '6em'
   };
 
   // Add the user's code.
@@ -507,8 +507,6 @@ BlocklyDialogs.done = function() {
   ok.addEventListener('touchend', function(){
     render();
   }, true);
-
-
 
   BlocklyDialogs.showDialog(content, null, false, true, style,
       function() {
@@ -543,7 +541,7 @@ BlocklyDialogs.congratulations = function() {
   var style = {
     width: '40%',
     left: '30%',
-    //top: '6em'
+    top: '6em'
   };
   // Add the user's code.
   if (Blockly.mainWorkspace) {

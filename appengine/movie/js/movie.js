@@ -109,16 +109,20 @@ Movie.init = function() {
     blocklyDiv.style.top = '0 px';
     //blocklyDiv.style.left = rtl ? '10px' : '420px';
 	var div = document.getElementById("workspace");
+  var body = (document.getElementsByTagName('body'))[0];
 
-	if(window.innerWidth > div.clientWidth)
+  console.log(body.scrollHeight + '-----' +div.clientHeight);
+
+	if(body.scrollHeight > body.clientHeight){
 		var subtract = 445;
-	else
+	}else{
 		var subtract = 430;
+  }
   if(window.innerWidth <= 801)
     var subtract = 34;
   blocklyDiv.style.width = (window.innerWidth - subtract) + 'px';
   blocklyDiv.style.height = (window.innerHeight - 205) + 'px';
-	//console.log(window.innerWidth+ "-----"+div.clientWidth );
+
   };
   window.addEventListener('scroll', function() {
       onresize();

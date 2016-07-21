@@ -1,3 +1,7 @@
+html,body{
+  margin:0;
+  height:100%;
+}
 button.primary {
   /* Can't use "text-align: start" due to IE. */
   text-align: left;
@@ -16,16 +20,16 @@ html[dir="RTL"] button.primary {
   position: absolute;
   top: 90px;
   left: 10px;
-  z-index: -20;
+  z-index: 6;
 }
-#page-container{
+/*#page-container{
     position: absolute;
     zoom: 1;
     left: 0px;
     top: 0px;
     right: 0px;
     bottom: 0px;
-}
+}*/
 #levelLinks{
   height: 40px;
   padding: 10px;
@@ -116,7 +120,7 @@ body{
 }
 
 .blocklyToolboxDiv {
-  z-index:-10;
+  z-index:6;
 }
 
 @media (max-width:801px) { /* tablet, landscape iPad, lo-res laptops ands desktops */

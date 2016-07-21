@@ -254,7 +254,7 @@ Turtle.showHelpSlider = function(){
   var style = {
     width: '25%',
     left: '71%',
-    //top: '80%'
+    top: '80%',
   };
   var origin = document.getElementById('sliderDiv');
   BlocklyDialogs.showDialog(help, origin, true, false, style, null);
