@@ -108,6 +108,10 @@
   opacity: 1;
 }
 
+#blockHint{
+  font-style: italic;
+}
+
 /* Sprited icons. */
 .icon21 {
   height: 21px;

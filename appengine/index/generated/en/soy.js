@@ -8,12 +8,12 @@ goog.require('soydata');
 
 
 Index.soy.messages = function(opt_data, opt_ignored, opt_ijData) {
-  return '<div style="display: none"><span id="title">Code Girl</span><span id="Index_clear">Delete all your solutions?</span></div>';
+  return '<div style="display: none"><span id="title">Code Girl</span></div>';
 };
 
 
 Index.soy.start = function(opt_data, opt_ignored, opt_ijData) {
-  return Index.soy.messages(null, null, opt_ijData) + '<div id="header"><div id="logo"><a href="./"> <img src="./index/horizontal-logo-01.png"></a></div><div id="login"><FORM><BUTTON class="login" Type="BUTTON" ONCLICK="window.location.href=\'/login\'">Login or Sign Up &nbsp;<i class="fa fa-sign-in"></i></BUTTON></FORM></div><div id="logout" style="visibility: hidden"><button id="signoutButton" onClick="location.href=\'/\'">Signout</button></div></div><div id="page-container"><select id="languageMenu"></select><div class="carousel"><div><img src="./index/banner2.png"></div><div><img src="./index/banner.png"></div><div><img src="./index/banner3.png"></div></div><p id="clearDataPara" style="visibility: hidden"><button class="secondary" id="clearData">Start Over</span></button></p></div>';
+  return Index.soy.messages(null, null, opt_ijData) + '<div id="header"><div id="logo"><a href="./"> <img src="./index/horizontal-logo-01.png"></a></div><div id="login"><FORM><BUTTON class="login" Type="BUTTON" ONCLICK="window.location.href=\'/login\'">Login or Sign Up &nbsp;<i class="fa fa-sign-in"></i></BUTTON></FORM></div><div id="logout" style="visibility: hidden"><button id="signoutButton" onClick="location.href=\'/\'">Signout</button></div></div><div id="page-container"><select id="languageMenu"></select><div class="carousel"><div><img src="./index/banner2.png"></div><div><img src="./index/banner.png"></div><div><img src="./index/banner3.png"></div></div></div>';
 };
 
 

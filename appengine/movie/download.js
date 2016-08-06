@@ -107,7 +107,9 @@
 
 			// handle non-a[download] safari as best we can:
 			if(/(Version)\/(\d+)\.(\d+)(?:\.(\d+))?.*Safari\//.test(navigator.userAgent)) {
-				url=url.replace(/^data:([\w\/\-\+]+)/, u);
+				//alert("in herrrreee");
+				//url=url.replace(/^data:([\w\/\-\+]+)/, u);
+
 				if(!window.open(url)){ // popup blocked, offer direct download:
 					if(confirm("Displaying New Document\n\nUse Save As... to download, then click back to return to this page.")){ location.href=url; }
 				}
@@ -160,8 +162,12 @@
 function render(){
   html2canvas([document.getElementById('visualization')], {
     onrendered: function(canvas) {
-    var myImage = canvas.toDataURL("image/png");
-    download(myImage, "CodeGirl.png", "image/png");
+		  var myImage = canvas.toDataURL("image/png");
+			/*if(navigator.userAgent.match(/iPhone|iPad|iPod/i)){
+				window.open(myImage);
+			}
+			else*/
+		  download(myImage, "CodeGirl.png", "image/png");
   }
   });
 }

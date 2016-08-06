@@ -46,6 +46,8 @@ BlocklyDialogs.dialogOrigin_ = null;
  */
 BlocklyDialogs.dialogDispose_ = null;
 
+BlocklyDialogs.APPS = ['puzzle', 'turtle', 'movie', 'bird', 'maze', 'pond'];
+
 /**
  * Show the dialog pop-up.
  * @param {!Element} content DOM element to display in the dialog.
@@ -484,15 +486,20 @@ BlocklyDialogs.done = function() {
     //top: '6em'
   };
 
+  document.getElementById('clearData').style.visibility = "visible";
+
   // Add the user's code.
   if (Blockly.mainWorkspace) {
     var linesText = document.getElementById('dialogLinesText');
-    linesText.textContent = 'You have finished creating your avatar! Click "OK" to save a picture of your avatar or "Cancel" continue dressing up your avatar.';
+    linesText.textContent = 'You have finished creating your avatar! Click "OK" to save a picture of your avatar or "Cancel" continue dressing up your avatar. Press "Start Over" to play again.';
   };
 
   var code = document.getElementById('containerCode');
   if(code)
     content.removeChild(code);
+
+  var clearButton = document.getElementById('clearData');
+  BlocklyGames.bindClick(clearButton, BlocklyDialogs.clearData_);
 
   var cancel = document.getElementById('doneCancel');
   cancel.addEventListener('click', BlocklyDialogs.hideDialog, true);
@@ -673,6 +680,22 @@ BlocklyDialogs.abortKeyDown = function(e) {
       BlocklyInterface.indexPage();
     }
   }
+};
+
+/**
+ * Clear all stored data.
+ * @private
+ */
+BlocklyDialogs.clearData_ = function() {
+  /*if (!confirm(BlocklyGames.getMsg('Index_clear'))) {
+    return;
+  }*/
+  for (var i = 0; i < BlocklyDialogs.APPS.length; i++) {
+    for (var j = 1; j <= BlocklyGames.MAX_LEVEL; j++) {
+      delete window.localStorage[BlocklyDialogs.APPS[i] + j];
+    }
+  }
+  location.assign('/puzzle');
 };
 
 // Export symbols that would otherwise be renamed by Closure compiler.

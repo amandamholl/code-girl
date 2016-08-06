@@ -355,7 +355,8 @@ Bird.init = function() {
                                           'toolbox': toolbox,
                                           'scrollbars': true,
                                           'trashcan': true,
-                                          'zoom':{'startScale': scale}});
+                                          //'zoom':{'startScale': scale}
+                                          });
  // Blockly.loadAudio_(['bird/quack.ogg', 'bird/quack.mp3'], 'quack');
  // Blockly.loadAudio_(['bird/whack.mp3', 'bird/whack.ogg'], 'whack');
  // Blockly.loadAudio_(['bird/worm.mp3', 'bird/worm.ogg'], 'worm');
@@ -409,7 +410,7 @@ Bird.showHelp = function() {
   var style = {
     width: '50%',
     left: '25%',
-    //top: '5em'
+    top: '6em'
   };
 
   BlocklyDialogs.showDialog(help, button, true, true, style, Bird.hideHelp);

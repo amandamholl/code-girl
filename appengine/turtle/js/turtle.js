@@ -126,7 +126,8 @@ Turtle.init = function() {
                                           'toolbox': toolbox,
                                           'scrollbars': true,
                                           'trashcan': BlocklyGames.LEVEL == 1 ? false : true ,
-                                          'zoom': {'startScale': scale}});
+                                          //'zoom': {'startScale': scale}
+                                        });
   // Prevent collisions with user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('moveForward,moveBackward,' +
                                       'turnRight,turnLeft,penUp,penDown,penWidth,penColour,' +
@@ -252,9 +253,11 @@ Turtle.hideHelp = function() {
 Turtle.showHelpSlider = function(){
   var help = document.getElementById('helpSlider');
   var style = {
-    width: '25%',
-    left: '71%',
-    top: '80%',
+    width: '300px',
+    left: 'inherit',
+    right: '5.6em',
+    top: '37em',
+    //bottom: '4em',
   };
   var origin = document.getElementById('sliderDiv');
   BlocklyDialogs.showDialog(help, origin, true, false, style, null);

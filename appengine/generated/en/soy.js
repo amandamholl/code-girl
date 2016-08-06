@@ -38,7 +38,7 @@ BlocklyGames.soy.login = function(opt_data, opt_ignored, opt_ijData) {
 
 
 BlocklyGames.soy.doneDialog = function(opt_data, opt_ignored, opt_ijData) {
-  return '<div id="dialogDone" class="dialogHiddenContent"><div id="dialogCongrats" style="font-size: large; margin: 1em;">Congratulations!</div><div id="dialogLinesText" style="font-size: large; margin: 1em;"></div><pre id="containerCode"></pre><div id="dialogDoneText" style="font-size: large; margin: 1em;"></div><div id="dialogDoneButtons" class="farSide" style="padding: 1ex 3ex 0"><button id="doneCancel">Cancel</button><button id="doneOk" class="secondary">OK</button></div></div>';
+  return '<div id="dialogDone" class="dialogHiddenContent"><div id="dialogCongrats" style="font-size: large; margin: 1em;">Congratulations!</div><div id="dialogLinesText" style="font-size: large; margin: 1em;"></div><pre id="containerCode"></pre><div id="dialogDoneText" style="font-size: large; margin: 1em;"></div><div id="dialogDoneButtons" class="farSide" style="padding: 1ex 3ex 0"><button class="orange" id="clearData" style="visibility: hidden">Start Over</span></button><button id="doneCancel">Cancel</button><button id="doneOk" class="secondary">OK</button></div></div>';
 };
 
 

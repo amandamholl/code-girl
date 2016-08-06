@@ -22,10 +22,6 @@ body {
   transition-duration: 1s;
 }
 
-#blockly {
-  margin-top: 90px;
-}
-
 #checkButton {
   position: relative;
 }
@@ -38,4 +34,11 @@ body {
 
 #help .blocklyMainBackground{
   stroke:none;
+}
+
+#workspace{
+  position: absolute;
+  top: 90px;
+  left: 10px;
+  z-index: -20;
 }

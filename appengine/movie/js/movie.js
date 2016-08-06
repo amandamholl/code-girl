@@ -152,7 +152,7 @@ Movie.init = function() {
                                           'rtl': rtl,
                                           'toolbox': toolbox,
                                           'trashcan': true,
-                                          'zoom':{'startScale': scale}
+                                          //'zoom':{'startScale': scale}
                                           /*'zoom': BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL ?
                                           {'controls': true, 'wheel': true} : null*/});
 
@@ -227,6 +227,7 @@ Movie.init = function() {
   }
   BlocklyGames.bindClick('unlock', Movie.unlock);
   //BlocklyGames.bindClick('save', Movie.unlock);
+  BlocklyGames.bindClick('signoutButton', Movie.logout);
 };
 
 if (window.location.pathname.match(/readonly.html$/)) {
@@ -13125,3 +13126,9 @@ Movie.checkAnswers = function() {
     }
   }
 };
+
+Movie.logout = function(){
+  window.sessionStorage.setItem("loggedIn", "false");
+  location.assign('/logout');
+  console.log(window.sessionStorage);
+}

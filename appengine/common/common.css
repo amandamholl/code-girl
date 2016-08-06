@@ -244,6 +244,12 @@ a {
 	margin-top: 0;
 }
 
+.orange{
+  border: 1px solid #f9ae5c;
+  background-color: #f9ae5c;
+  color: #fff;
+}
+
 @media (min-width:801px) { /* tablet, landscape iPad, lo-res laptops ands desktops */
 /* move avatar to bottom, below toolbox and canvas */
 

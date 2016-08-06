@@ -86,7 +86,8 @@ Pond.Basic.init = function() {
        'rtl': rtl,
        'toolbox': toolbox,
        'trashcan': true,
-       'zoom':{'startScale': scale}});
+       //'zoom':{'startScale': scale}
+     });
   Blockly.JavaScript.addReservedWords('scan,cannon,drive,swim,stop,speed,' +
       'damage,health,loc_x,loc_y');
 
@@ -116,9 +117,15 @@ Pond.Basic.init = function() {
   Pond.ctxDisplay = document.getElementById('display').getContext('2d');
   //Pond.ctxDisplay.globalCompositeOperation = 'source-over';
   Pond.ctxScratch = document.getElementById('scratch').getContext('2d');
-  Pond.renderSuperhero_();
+  Pond.renderSuperhero_();;
   BlocklyGames.workspace.addChangeListener(Pond.display);
   BlocklyGames.bindClick('runButton', Pond.check);
+  BlocklyGames.bindClick('helpButton', Pond.showHelp);
+  if (location.hash.length < 2 /*&&
+      !BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
+                                         BlocklyGames.LEVEL)*/) {
+    setTimeout(Pond.showHelp, 1000);
+  }
 };
 
 window.addEventListener('load', Pond.Basic.init);
@@ -127,6 +134,7 @@ window.addEventListener('load', Pond.Basic.init);
 Pond.check = function(){
   var blocks = Blockly.mainWorkspace.getAllBlocksSorted();
   var ok;
+
   for(var i=0;i<blocks.length;i++){
     var current = blocks[i];
     var type = current['type'];
@@ -142,10 +150,11 @@ Pond.check = function(){
     }
   }
   if(ok == "wrong order")
-    Pond.showError(current);
-  else if(blocks.length < 9)
+    Pond.showError(current, "Blocks are in the wrong order!");
+  else if(blocks.length < 9){
     console.log("not enough blocks");
-  else {
+    Pond.showError(null, "Not all of the blocks are connected. Use the rest of the blocks and try again.");
+  }else {
     BlocklyInterface.saveToLocalStorage();
     if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
       // No congrats for last level, it is open ended.
@@ -164,7 +173,7 @@ Pond.display = function(event) {
   var interpreter = new Interpreter(code, Pond.initInterpreter);
 
   Pond.drawFrame_(interpreter);
-  var maximum = Blockly.mainWorkspace.getAllBlocks().length;
+  /*var maximum = Blockly.mainWorkspace.getAllBlocks().length;
 
   //console.log("called");
 
@@ -175,11 +184,11 @@ Pond.display = function(event) {
   //console.log(Blockly.mainWorkspace.getAllBlocksSorted());
 
   var blocks = Blockly.mainWorkspace.getAllBlocksSorted();	// get blocks in sorted order (top to bottom)
-
+  */
   /*var top = Blockly.mainWorkspace.getTopBlocks(true);	// get blocks in sorted order (top to bottom)
   var blocks = top[0].getChildren();
 	console.log(blocks);*/
-
+  /*
   var currentBlock = Blockly.mainWorkspace.getBlockById(event.blockId);
   var current = blocks.indexOf(currentBlock);
   //console.log(event);
@@ -200,7 +209,7 @@ Pond.display = function(event) {
     }
     }
   }
-
+  */
   //console.log(ok);
 
   Pond.ctxDisplay.drawImage(Pond.ctxScratch.canvas, 0, 0);
@@ -1215,18 +1224,52 @@ Pond.renderSuperhero_ = function() {
 };
 
 
-Pond.showError = function(currentBlock) {
+Pond.showError = function(currentBlock, message) {
   var error = document.getElementById('error');
-  var origin = document.getElementById('blockly');
+  var origin = document.getElementById('resetButton');
   var style = {
     width: '50%',
     left: '25%',
     //top: '6em'
   };
-  BlocklyDialogs.showDialog(error, blockly, true, true, style,
+
+  document.getElementById('message').textContent = message;
+
+  if(message != "Not all of the blocks are connected. Use the rest of the blocks and try again."){
+    console.log(currentBlock['type']);
+    document.getElementById('hint').style.display = "block";                       // Create a <p> node
+    document.getElementById('blockHint').innerHTML = currentBlock['type'];
+  }
+  else{
+    document.getElementById('hint').style.display = "none";
+  }
+  BlocklyDialogs.showDialog(error, origin, true, true, style,
       BlocklyDialogs.stopDialogKeyDown);
   BlocklyDialogs.startDialogKeyDown();
 
   //BlocklyGames.workspace.removeTopBlock(currentBlock);
 
+};
+
+/**
+ * Show the help pop-up.
+ */
+Pond.showHelp = function() {
+  var help = document.getElementById('help');
+  var button = document.getElementById('helpButton');
+  var style = {
+    width: '50%',
+    left: '25%',
+    top: '6em'
+  };
+
+  BlocklyDialogs.showDialog(help, button, true, true, style, Pond.hideHelp);
+  BlocklyDialogs.startDialogKeyDown();
+};
+
+/**
+ * Hide the help pop-up.
+ */
+Pond.hideHelp = function() {
+  BlocklyDialogs.stopDialogKeyDown();
 };

@@ -10,6 +10,9 @@ libraries:
 - name: webapp2
   version: latest
 
+error_handlers:
+- file: default_error.html
+
 handlers:
 # Storage API.
 - url: /storage
@@ -19,17 +22,17 @@ handlers:
   static_files: storage.js
   upload: storage\.js
   secure: always
-  
+
 # Login Signup Page
 - url: /login
   script: login.application
   secure: always
-  
+
 # Logout Page
 - url: /logout
   script: logout.application
   secure: always
-  
+
 # Slick folder. For homepage slider.
 - url: /slick/
   static_dir: slick
@@ -42,13 +45,6 @@ handlers:
   secure: always
 - url: /index/
   static_dir: index
-  secure: always
-
-
-# About page.
-- url: /about
-  static_files: about.html
-  upload: about\.html
   secure: always
 
 

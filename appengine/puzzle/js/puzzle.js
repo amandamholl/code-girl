@@ -61,17 +61,26 @@ Puzzle.init = function() {
   var checkAnswer = 80;
   var onresize = function(e) {
     blocklyDiv.style.width = (window.innerWidth - 20) + 'px';
-    blocklyDiv.style.height =(window.innerHeight - blocklyDiv.offsetTop - checkAnswer - 15) + 'px';
+    blocklyDiv.style.height =(window.innerHeight - blocklyDiv.offsetTop - checkAnswer - 95) + 'px';
   };
-  onresize();
+
+
+  window.addEventListener('scroll', function() {
+      onresize();
+      Blockly.fireUiEvent(window, 'resize');
+    });
+
   window.addEventListener('resize', onresize);
+
+  onresize();
 
   BlocklyGames.workspace = Blockly.inject('blockly',
                                           {'media': 'media/',
                                           'rtl': rtl,
                                           'scrollbars': true,
                                           'trashcan': false,
-                                          'zoom':{'startScale': scale}});
+                                          //'zoom':{'startScale': scale}
+                                        });
 
   var savedBlocks =
   BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME, BlocklyGames.LEVEL);
@@ -147,14 +156,14 @@ Puzzle.init = function() {
       // Spacing is proportional to block's area.
       if (rtl) {
         var dx = blockBox.width +
-        (countedArea / totalArea) * workspaceBox.width;
+                 (countedArea / totalArea) * workspaceBox.width;
       } else {
         var dx = (countedArea / totalArea) *
-        (workspaceBox.width - blockBox.width);
+                 (workspaceBox.width - blockBox.width);
       }
-      dx = Math.round((dx + Math.random() * MARGIN)/scale);
-      var dy = Math.round((Math.random() *
-                          (workspaceBox.height - blockBox.height))/scale);
+      dx = Math.round(dx + Math.random() * MARGIN);
+      var dy = Math.round(Math.random() *
+                          (workspaceBox.height - blockBox.height));
       block.moveBy(dx, dy);
       countedArea += block.cached_area_;
     }

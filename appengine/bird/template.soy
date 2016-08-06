@@ -16,7 +16,7 @@
 {template .messages}
   {call BlocklyGames.soy.messages /}
   <div style="display: none">
-    <span id="Bird_noWorm">{msg meaning="Bird.noWorm" desc="block text - Grace is not in possession of a magic wand.  This phrase is prefixed with 'if'."}does not have magic wand{/msg}</span>
+    <span id="Bird_noWorm">{msg meaning="Bird.noWorm" desc="block text - Grace is not in possession of a magic wand.  This phrase is prefixed with 'if'."}no magic wand{/msg}</span>
     <span id="Bird_direction">{msg meaning="Bird.direction" desc="block text - the compass direction toward which a traveler or vehicle is or should be moving; course."}direction{/msg}</span>
     <span id="Bird_noWormTooltip">{msg meaning="Bird.noWormTooltip" desc="tooltip - Grace wants to get the magic wand."}The condition when Grace has not gotten the magic wand.{/msg}</span>
     <span id="Bird_directionTooltip">{msg meaning="Bird.directionTooltip" desc="tooltip - Move in the direction of the given angle, where 0 means going horizontally to the right, and 90 straight up and 270 straight down."}Move in the direction of the given angle: 0 is to the right, 90 is straight up, etc.{/msg}</span>
@@ -85,85 +85,88 @@
   </table>
   </div>
 
-  {call BlocklyGames.soy.dialog /}
-  {call BlocklyGames.soy.doneDialog /}
-  {call BlocklyGames.soy.abortDialog /}
-  {call BlocklyGames.soy.storageDialog /}
 
-  <div id="help" class="dialogHiddenContent">
-  <div style="padding-bottom: 0.7ex; font-size: large; margin: 1em;">
-    {if $ij.level == 3}
-        <h3> Learn If-Else Statements! </h3>
-        {msg meaning="Bird.helpText1" desc="Instructions."}
-            Put the blocks together and choose directions for Grace to fly to help Grace reach the magic wand and rescue Ada.
-        {/msg}
-        <br><img src="bird/instructions.gif" height=146 width=146 style="margin-bottom: -50px">
-     {/if}
-    </div>
-    {call BlocklyGames.soy.ok /}
-  </div>
+</div>
 
-  <div id="dialogHelp" class="dialogHiddenContent">
-    {if $ij.level == 1}
-      <table><tr><td rowspan=2>
-        <img src="common/help.png">
-      </td><td>
-        <div class="farSide"><img src="bird/help_direction.png" class="mirrorImg" height=27 width=141></div>
-      </td></tr><tr><td>
-        {msg meaning="Bird.helpdirection" desc="callout - This is shown as instruction for the first level."}Change the direction angle to make Grace get the magic wand and rescue Ada.{/msg}
-      </td></tr></table>
-    {elseif $ij.level == 2}
-      <table><tr><td>
-        <img src="common/help.png">
-      </td><td>
-        {msg meaning="Bird.helpHasWorm" desc="callout - This is shown when the 'does not have magic wand' block is introduced."}Use this block to go in one direction if you have the magic wand, or a different direction if you don't have the magic wand.{/msg}
-      </td><td>
-        <img src="bird/help_up.png">
-      </td></tr></table>
-    {elseif $ij.level == 3}
-      <table><tr><td>
-        <img src="bird/help_up.png">
-      </td><td>
-        {msg meaning="Bird.helpHasWorm" desc="callout - This is shown when the 'does not have magic wand' block is introduced."}Use this block to go in one direction if you have the magic wand, or a different direction if you don't have the magic wand.{/msg}
-      </td><td>
-        <img class="help" width="72" height="72" src="maze/bulb.png">
-      </td></tr></table>
-    {elseif $ij.level == 5}
-      <table><tr><td>
-        <img src="bird/help_up.png">
-      </td><td>
-        {msg meaning="Bird.helpElse" desc="callout - This is shown when the user first needs to modify an 'if' block."}Click the icon to modify the 'if' block.{/msg}
-      </td><td>
-        <img src="common/help.png">
-      </td></tr></table>
-    {elseif $ij.level == 6}
-      <table><tr><td>
-        <img src="bird/help_up.png">
-      </td><td>
-        {msg meaning="Bird.helpElseIf" desc="callout - This is shown when the user first needs to modify an 'if' block to have an 'else if' and an 'else'."}This level needs both an 'else if' and an 'else' block.{/msg}
-      </td><td>
-        <img src="common/help.png">
-      </td></tr></table>
-    {elseif $ij.level == 8}
-      <table><tr><td>
-        <img src="bird/help_up.png">
-      </td><td>
-        {msg meaning="Bird.helpAnd" desc="callout - This is shown to indroduce the user to the logical 'and' block."}The 'and' block is true only if both its inputs are true.{/msg}
-      </td><td>
-        <img src="common/help.png">
-      </td></tr></table>
-    {/if}
+{call BlocklyGames.soy.dialog /}
+{call BlocklyGames.soy.doneDialog /}
+{call BlocklyGames.soy.abortDialog /}
+{call BlocklyGames.soy.storageDialog /}
+
+<div id="help" class="dialogHiddenContent">
+<div style="padding-bottom: 0.7ex; font-size: large; margin: 1em;">
+  {if $ij.level == 3}
+      <h3> Learn If-Else Statements! </h3>
+      {msg meaning="Bird.helpText1" desc="Instructions."}
+          Put the blocks together and choose directions for Grace to fly to help Grace reach the magic wand and rescue Ada.
+      {/msg}
+      <br><img src="bird/instructions.gif" height=146 width=146 style="margin-bottom: -50px">
+   {/if}
   </div>
-  {if $ij.level == 5}
-    <div id="dialogMutatorHelp" class="dialogHiddenContent">
-      <table><tr><td>
-        <img src="bird/help_mutator.png" class="mirrorImg" height=58 width=107>
-      </td><td>
-        {msg meaning="Bird.helpMutator" desc="callout - This is shown to demonstrate how to drag a block."}Drag an 'else' block into the 'if' block.{/msg}
-      </td></tr></table>
-    </div>
+  {call BlocklyGames.soy.ok /}
+</div>
+
+<div id="dialogHelp" class="dialogHiddenContent">
+  {if $ij.level == 1}
+    <table><tr><td rowspan=2>
+      <img src="common/help.png">
+    </td><td>
+      <div class="farSide"><img src="bird/help_direction.png" class="mirrorImg" height=27 width=141></div>
+    </td></tr><tr><td>
+      {msg meaning="Bird.helpdirection" desc="callout - This is shown as instruction for the first level."}Change the direction angle to make Grace get the magic wand and rescue Ada.{/msg}
+    </td></tr></table>
+  {elseif $ij.level == 2}
+    <table><tr><td>
+      <img src="common/help.png">
+    </td><td>
+      {msg meaning="Bird.helpHasWorm" desc="callout - This is shown when the 'does not have magic wand' block is introduced."}Use this block to go in one direction if you have the magic wand, or a different direction if you don't have the magic wand.{/msg}
+    </td><td>
+      <img src="bird/help_up.png">
+    </td></tr></table>
+  {elseif $ij.level == 3}
+    <table><tr><td>
+      <img src="bird/help_up.png">
+    </td><td>
+      {msg meaning="Bird.helpHasWorm" desc="callout - This is shown when the 'does not have magic wand' block is introduced."}Use this block to go in one direction if you have the magic wand, or a different direction if you don't have the magic wand.{/msg}
+    </td><td>
+      <img class="help" width="72" height="72" src="maze/bulb.png">
+    </td></tr></table>
+  {elseif $ij.level == 5}
+    <table><tr><td>
+      <img src="bird/help_up.png">
+    </td><td>
+      {msg meaning="Bird.helpElse" desc="callout - This is shown when the user first needs to modify an 'if' block."}Click the icon to modify the 'if' block.{/msg}
+    </td><td>
+      <img src="common/help.png">
+    </td></tr></table>
+  {elseif $ij.level == 6}
+    <table><tr><td>
+      <img src="bird/help_up.png">
+    </td><td>
+      {msg meaning="Bird.helpElseIf" desc="callout - This is shown when the user first needs to modify an 'if' block to have an 'else if' and an 'else'."}This level needs both an 'else if' and an 'else' block.{/msg}
+    </td><td>
+      <img src="common/help.png">
+    </td></tr></table>
+  {elseif $ij.level == 8}
+    <table><tr><td>
+      <img src="bird/help_up.png">
+    </td><td>
+      {msg meaning="Bird.helpAnd" desc="callout - This is shown to indroduce the user to the logical 'and' block."}The 'and' block is true only if both its inputs are true.{/msg}
+    </td><td>
+      <img src="common/help.png">
+    </td></tr></table>
   {/if}
 </div>
+{if $ij.level == 5}
+  <div id="dialogMutatorHelp" class="dialogHiddenContent">
+    <table><tr><td>
+      <img src="bird/help_mutator.png" class="mirrorImg" height=58 width=107>
+    </td><td>
+      {msg meaning="Bird.helpMutator" desc="callout - This is shown to demonstrate how to drag a block."}Drag an 'else' block into the 'if' block.{/msg}
+    </td></tr></table>
+  </div>
+{/if}
+
 {/template}
 
 /**

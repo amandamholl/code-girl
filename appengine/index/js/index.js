@@ -54,49 +54,38 @@ Index.init = function() {
     }
   }
   //console.log(BlocklyStorage);
-  if (storedData) {
+  /*if (storedData) {
     var clearButtonPara = document.getElementById('clearDataPara');
     clearButtonPara.style.visibility = 'visible';
     var clearButton = document.getElementById('clearData');
     BlocklyGames.bindClick(clearButton, Index.clearData_);
-	/* Need to change when this done */
+	// Need to change when this done
 	//var logout = document.getElementById('logout');
 	//logout.style.visibility = 'visible';
 	//var login = document.getElementById('login');
 	//login.style.display = 'none';
-  }
+}*/
   var script = document.createElement('script');
   script.src = './index/js/test.js';
   script.type = 'text/javascript';
   document.body.appendChild(script);
   console.log(window.sessionStorage);
-  //var login = document.getElementsByClassName('login')[0];
-  //BlocklyGames.bindClick(login, Index.login);
-  
+
+  var login = document.getElementsByClassName('login')[0];
+
+  if(window.sessionStorage.getItem("loggedIn") == "true"){
+    login.style.visibility = "hidden";
+  }
+  BlocklyGames.bindClick(login, Index.login);
+
 };
 
 window.addEventListener('load', Index.init, false);
 
-/**
- * Clear all stored data.
- * @private
- */
-Index.clearData_ = function() {
-  if (!confirm(BlocklyGames.getMsg('Index_clear'))) {
-    return;
-  }
-  for (var i = 0; i < Index.APPS.length; i++) {
-    for (var j = 1; j <= BlocklyGames.MAX_LEVEL; j++) {
-      delete window.localStorage[Index.APPS[i] + j];
-    }
-  }
-  location.reload();
-};
-
-Index.login = function() {
-	//alert('in index');
-	//BlocklyDialogs.login();
-};
+Index.login = function(){
+  window.sessionStorage.setItem("loggedIn", "true");
+  console.log(window.sessionStorage);
+}
 
 ;(function($){
 

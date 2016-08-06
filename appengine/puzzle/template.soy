@@ -153,16 +153,20 @@
     </div>
   </div>
 
-  <div id="blockly"></div>
+  <div id="workspace">
+    <div id="blockly"></div>
 
-  <div id="checkButton">
-    <button class="primary">
-      {msg meaning="Puzzle.checkAnswers"
-           desc="A label on a button the user can press to check his/her answers."}
-        Check Answers
-      {/msg} &nbsp;<i class="fa fa-check-square-o"></i>
-    </button>
+    <div id="checkButton">
+      <button class="primary">
+        {msg meaning="Puzzle.checkAnswers"
+             desc="A label on a button the user can press to check his/her answers."}
+          Check Answers
+        {/msg} &nbsp;<i class="fa fa-check-square-o"></i>
+      </button>
+    </div>
   </div>
+
+
 
 {call BlocklyGames.soy.dialog /}
 {call BlocklyGames.soy.doneDialog /}
