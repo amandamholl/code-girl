@@ -566,6 +566,7 @@ Maze.init = function() {
   BlocklyGames.bindClick('runButton', Maze.runButtonClick);
   BlocklyGames.bindClick('resetButton', Maze.resetButtonClick);
   BlocklyGames.bindClick('helpButton', Maze.showHelp);
+  BlocklyGames.bindClick('signoutButton', Maze.logout);
 
   if (BlocklyGames.LEVEL == 1) {
     // Make connecting blocks easier for beginners.
@@ -1576,4 +1577,10 @@ Maze.showHelp = function() {
       BlocklyDialogs.startDialogKeyDown();
     }
   }
+};
+
+Maze.logout = function(){
+  window.sessionStorage.setItem("loggedIn", "false");
+  location.assign('/logout');
+  console.log(window.sessionStorage);
 };

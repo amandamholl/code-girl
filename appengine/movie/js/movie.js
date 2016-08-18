@@ -13131,4 +13131,4 @@ Movie.logout = function(){
   window.sessionStorage.setItem("loggedIn", "false");
   location.assign('/logout');
   console.log(window.sessionStorage);
-}
+};

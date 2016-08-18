@@ -171,6 +171,7 @@ Puzzle.init = function() {
 
   BlocklyGames.bindClick('checkButton', Puzzle.checkAnswers);
   BlocklyGames.bindClick('helpButton', function(){Puzzle.showHelp(true);});
+  BlocklyGames.bindClick('signoutButton', Puzzle.logout);
 
   if (!savedBlocks) {
     Puzzle.showHelp(false);
@@ -409,3 +410,9 @@ Puzzle.showHelp = function(animate) {
 };
 
 window.addEventListener('load', Puzzle.init);
+
+Puzzle.logout = function(){
+  window.sessionStorage.setItem("loggedIn", "false");
+  location.assign('/logout');
+  console.log(window.sessionStorage);
+};

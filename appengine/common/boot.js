@@ -58,10 +58,10 @@
   // Load the chosen language pack.
   var script = document.createElement('script');
   if(appName=="dress"){
-	appName="pond/basic";
+	   appName="pond/basic";
   }
   //alert(appName);
-  script.src = appName  + '/generated/' + lang + '/compressed.js';
+  script.src = appName  + '/generated/' + lang + '/uncompressed.js';
   script.type = 'text/javascript';
   document.head.appendChild(script);
 

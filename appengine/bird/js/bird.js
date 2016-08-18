@@ -391,7 +391,7 @@ Bird.init = function() {
 
   Bird.showHelp();
 
-
+  BlocklyGames.bindClick('signoutButton', Bird.logout);
 
   // Lazy-load the JavaScript interpreter.
   setTimeout(BlocklyInterface.importInterpreter, 1);
@@ -870,4 +870,10 @@ Bird.direction = function(angle, id) {
     Bird.log.push(['play', 'whack', null]);
     throw false;
   }
+};
+
+Bird.logout = function(){
+  window.sessionStorage.setItem("loggedIn", "false");
+  location.assign('/logout');
+  console.log(window.sessionStorage);
 };

@@ -117,10 +117,13 @@ Pond.Basic.init = function() {
   Pond.ctxDisplay = document.getElementById('display').getContext('2d');
   //Pond.ctxDisplay.globalCompositeOperation = 'source-over';
   Pond.ctxScratch = document.getElementById('scratch').getContext('2d');
-  Pond.renderSuperhero_();;
+  Pond.renderSuperhero_();
+
   BlocklyGames.workspace.addChangeListener(Pond.display);
   BlocklyGames.bindClick('runButton', Pond.check);
   BlocklyGames.bindClick('helpButton', Pond.showHelp);
+  BlocklyGames.bindClick('signoutButton', Pond.logout);
+
   if (location.hash.length < 2 /*&&
       !BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
                                          BlocklyGames.LEVEL)*/) {
@@ -1272,4 +1275,10 @@ Pond.showHelp = function() {
  */
 Pond.hideHelp = function() {
   BlocklyDialogs.stopDialogKeyDown();
+};
+
+Pond.logout = function(){
+  window.sessionStorage.setItem("loggedIn", "false");
+  location.assign('/logout');
+  console.log(window.sessionStorage);
 };
