@@ -566,7 +566,7 @@ Maze.init = function() {
   BlocklyGames.bindClick('runButton', Maze.runButtonClick);
   BlocklyGames.bindClick('resetButton', Maze.resetButtonClick);
   BlocklyGames.bindClick('helpButton', Maze.showHelp);
-  BlocklyGames.bindClick('signoutButton', Maze.logout);
+  //BlocklyGames.bindClick('signoutButton', Maze.logout);
 
   if (BlocklyGames.LEVEL == 1) {
     // Make connecting blocks easier for beginners.

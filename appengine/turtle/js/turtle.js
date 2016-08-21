@@ -199,7 +199,7 @@ Turtle.init = function() {
   setTimeout(BlocklyInterface.importPrettify, 1);
 
   BlocklyGames.bindClick('helpButton', Turtle.showHelp);
-  BlocklyGames.bindClick('signoutButton', Turtle.logout);
+  //BlocklyGames.bindClick('signoutButton', Turtle.logout);
 
   if (location.hash.length < 2 &&
       !BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,

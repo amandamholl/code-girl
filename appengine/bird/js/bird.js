@@ -391,7 +391,7 @@ Bird.init = function() {
 
   Bird.showHelp();
 
-  BlocklyGames.bindClick('signoutButton', Bird.logout);
+  //BlocklyGames.bindClick('signoutButton', Bird.logout);
 
   // Lazy-load the JavaScript interpreter.
   setTimeout(BlocklyInterface.importInterpreter, 1);

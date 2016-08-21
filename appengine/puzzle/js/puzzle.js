@@ -171,7 +171,7 @@ Puzzle.init = function() {
 
   BlocklyGames.bindClick('checkButton', Puzzle.checkAnswers);
   BlocklyGames.bindClick('helpButton', function(){Puzzle.showHelp(true);});
-  BlocklyGames.bindClick('signoutButton', Puzzle.logout);
+  //BlocklyGames.bindClick('signoutButton', Puzzle.logout);
 
   if (!savedBlocks) {
     Puzzle.showHelp(false);

@@ -378,7 +378,8 @@ BlocklyDialogs.levelup = function() {
   //content.removeChild(congrats);
 
   var code = document.getElementById('containerCode');
-  content.removeChild(code);
+  if(code)
+    content.removeChild(code);
 
   if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
     var text = BlocklyGames.getMsg('Games_nextLevel')
@@ -486,7 +487,7 @@ BlocklyDialogs.done = function() {
     //top: '6em'
   };
 
-  document.getElementById('clearData').style.visibility = "visible";
+  document.getElementById('clearData').style.display = "block";
 
   // Add the user's code.
   if (Blockly.mainWorkspace) {

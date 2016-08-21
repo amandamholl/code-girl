@@ -122,7 +122,7 @@ Pond.Basic.init = function() {
   BlocklyGames.workspace.addChangeListener(Pond.display);
   BlocklyGames.bindClick('runButton', Pond.check);
   BlocklyGames.bindClick('helpButton', Pond.showHelp);
-  BlocklyGames.bindClick('signoutButton', Pond.logout);
+  //BlocklyGames.bindClick('signoutButton', Pond.logout);
 
   if (location.hash.length < 2 /*&&
       !BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,

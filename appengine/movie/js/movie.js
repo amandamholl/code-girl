@@ -113,16 +113,15 @@ Movie.init = function() {
 
   console.log(body.scrollHeight + '-----' +div.clientHeight);
 
-	if(body.scrollHeight > body.clientHeight){
+	if(body.scrollHeight >= body.clientHeight){
 		var subtract = 445;
 	}else{
 		var subtract = 430;
   }
   if(window.innerWidth <= 801)
     var subtract = 34;
-  blocklyDiv.style.width = (window.innerWidth - subtract) + 'px';
-  blocklyDiv.style.height = (window.innerHeight - 205) + 'px';
-
+    blocklyDiv.style.width = (window.innerWidth - subtract) + 'px';
+    blocklyDiv.style.height = (window.innerHeight - 205) + 'px';
   };
   window.addEventListener('scroll', function() {
       onresize();
@@ -130,19 +129,6 @@ Movie.init = function() {
     });
   window.addEventListener('resize', onresize);
   onresize();
-
-
-  if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
-    /*Blockly.FieldColour.COLUMNS = 3;*/
-    /*Blockly.FieldColour.COLOURS =
-        ['#dd3858', '#ff9559', '#fcd6ad',
-         '#000000', '#43949b', '#cc33cc',
-         '#fae5e2', '#999999', '#f8b9a7'];*/
-	/*Blockly.FieldColour.HAIRCOLOURS =
-        ['#A7856A', '#E6CEA8', '#FFF5E1',
-         '#B55239', '#91553D', '#B89778',
-         '#A56B46', '#3B3024', '#CABFB1'];*/
-  }
 
   var toolbox = document.getElementById('toolbox');
   var scale = 1 + (1 - (1 / 10)) / 3;
@@ -158,44 +144,47 @@ Movie.init = function() {
 
   //console.log(BlocklyGames.workspace);
 
- /* Code from puzzle.js -- saves blocks and reloads them if page reloads */
+  /* Code from puzzle.js -- saves blocks and reloads them if page reloads */
   var iterator = BlocklyGames.LEVEL;
+  if ('BlocklyStorage' in window && window.location.hash.length > 1) {
+    BlocklyStorage.retrieveXml(window.location.hash.substring(1));
+    console.log('here');
+  }
+
+  console.log(window.localStorage);
+
   while(iterator >= (BlocklyGames.LEVEL - 1) && iterator != 0){
-	var savedBlocks =
-		BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME, iterator);
-	try {
-	  var loadOnce = window.sessionStorage.loadOnceBlocks;
-	} catch (e) {
-	  // Firefox sometimes throws a SecurityError when accessing sessionStorage.
-	  // Restarting Firefox fixes this, so it looks like a bug.
-	  var loadOnce = null;
-	}
-	console.log(savedBlocks);
-	if (loadOnce) {
-	  delete window.sessionStorage.loadOnceBlocks;
-	  var xml = Blockly.Xml.textToDom(loadOnce);
-	  Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
-	} else if (savedBlocks) {
-	  var xml = Blockly.Xml.textToDom(savedBlocks);
-	  Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
-	  break; //Do not load blocks from previous levels
-	} else {
-	  //idk
-    localStorage.removeItem('skin');
-    localStorage.removeItem('eye');
-    localStorage.removeItem('hair');
-    localStorage.removeItem('hair_type');
-    //alert('not');
-	}
-	iterator = iterator - 1;
+  	var savedBlocks =
+  		BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME, iterator);
+    console.log('saved: ' + savedBlocks);
+  	try {
+  	  var loadOnce = window.sessionStorage.loadOnceBlocks;
+  	} catch (e) {
+  	  // Firefox sometimes throws a SecurityError when accessing sessionStorage.
+  	  // Restarting Firefox fixes this, so it looks like a bug.
+  	  var loadOnce = null;
+  	}
+  	if (loadOnce) {
+  	  delete window.sessionStorage.loadOnceBlocks;
+  	  var xml = Blockly.Xml.textToDom(loadOnce);
+  	  Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+  	} else if (savedBlocks) {
+  	  var xml = Blockly.Xml.textToDom(savedBlocks);
+  	  Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+      console.log('here');
+  	  break; //Do not load blocks from previous levels
+  	} else {
+      localStorage.removeItem('skin');
+      localStorage.removeItem('eye');
+      localStorage.removeItem('hair');
+      localStorage.removeItem('hair_type');
+      //alert('not');
+  	}
+  	iterator = iterator - 1;
   }
 
   // Prevent collisions with user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('circle,rect,line,penColour,time');
-
-  /*if (document.getElementById('submitButton')) {
-    BlocklyGames.bindClick('submitButton', Movie.submitToReddit);
-  }*/
 
   //var defaultXml = '<xml></xml>';
   //BlocklyInterface.loadBlocks(defaultXml, false);
@@ -205,9 +194,7 @@ Movie.init = function() {
   Movie.ctxScratch = document.getElementById('scratch').getContext('2d');
 
   Movie.display();
-  //Movie.renderAnswer_();
-  //Movie.renderHatching_();
-  //var colour = window.prompt("Enter a colour for her hair ");
+
   Movie.renderSuperhero_('#a3550b', "hair");
   BlocklyGames.workspace.addChangeListener(Movie.display);
 
@@ -286,8 +273,6 @@ function dataURItoBlob(dataURI) {
 }
 
 Movie.unlock = function() {
-	//alert('here');
-  //Blockly.playAudio('win', 0.5);
   BlocklyInterface.saveToLocalStorage();
   if(BlocklyGames.LEVEL < 7){
 	  BlocklyDialogs.levelup();

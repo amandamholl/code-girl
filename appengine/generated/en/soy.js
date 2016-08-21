@@ -21,7 +21,7 @@ BlocklyGames.soy.levelLinks = function(opt_data, opt_ignored, opt_ijData) {
   var output = ' &nbsp; ';
   var iLimit125 = opt_data.maxLevel + 1;
   for (var i125 = 1; i125 < iLimit125; i125++) {
-    output += ' ' + ((i125 == opt_data.level) ? '<span class="level_number level_done" id="level' + soy.$$escapeHtml(i125) + '">' + soy.$$escapeHtml(i125) + '</span>' : (i125 == opt_data.maxLevel) ? '<a class="level_number" id="level' + soy.$$escapeHtml(i125) + '" href="?lang=' + soy.$$escapeHtml(opt_data.lang) + '&level=' + soy.$$escapeHtml(i125) + soy.$$escapeHtml(opt_data.suffix) + '" onclick="return false;">' + soy.$$escapeHtml(i125) + '</a>' : '<a class="level_dot" id="level' + soy.$$escapeHtml(i125) + '" href="?lang=' + soy.$$escapeHtml(opt_data.lang) + '&level=' + soy.$$escapeHtml(i125) + soy.$$escapeHtml(opt_data.suffix) + '" onclick="return false;"></a>');
+    output += ' ' + ((i125 == opt_data.level) ? '<span class="level_number level_done" id="level' + soy.$$escapeHtml(i125) + '">' + soy.$$escapeHtml(i125) + '</span>' : (i125 == opt_data.maxLevel) ? '<a class="level_number" id="level' + soy.$$escapeHtml(i125) + '" href="?lang=' + soy.$$escapeHtml(opt_data.lang) + '&level=' + soy.$$escapeHtml(i125) + soy.$$escapeHtml(opt_data.suffix) + '" onclick="return false;">' + soy.$$escapeHtml(i125) + '</a>' : (i125 < opt_data.level) ? '<a class="level_dot level_done" id="level' + soy.$$escapeHtml(i125) + '"></a>' : '<a class="level_dot" id="level' + soy.$$escapeHtml(i125) + '" href="?lang=' + soy.$$escapeHtml(opt_data.lang) + '&level=' + soy.$$escapeHtml(i125) + soy.$$escapeHtml(opt_data.suffix) + '" onclick="return false;"></a>');
   }
   return output;
 };
@@ -38,7 +38,7 @@ BlocklyGames.soy.login = function(opt_data, opt_ignored, opt_ijData) {
 
 
 BlocklyGames.soy.doneDialog = function(opt_data, opt_ignored, opt_ijData) {
-  return '<div id="dialogDone" class="dialogHiddenContent"><div id="dialogCongrats" style="font-size: large; margin: 1em;">Congratulations!</div><div id="dialogLinesText" style="font-size: large; margin: 1em;"></div><pre id="containerCode"></pre><div id="dialogDoneText" style="font-size: large; margin: 1em;"></div><div id="dialogDoneButtons" class="farSide" style="padding: 1ex 3ex 0"><button class="orange" id="clearData" style="visibility: hidden">Start Over</span></button><button id="doneCancel">Cancel</button><button id="doneOk" class="secondary">OK</button></div></div>';
+  return '<div id="dialogDone" class="dialogHiddenContent"><div id="dialogCongrats" style="font-size: large; margin: 1em;">Congratulations!</div><div id="dialogLinesText" style="font-size: large; margin: 1em;"></div><pre id="containerCode"></pre><div id="dialogDoneText" style="font-size: large; margin: 1em;"></div><div id="dialogDoneButtons" class="farSide" style="padding: 1ex 3ex 0"><button class="orange" id="clearData" style="display: none">Start Over</span></button><button id="doneCancel">Cancel</button><button id="doneOk" class="secondary">OK</button></div></div>';
 };
 
 
