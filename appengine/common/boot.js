@@ -61,8 +61,7 @@
 	   appName="pond/basic";
   }
   //alert(appName);
-  script.src = appName  + '/generated/' + lang + '/uncompressed.js';
+  script.src = appName  + '/generated/' + lang + '/compressed.js';
   script.type = 'text/javascript';
   document.head.appendChild(script);
-
 })();

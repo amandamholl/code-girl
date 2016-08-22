@@ -298,6 +298,8 @@ BlocklyDialogs.getBBox_ = function(element) {
  * @param {string} message Text to alert.
  */
 BlocklyDialogs.storageAlert = function(message) {
+  console.log(message);
+
   var container = document.getElementById('containerStorage');
   container.textContent = '';
   var lines = message.split('\n');
@@ -314,9 +316,9 @@ BlocklyDialogs.storageAlert = function(message) {
     left: '25%',
     top: '5em'
   };
-  BlocklyDialogs.showDialog(content, origin, true, true, style,
-      BlocklyDialogs.stopDialogKeyDown);
-  BlocklyDialogs.startDialogKeyDown();
+  //BlocklyDialogs.showDialog(content, origin, true, true, style, BlocklyDialogs.stopDialogKeyDown);
+  //BlocklyDialogs.startDialogKeyDown();
+  Movie.logout();
 };
 
 /**

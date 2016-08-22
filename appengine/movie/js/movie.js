@@ -111,8 +111,6 @@ Movie.init = function() {
 	var div = document.getElementById("workspace");
   var body = (document.getElementsByTagName('body'))[0];
 
-  console.log(body.scrollHeight + '-----' +div.clientHeight);
-
 	if(body.scrollHeight >= body.clientHeight){
 		var subtract = 445;
 	}else{
@@ -142,16 +140,14 @@ Movie.init = function() {
                                           /*'zoom': BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL ?
                                           {'controls': true, 'wheel': true} : null*/});
 
-  //console.log(BlocklyGames.workspace);
-
   /* Code from puzzle.js -- saves blocks and reloads them if page reloads */
   var iterator = BlocklyGames.LEVEL;
-  if ('BlocklyStorage' in window && window.location.hash.length > 1) {
-    BlocklyStorage.retrieveXml(window.location.hash.substring(1));
-    console.log('here');
-  }
 
   console.log(window.localStorage);
+  if ('BlocklyStorage' in window && window.location.hash.length > 1) {
+    BlocklyStorage['retrieveXml'](window.location.hash.substring(1));
+    console.log('in herrrrreeee');
+  }
 
   while(iterator >= (BlocklyGames.LEVEL - 1) && iterator != 0){
   	var savedBlocks =
@@ -186,9 +182,6 @@ Movie.init = function() {
   // Prevent collisions with user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('circle,rect,line,penColour,time');
 
-  //var defaultXml = '<xml></xml>';
-  //BlocklyInterface.loadBlocks(defaultXml, false);
-
   Movie.ctxDisplay = document.getElementById('display').getContext('2d');
   Movie.ctxDisplay.globalCompositeOperation = 'source-over';
   Movie.ctxScratch = document.getElementById('scratch').getContext('2d');
@@ -214,7 +207,7 @@ Movie.init = function() {
   }
   BlocklyGames.bindClick('unlock', Movie.unlock);
   //BlocklyGames.bindClick('save', Movie.unlock);
-  BlocklyGames.bindClick('signoutButton', Movie.logout);
+  //BlocklyGames.bindClick('signoutButton', Movie.logout);
 };
 
 if (window.location.pathname.match(/readonly.html$/)) {

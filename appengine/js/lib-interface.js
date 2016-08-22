@@ -45,19 +45,15 @@ BlocklyInterface.init = function() {
   BlocklyGames.init();
 
   // Disable the link button if page isn't backed by App Engine storage.
-  //var linkButton = document.getElementById('linkButton');
   var linkButton = document.getElementById('signoutButton');
-
   if ('BlocklyStorage' in window) {
     BlocklyStorage['HTTPREQUEST_ERROR'] =
         BlocklyGames.getMsg('Games_httpRequestError');
     BlocklyStorage['LINK_ALERT'] = BlocklyGames.getMsg('Games_linkAlert');
     BlocklyStorage['HASH_ERROR'] = BlocklyGames.getMsg('Games_hashError');
     BlocklyStorage['XML_ERROR'] = BlocklyGames.getMsg('Games_xmlError');
-
     // Swap out the BlocklyStorage's alert() for a nicer dialog.
     BlocklyStorage['alert'] = BlocklyDialogs.storageAlert;
-
     if (linkButton) {
       BlocklyGames.bindClick(linkButton, BlocklyStorage['link']);
     }

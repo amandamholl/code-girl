@@ -42,6 +42,7 @@ Blockly.Xml.workspaceToDom = function(workspace) {
   for (var i = 0, block; block = blocks[i]; i++) {
     xml.appendChild(Blockly.Xml.blockToDomWithXY(block));
   }
+  xml.setAttribute("level", BlocklyGames.LEVEL);
   return xml;
 };
 

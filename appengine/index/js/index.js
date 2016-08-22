@@ -78,6 +78,8 @@ Index.init = function() {
   }
   BlocklyGames.bindClick(login, Index.login);
 
+  console.log("THIS IS NEW - 2");
+
 };
 
 window.addEventListener('load', Index.init, false);

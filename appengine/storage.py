@@ -44,16 +44,16 @@ class Xml(db.Model):
 
 class Author(db.Model):
   # a model for representing a user and the generated key to their stored blocks
-  identity = db.StringProperty(required=True) 
+  identity = db.StringProperty(required=True)
   block_key = db.StringProperty(indexed=False)
   level = db.StringProperty(indexed=False)
   date = db.DateTimeProperty(auto_now_add=True)
- 
+
 DEFAULT_USER_GROUP = 'default_user_group'
 def stored_user_key(stored_user_group=DEFAULT_USER_GROUP):
   #Constructs a datastore key for a StoredBlocks entity
   #default_user_group is the key to make sure all StoreBlocks entities are in the same group
-    
+
   return db.Key("StoredBlocks", stored_user_group)
 
 def xmlToKey(xml_content):
@@ -76,12 +76,12 @@ def xmlToKey(xml_content):
     xml = db.Text(xml_content, encoding="utf_8")
     row = Xml(key_name = xml_key, xml_hash = xml_hash, xml_content = xml)
     row.put()
-	
+
   level = xml_content.find("level") + 7
   current_level = xml_content[level]
   a = Author(identity=users.get_current_user().user_id(), level=current_level, block_key=xml_key)
   a.put()
-  
+
   return xml_key
 
 def keyToXml(key_provided):
@@ -104,11 +104,10 @@ def keyToXml(key_provided):
 
 if __name__ == "__main__":
   redirectURL = users.create_logout_url('/')
-  
+
   print "Content-Type: text/html"
   forms = cgi.FieldStorage()
   if "xml" in forms:
     print(xmlToKey(forms["xml"].value))
   if "key" in forms:
     print(keyToXml(forms["key"].value))
- 
