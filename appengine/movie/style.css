@@ -2,6 +2,11 @@ html,body{
   margin:0;
   height:100%;
 }
+
+body{
+  overflow-y: scroll;
+}
+
 button.primary {
   /* Can't use "text-align: start" due to IE. */
   text-align: left;
@@ -19,8 +24,10 @@ html[dir="RTL"] button.primary {
 #workspace{
   position: absolute;
   top: 90px;
-  left: 10px;
   z-index: 6;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 /*#page-container{
     position: absolute;
@@ -57,6 +64,7 @@ html[dir="RTL"] button.primary {
   top: 10px;
   float:left;
   margin-right: 10px;
+  height:100%;
 }
 /* clean this up */
 #display, #prevAnswer {
@@ -109,10 +117,6 @@ html[dir="RTL"] button.primary {
 }
 .reddit {
   background-position: -42px -21px;
-}
-
-body{
-  overflow-y: auto;
 }
 
 #instructions{

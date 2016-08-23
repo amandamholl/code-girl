@@ -104,28 +104,41 @@ Movie.init = function() {
   var blocklyDiv = document.getElementById('blockly');
   var visualization = document.getElementById('visualization');
   var onresize = function(e) {
+    console.log('overflow: ', Movie.overflow_());
     var top = visualization.offsetTop;
-	/* changed for style: blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px'; */
+	  /* changed for style: blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px'; */
     blocklyDiv.style.top = '0 px';
     //blocklyDiv.style.left = rtl ? '10px' : '420px';
-	var div = document.getElementById("workspace");
-  var body = (document.getElementsByTagName('body'))[0];
+  	var div = document.getElementById("workspace");
+    var body = document.body;
 
-	if(body.scrollHeight >= body.clientHeight){
-		var subtract = 445;
-	}else{
-		var subtract = 430;
-  }
-  if(window.innerWidth <= 801)
-    var subtract = 34;
+  	/*if(Movie.overflow_()){
+      console.log('yes');
+  		var subtract = 445;
+  	}
+    // else if( navigator.userAgent.toLowerCase().indexOf('firefox') > -1 ){
+    //   var subtract = 445;
+    // }
+    else{
+      console.log('no');
+  		var subtract = 430;
+    }*/
+
+    var subtract = 445;
+
+    if(window.innerWidth <= 801)
+      var subtract = 34;
+
     blocklyDiv.style.width = (window.innerWidth - subtract) + 'px';
+
     blocklyDiv.style.height = (window.innerHeight - 205) + 'px';
   };
+
   window.addEventListener('scroll', function() {
       onresize();
       Blockly.fireUiEvent(window, 'resize');
     });
-  window.addEventListener('resize', onresize);
+  window.addEventListener('resize', onresize, false);
   onresize();
 
   var toolbox = document.getElementById('toolbox');
@@ -146,7 +159,6 @@ Movie.init = function() {
   console.log(window.localStorage);
   if ('BlocklyStorage' in window && window.location.hash.length > 1) {
     BlocklyStorage['retrieveXml'](window.location.hash.substring(1));
-    console.log('in herrrrreeee');
   }
 
   while(iterator >= (BlocklyGames.LEVEL - 1) && iterator != 0){
@@ -167,7 +179,6 @@ Movie.init = function() {
   	} else if (savedBlocks) {
   	  var xml = Blockly.Xml.textToDom(savedBlocks);
   	  Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
-      console.log('here');
   	  break; //Do not load blocks from previous levels
   	} else {
       localStorage.removeItem('skin');
@@ -13110,3 +13121,37 @@ Movie.logout = function(){
   location.assign('/logout');
   console.log(window.sessionStorage);
 };
+
+Movie.hasScrollbar_ = function(){
+  console.log(window.innerWidth, ' --- ', document.documentElement.clientWidth)
+
+  /*if(typeof window.innerWidth === 'number')
+    return window.innerWidth > document.documentElement.clientWidth;*/
+
+  //var rootElem = document.documentElement || document.body;
+  var rootElem = document.getElementById('workspace');
+
+  var overflowStyle;
+
+  if(typeof rootElem.currentStyle !== 'undefined')
+    overflowStyle = rootElem.currentStyle.overflow;
+
+  overflowStyle = overflowStyle || window.getComputedStyle(rootElem, '').overflow;
+
+  var overflowYStyle;
+
+  if(typeof rootElem.currentStyle !== 'undefined')
+    overflowYStyle = rootElem.currentStyle.overflowY;
+
+  overflowYStyle = overflowYStyle || window.getComputedStyle(rootElem, '').overflowY;
+
+  var contentOverflows = rootElem.scrollHeight > rootElem.clientHeight;
+  var overflowShown = /^(visible|auto)$/.test(overflowStyle) || /^(visible|auto)$/.test(overflowYStyle);
+  var alwaysShowScroll = overflowStyle === 'scroll' || overflowYStyle === 'scroll';
+
+  return (contentOverflows && overflowShown) || (alwaysShowScroll);
+}
+
+Movie.overflow_ = function() {
+  return document.getElementById('workspace').scrollHeight > document.getElementById('workspace').clientHeight;
+}
