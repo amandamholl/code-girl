@@ -250,6 +250,10 @@ a {
   color: #fff;
 }
 
+.blocklyToolboxDiv {
+  z-index:6;
+}
+
 @media (min-width:801px) { /* tablet, landscape iPad, lo-res laptops ands desktops */
 /* move avatar to bottom, below toolbox and canvas */
 

@@ -104,7 +104,10 @@ Movie.init = function() {
   var blocklyDiv = document.getElementById('blockly');
   var visualization = document.getElementById('visualization');
   var onresize = function(e) {
-    console.log('overflow: ', Movie.overflow_());
+    if(window.innerHeight < visualization.clientHeight + 90 + 70){
+      document.body.style.overflowY = 'auto';
+    }
+
     var top = visualization.offsetTop;
 	  /* changed for style: blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px'; */
     blocklyDiv.style.top = '0 px';
@@ -112,19 +115,14 @@ Movie.init = function() {
   	var div = document.getElementById("workspace");
     var body = document.body;
 
-  	/*if(Movie.overflow_()){
+  	if(Movie.hasScrollbar_()){
       console.log('yes');
   		var subtract = 445;
   	}
-    // else if( navigator.userAgent.toLowerCase().indexOf('firefox') > -1 ){
-    //   var subtract = 445;
-    // }
     else{
       console.log('no');
   		var subtract = 430;
-    }*/
-
-    var subtract = 445;
+    }
 
     if(window.innerWidth <= 801)
       var subtract = 34;
@@ -150,8 +148,7 @@ Movie.init = function() {
                                           'toolbox': toolbox,
                                           'trashcan': true,
                                           //'zoom':{'startScale': scale}
-                                          /*'zoom': BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL ?
-                                          {'controls': true, 'wheel': true} : null*/});
+                                          });
 
   /* Code from puzzle.js -- saves blocks and reloads them if page reloads */
   var iterator = BlocklyGames.LEVEL;
@@ -13125,8 +13122,8 @@ Movie.logout = function(){
 Movie.hasScrollbar_ = function(){
   console.log(window.innerWidth, ' --- ', document.documentElement.clientWidth)
 
-  /*if(typeof window.innerWidth === 'number')
-    return window.innerWidth > document.documentElement.clientWidth;*/
+  if(typeof window.innerWidth === 'number')
+    return window.innerWidth > document.documentElement.clientWidth;
 
   //var rootElem = document.documentElement || document.body;
   var rootElem = document.getElementById('workspace');

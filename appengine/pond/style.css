@@ -1,5 +1,5 @@
 .blocklyToolboxDiv {
-  z-index:-10;
+  z-index:6;
 }
 #blockly{
   position: relative;
