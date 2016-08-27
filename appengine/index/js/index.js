@@ -39,9 +39,6 @@ Index.init = function() {
 
   BlocklyGames.init();
 
-  //var Menu = document.getElementById('Menu');
-  //Menu.addEventListener('change', BlocklyGames.change, true);
-
   var storedData = false;
   var levelsDone = [];
   for (var i = 0; i < Index.APPS.length; i++) {
@@ -53,20 +50,9 @@ Index.init = function() {
       }
     }
   }
-  //console.log(BlocklyStorage);
-  /*if (storedData) {
-    var clearButtonPara = document.getElementById('clearDataPara');
-    clearButtonPara.style.visibility = 'visible';
-    var clearButton = document.getElementById('clearData');
-    BlocklyGames.bindClick(clearButton, Index.clearData_);
-	// Need to change when this done
-	//var logout = document.getElementById('logout');
-	//logout.style.visibility = 'visible';
-	//var login = document.getElementById('login');
-	//login.style.display = 'none';
-}*/
+
   var script = document.createElement('script');
-  script.src = './index/js/test.js';
+  script.src = './index/js/slide.js';
   script.type = 'text/javascript';
   document.body.appendChild(script);
   console.log(window.sessionStorage);
@@ -86,8 +72,12 @@ window.addEventListener('load', Index.init, false);
 
 Index.login = function(){
   window.sessionStorage.setItem("loggedIn", "true");
-  console.log(window.sessionStorage);
 }
+
+
+/**
+ * Begin Slider
+ **/
 
 ;(function($){
 

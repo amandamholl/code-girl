@@ -3,20 +3,15 @@ html,body{
   height:100%;
 }
 
-body{
-  /*overflow-y: auto;*/
-}
-
 button.primary {
   /* Can't use "text-align: start" due to IE. */
   text-align: left;
 }
-/*#header{
-	z-index:50;
-}*/
+
 html[dir="RTL"] button.primary {
   text-align: right;
 }
+
 #workspace{
   position: absolute;
   top: 80px;
@@ -28,30 +23,25 @@ html[dir="RTL"] button.primary {
   right: 0;
   left: 0;
 }
-/*#page-container{
-    position: absolute;
-    zoom: 1;
-    left: 0px;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-}*/
+
 #levelLinks{
   height: 40px;
   padding: 10px;
   background-color: white;
-  //margin-right: 20px;
   -webkit-box-shadow: 0px 5px 2px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
   -moz-box-shadow:    0px 5px 2px #ccc;  /* Firefox 3.5 - 3.6 */
   box-shadow:         0px 5px 2px #ccc;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
 }
+
 #unlock, #save{
   margin:0;
 }
+
 .level_dot, .level_number{
   position: relative;
   top: 10px;
 }
+
 #visualization{
   position: relative;
   right:0;
@@ -59,6 +49,7 @@ html[dir="RTL"] button.primary {
   top: 10px;
   margin-bottom: 10px;
 }
+
 #blockly{
   position: relative;
   top: 10px;
@@ -66,6 +57,7 @@ html[dir="RTL"] button.primary {
   margin-right: 10px;
   height:100%;
 }
+
 /* clean this up */
 #display, #prevAnswer {
   border:10px solid #fae5e2;
@@ -77,9 +69,11 @@ html[dir="RTL"] button.primary {
   position:absolute;
   bottom:0px;
 }
+
 #prevAnswer{
   border:none;
 }
+
 #downloadImageLink {
   display: none;
 }
@@ -94,12 +88,14 @@ html[dir="RTL"] button.primary {
   stroke-width: 6px;
   stroke-linecap: round;
 }
+
 .sliderKnob {
   fill: #ddd;
   stroke: #bbc;
   stroke-width: 1px;
   stroke-linejoin: round;
 }
+
 .sliderKnob:hover {
   fill: #eee;
 }

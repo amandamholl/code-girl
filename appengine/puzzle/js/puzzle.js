@@ -57,7 +57,6 @@ Puzzle.init = function() {
 
   var rtl = BlocklyGames.isRtl();
   var blocklyDiv = document.getElementById('blockly');
-  var scale = 1 + (1 - (1 / 10)) / 3;
   var checkAnswer = 80;
   var onresize = function(e) {
     blocklyDiv.style.width = (window.innerWidth - 20) + 'px';
@@ -79,7 +78,6 @@ Puzzle.init = function() {
                                           'rtl': rtl,
                                           'scrollbars': true,
                                           'trashcan': false,
-                                          //'zoom':{'startScale': scale}
                                         });
 
   var savedBlocks =
@@ -171,7 +169,6 @@ Puzzle.init = function() {
 
   BlocklyGames.bindClick('checkButton', Puzzle.checkAnswers);
   BlocklyGames.bindClick('helpButton', function(){Puzzle.showHelp(true);});
-  //BlocklyGames.bindClick('signoutButton', Puzzle.logout);
 
   if (!savedBlocks) {
     Puzzle.showHelp(false);
@@ -194,7 +191,6 @@ Puzzle.init = function() {
   // Make connecting blocks easier for beginners.
   Blockly.SNAP_RADIUS *= 2;
   // Preload the win sound.
-  //BlocklyGames.workspace.loadAudio_(['puzzle/win.mp3', 'puzzle/win.ogg'],'win');
 };
 
 /**
@@ -279,9 +275,8 @@ Puzzle.checkAnswers = function() {
   var button = document.getElementById('checkButton');
   var rtl = BlocklyGames.isRtl();
   var style = {
-  width: '25%',
-  left: rtl ? '5%' : '70%',
-  //top: '5em'
+    width: '25%',
+    left: rtl ? '5%' : '70%',
   };
   var action = errors ? BlocklyDialogs.stopDialogKeyDown :
   BlocklyInterface.indexPage;
@@ -312,7 +307,6 @@ Puzzle.checkAnswers = function() {
  * All blocks correct.  Do the end dance.
  */
 Puzzle.endDance = function() {
-  //BlocklyGames.workspace.playAudio('win', 0.5);
   var blocks = BlocklyGames.workspace.getTopBlocks(false);
   for (var i = 0, block; block = blocks[i]; i++) {
     var angle = 360 * (i / blocks.length);
@@ -400,9 +394,8 @@ Puzzle.showHelp = function(animate) {
   var help = document.getElementById('help');
   var button = document.getElementById('helpButton');
   var style = {
-  width: '50%',
-  left: '25%',
-  //top: '5em'
+    width: '50%',
+    left: '25%',
   };
   BlocklyDialogs.showDialog(help, button, animate, true, style,
                             BlocklyDialogs.stopDialogKeyDown);
@@ -410,9 +403,3 @@ Puzzle.showHelp = function(animate) {
 };
 
 window.addEventListener('load', Puzzle.init);
-
-Puzzle.logout = function(){
-  window.sessionStorage.setItem("loggedIn", "false");
-  location.assign('/logout');
-  console.log(window.sessionStorage);
-};

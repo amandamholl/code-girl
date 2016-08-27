@@ -32,15 +32,6 @@ goog.require('BlocklyInterface');
 
 var color;
 var scolour, ecolour, htype, hcolour;
-/*
-//Draw the superhero
-	var ctx = canvas.getContext('2d');
-	var img = new Image;      // First create the image...
-    img.onload = function(){  // ...then set the onload handler...
-    	ctx.drawImage(img,-15,0, 450, 600);
-    };
-  img.src = "./movie/superhero.jpg";      // *then* set the .src and start it loading.
-*/
 
 BlocklyGames.NAME = 'movie';
 
@@ -109,18 +100,14 @@ Movie.init = function() {
     }
 
     var top = visualization.offsetTop;
-	  /* changed for style: blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px'; */
     blocklyDiv.style.top = '0 px';
-    //blocklyDiv.style.left = rtl ? '10px' : '420px';
   	var div = document.getElementById("workspace");
     var body = document.body;
 
   	if(Movie.hasScrollbar_()){
-      console.log('yes');
   		var subtract = 445;
   	}
     else{
-      console.log('no');
   		var subtract = 430;
     }
 
@@ -140,20 +127,16 @@ Movie.init = function() {
   onresize();
 
   var toolbox = document.getElementById('toolbox');
-  var scale = 1 + (1 - (1 / 10)) / 3;
 
   BlocklyGames.workspace = Blockly.inject('blockly',
                                           {'media': 'media/',
                                           'rtl': rtl,
                                           'toolbox': toolbox,
                                           'trashcan': true,
-                                          //'zoom':{'startScale': scale}
                                           });
 
-  /* Code from puzzle.js -- saves blocks and reloads them if page reloads */
   var iterator = BlocklyGames.LEVEL;
 
-  console.log(window.localStorage);
   if ('BlocklyStorage' in window && window.location.hash.length > 1) {
     BlocklyStorage['retrieveXml'](window.location.hash.substring(1));
   }
@@ -161,7 +144,6 @@ Movie.init = function() {
   while(iterator >= (BlocklyGames.LEVEL - 1) && iterator != 0){
   	var savedBlocks =
   		BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME, iterator);
-    console.log('saved: ' + savedBlocks);
   	try {
   	  var loadOnce = window.sessionStorage.loadOnceBlocks;
   	} catch (e) {
@@ -182,7 +164,6 @@ Movie.init = function() {
       localStorage.removeItem('eye');
       localStorage.removeItem('hair');
       localStorage.removeItem('hair_type');
-      //alert('not');
   	}
   	iterator = iterator - 1;
   }
@@ -199,8 +180,6 @@ Movie.init = function() {
   Movie.renderSuperhero_('#a3550b', "hair");
   BlocklyGames.workspace.addChangeListener(Movie.display);
 
-  // Preload the win sound.
-  //BlocklyGames.workspace.loadAudio_(['movie/win.mp3', 'movie/win.ogg'], 'win');
   // Lazy-load the syntax-highlighting.
   setTimeout(BlocklyInterface.importPrettify, 1);
 
@@ -214,8 +193,6 @@ Movie.init = function() {
     }
   }
   BlocklyGames.bindClick('unlock', Movie.unlock);
-  //BlocklyGames.bindClick('save', Movie.unlock);
-  //BlocklyGames.bindClick('signoutButton', Movie.logout);
 };
 
 if (window.location.pathname.match(/readonly.html$/)) {
@@ -235,7 +212,6 @@ Movie.showHelp = function() {
   var style = {
     width: '50%',
     left: '25%',
-    //top: '5em'
   };
 
   BlocklyDialogs.showDialog(help, button, true, true, style, Movie.hideHelp);
@@ -284,14 +260,11 @@ Movie.unlock = function() {
 };
 
 Movie.skin = function(colour){
-  //alert('called');
   var ctx = document.getElementById('superhero').getContext('2d');
   ctx.save();
   ctx.translate(0,0);
   ctx.translate(0,0);
   ctx.translate(0,0);
-  /*ctx.scale(.55,.55);
-  ctx.translate(1256,-13);*/
   ctx.scale(.56,.56);
   ctx.translate(1225,-17);
   ctx.strokeStyle = 'rgba(0,0,0,0)';
@@ -795,8 +768,6 @@ Movie.hair = function(colour){
   ctx.stroke();
   ctx.restore();
   ctx.restore();
-
-  //alert(colour);
 }
 
 Movie.pixie = function(colour){
@@ -805,8 +776,6 @@ Movie.pixie = function(colour){
   ctx.translate(0,0);
   ctx.translate(0,0);
   ctx.translate(0,0);
-  //ctx.scale(3,3);
-  //ctx.translate(0,0);
   ctx.scale(.42,.42);
   ctx.translate(2034,-19);
   ctx.strokeStyle = 'rgba(0,0,0,0)';
@@ -978,7 +947,6 @@ Movie.short_hair = function(colour){
   ctx.restore();
   ctx.save();
   ctx.save();
-  //ctx.fillStyle = "#777676";
   ctx.beginPath();
   ctx.moveTo(338.3,3.4);
   ctx.bezierCurveTo(334.7,3.1999999999999997,331.2,3.1,327.8,3.1);
@@ -1625,8 +1593,6 @@ Movie.curly_hair = function(colour){
   ctx.restore();
   ctx.restore();
   ctx.restore();
-
-  //alert(colour);
 }
 
 Movie.redraw_hair = function(colour){
@@ -1687,33 +1653,26 @@ Movie.renderSuperhero_ = function(colour, to_redraw) {
   ctx.lineCap = 'butt';
   ctx.lineJoin = 'miter';
   ctx.miterLimit = 4;
-
   ctx.save();
   ctx.restore();
 
 
   if(to_redraw == "hair" || to_redraw == "curly_hair" || to_redraw == "straight_hair" || to_redraw == "short_hair" || to_redraw == "pixie"){
-    //console.log('being called');
-    //console.log(to_redraw);
     var scolour;
     if(localStorage.getItem('skin') == null){
-      //alert("here");
       scolour = '#ffdfbe';
       localStorage.setItem('skin', scolour);
     }
     else
       scolour = localStorage.getItem('skin');
     Movie.skin(scolour);
-    //var ecolour;
     if(localStorage.getItem('eye') == null){
-      //alert("here");
       ecolour = '#29abe2';
       localStorage.setItem('eye', ecolour);
     }
     else
       ecolour = localStorage.getItem('eye');
     Movie.eye(ecolour);
-	//console.log(colour);
     if(to_redraw == "curly_hair")
       Movie.curly_hair(colour);
     else if(to_redraw == "straight_hair")
@@ -1747,25 +1706,23 @@ Movie.renderSuperhero_ = function(colour, to_redraw) {
       Movie.hair(hcolour);
     }
     else if(localStorage.getItem('hair_type') == 'straight_hair'){
-	  Movie.straight_hair(hcolour);
-	}
-	else if(localStorage.getItem('hair_type') == 'short_hair'){
-	  Movie.short_hair(hcolour);
-	}
-	else if(localStorage.getItem('hair_type') == 'pixie'){
-	  Movie.pixie(hcolour);
-	}
-	else{
+	    Movie.straight_hair(hcolour);
+  	}
+  	else if(localStorage.getItem('hair_type') == 'short_hair'){
+  	  Movie.short_hair(hcolour);
+  	}
+  	else if(localStorage.getItem('hair_type') == 'pixie'){
+  	  Movie.pixie(hcolour);
+  	}
+  	else{
       Movie.curly_hair(hcolour);
     }
-    //alert(hcolour);
   }
   if(to_redraw == "skin"){
     Movie.skin(colour);
     localStorage.setItem('skin', colour);
     var ecolour;
     if(localStorage.getItem('eye') == null){
-      //alert("here");
       ecolour = '#29abe2';
       localStorage.setItem('eye', ecolour);
     }
@@ -1774,142 +1731,18 @@ Movie.renderSuperhero_ = function(colour, to_redraw) {
     Movie.eye(ecolour);
   }
   if(to_redraw == "eyes"){
-
-    //var hcolour = localStorage.getItem('hair');
-    console.log(colour);
     Movie.eye(colour);
     localStorage.setItem('eye', colour);
     if(localStorage.getItem('skin') == null){
-      //alert("here");
       scolour = '#ffdfbe';
       localStorage.setItem('skin', scolour);
     }
     else
       scolour = localStorage.getItem('skin');
     Movie.skin(scolour);
-
-    //Movie.hair("#ffffff");
-
-    //localStorage.setItem('eye', colour);
   }
-
   ctx.save();
-
-  /*ctx.save();
-  ctx.fillStyle = "#a3550b";
-  ctx.beginPath();
-  ctx.moveTo(1041.8,163.7);
-  ctx.bezierCurveTo(1041.3,142.6,1029.3999999999999,128.89999999999998,1019.1999999999999,100.69999999999999);
-  ctx.bezierCurveTo(1016.4,93.1,1022.5999999999999,80.89999999999999,1014.3,53.89999999999999);
-  ctx.bezierCurveTo(1004.5,21.69999999999999,975.8,13.699999999999989,955.6999999999999,13.699999999999989);
-  ctx.bezierCurveTo(929.0999999999999,13.699999999999989,902.5999999999999,27.19999999999999,896.1999999999999,53.59999999999999);
-  ctx.bezierCurveTo(889.1999999999999,82.29999999999998,893.0999999999999,92.89999999999998,890.6999999999999,101.69999999999999);
-  ctx.bezierCurveTo(887.6999999999999,112.89999999999999,865.6999999999999,147.6,868.4,168.6);
-  ctx.bezierCurveTo(870.8,187.4,877.6,193,877.6,193);
-  ctx.bezierCurveTo(877.6,193,878.5,169.3,884.9,159.7);
-  ctx.bezierCurveTo(886,158.1,883.9,172,885.8,184.5);
-  ctx.bezierCurveTo(888.1999999999999,200.6,900.8,201,900.8,201);
-  ctx.bezierCurveTo(900.8,201,898.3,196.3,898.1999999999999,193.1);
-  ctx.bezierCurveTo(897.9999999999999,185.2,901.1999999999999,180.79999999999998,901.1999999999999,180.79999999999998);
-  ctx.bezierCurveTo(901.1999999999999,180.79999999999998,904.0999999999999,188.99999999999997,904.9999999999999,190.7);
-  ctx.bezierCurveTo(912.2999999999998,204.29999999999998,915.0999999999999,201.29999999999998,915.0999999999999,201.29999999999998);
-  ctx.bezierCurveTo(915.0999999999999,201.29999999999998,912.0999999999999,188.79999999999998,915.0999999999999,188.1);
-  ctx.bezierCurveTo(918.0999999999999,187.4,994.1999999999999,189.1,994.1999999999999,189.1);
-  ctx.bezierCurveTo(994.1999999999999,189.1,997.5999999999999,198.1,995.6999999999999,202);
-  ctx.bezierCurveTo(994.6999999999999,204,1000.4999999999999,200.9,1004.4,195.5);
-  ctx.bezierCurveTo(1008,190.6,1009.6999999999999,183.5,1009.6999999999999,183.5);
-  ctx.bezierCurveTo(1009.6999999999999,183.5,1012.1999999999999,190.1,1012.4,192.3);
-  ctx.bezierCurveTo(1012.6,194.8,1011.6,202.4,1011.6,202.4);
-  ctx.bezierCurveTo(1011.6,202.4,1022.6,198.6,1024.7,184.70000000000002);
-  ctx.bezierCurveTo(1026,176.3,1025.3,159.00000000000003,1025.3,159.00000000000003);
-  ctx.bezierCurveTo(1032.3,171.90000000000003,1032.6,193.70000000000005,1032.6,193.70000000000005);
-  ctx.bezierCurveTo(1032.6,193.70000000000005,1042.2,181.2,1041.8,163.7);
-  ctx.closePath();
-  ctx.moveTo(1005.5,107.8);
-  ctx.bezierCurveTo(996.4,130.6,968,141.2,955.3,141.2);
-  ctx.bezierCurveTo(938,141.2,909.9,125.6,904.5,107.39999999999999);
-  ctx.bezierCurveTo(904.5,107.39999999999999,893.6,105.99999999999999,893.6,95.6);
-  ctx.bezierCurveTo(893.6,83.5,902.1,83.19999999999999,902.1,83.19999999999999);
-  ctx.bezierCurveTo(901.8000000000001,90.99999999999999,904.8000000000001,93.49999999999999,904.8000000000001,93.49999999999999);
-  ctx.bezierCurveTo(904.8000000000001,93.49999999999999,904.3000000000001,90.29999999999998,907.5000000000001,86.69999999999999);
-  ctx.bezierCurveTo(911.2000000000002,82.6,917.5000000000001,80.99999999999999,925.7000000000002,74.29999999999998);
-  ctx.bezierCurveTo(933.9000000000002,67.49999999999999,937.5000000000001,53.29999999999998,937.5000000000001,53.29999999999998);
-  ctx.bezierCurveTo(937.5000000000001,53.29999999999998,939.3000000000001,61.09999999999998,951.7000000000002,72.49999999999999);
-  ctx.bezierCurveTo(964.1000000000003,83.89999999999999,977.1000000000001,77.49999999999999,977.1000000000001,77.49999999999999);
-  ctx.bezierCurveTo(977.1000000000001,77.49999999999999,972.9000000000001,77.19999999999999,968.3000000000002,73.59999999999998);
-  ctx.bezierCurveTo(963.7000000000002,70.09999999999998,962.8000000000002,64.39999999999998,962.8000000000002,64.39999999999998);
-  ctx.bezierCurveTo(962.8000000000002,64.39999999999998,964.0000000000002,70.79999999999998,975.5000000000002,74.69999999999997);
-  ctx.bezierCurveTo(987.0000000000002,78.59999999999997,993.3000000000002,77.89999999999998,997.9000000000002,81.09999999999998);
-  ctx.bezierCurveTo(1002.5000000000002,84.29999999999998,1002.5000000000002,97.29999999999998,1002.5000000000002,97.29999999999998);
-  ctx.bezierCurveTo(1002.5000000000002,97.29999999999998,1005.1000000000003,93.89999999999998,1006.8000000000002,90.59999999999998);
-  ctx.bezierCurveTo(1007.5000000000002,89.19999999999997,1008.5000000000002,83.59999999999998,1008.5000000000002,83.59999999999998);
-  ctx.bezierCurveTo(1008.5000000000002,83.59999999999998,1015.8000000000002,84.69999999999997,1015.8000000000002,96.19999999999997);
-  ctx.bezierCurveTo(1015.7,105.7,1005.5,107.8,1005.5,107.8);
-  ctx.closePath();
-  ctx.fill();
-  ctx.stroke();
-  ctx.restore();*/
-  /*ctx.save();
-  ctx.fillStyle = "#ffdfbe";
-  ctx.beginPath();
-  ctx.moveTo(1008.5,83.6);
-  ctx.bezierCurveTo(1008.5,83.6,1007.5,89.19999999999999,1006.8,90.6);
-  ctx.bezierCurveTo(1005.0999999999999,93.89999999999999,1002.5,97.3,1002.5,97.3);
-  ctx.bezierCurveTo(1002.5,97.3,1002.5,84.3,997.9,81.1);
-  ctx.bezierCurveTo(993.3,77.89999999999999,987,78.6,975.5,74.69999999999999);
-  ctx.bezierCurveTo(964,70.79999999999998,962.8,64.49999999999999,962.8,64.49999999999999);
-  ctx.bezierCurveTo(962.8,64.49999999999999,963.6999999999999,70.19999999999999,968.3,73.69999999999999);
-  ctx.bezierCurveTo(972.9,77.19999999999999,977.0999999999999,77.6,977.0999999999999,77.6);
-  ctx.bezierCurveTo(977.0999999999999,77.6,964.0999999999999,84,951.6999999999999,72.6);
-  ctx.bezierCurveTo(939.3,61.19999999999999,937.4999999999999,53.39999999999999,937.4999999999999,53.39999999999999);
-  ctx.bezierCurveTo(937.4999999999999,53.39999999999999,933.7999999999998,67.6,925.6999999999999,74.39999999999999);
-  ctx.bezierCurveTo(917.6,81.19999999999999,911.1999999999999,82.69999999999999,907.4999999999999,86.8);
-  ctx.bezierCurveTo(904.2999999999998,90.3,904.7999999999998,93.6,904.7999999999998,93.6);
-  ctx.bezierCurveTo(904.7999999999998,93.6,901.7999999999998,91.1,902.0999999999998,83.3);
-  ctx.bezierCurveTo(902.0999999999998,83.3,893.5999999999998,83.6,893.5999999999998,95.7);
-  ctx.bezierCurveTo(893.5999999999998,106,904.4999999999998,107.5,904.4999999999998,107.5);
-  ctx.bezierCurveTo(909.9999999999998,125.6,938.0999999999998,141.3,955.2999999999997,141.3);
-  ctx.bezierCurveTo(967.9999999999998,141.3,996.4999999999998,130.60000000000002,1005.4999999999998,107.9);
-  ctx.bezierCurveTo(1005.4999999999998,107.9,1015.7999999999997,105.80000000000001,1015.7999999999997,96.30000000000001);
-  ctx.bezierCurveTo(1015.7,84.6,1008.5,83.6,1008.5,83.6);
-  ctx.closePath();
-  ctx.fill();
-  ctx.stroke();
-  ctx.restore();*/
   ctx.save();
-  /*ctx.save();
-  ctx.fillStyle = "#ffffff";
-  ctx.strokeStyle = "#ffffff";
-  ctx.lineWidth = 0.25;
-  ctx.miterLimit = 10;
-  ctx.beginPath();
-  ctx.moveTo(982.5,89.4);
-  ctx.bezierCurveTo(982.5,89.4,977.6,95,971.3,93.9);
-  ctx.bezierCurveTo(965.0999999999999,92.80000000000001,963.1999999999999,86.60000000000001,963.1999999999999,86.60000000000001);
-  ctx.bezierCurveTo(963.1999999999999,86.60000000000001,965.4,77.9,972.9,77.9);
-  ctx.bezierCurveTo(978.6,78,982.6,82.7,982.5,89.4);
-  ctx.closePath();
-  ctx.fill();
-  ctx.stroke();
-  ctx.restore();*/
-  /*ctx.save();
-  ctx.fillStyle = "#29abe2";
-  ctx.strokeStyle = "#29abe2";
-  ctx.miterLimit = 10;
-  ctx.beginPath();
-  ctx.moveTo(972.9,91.9);
-  ctx.lineTo(972.9,91.9);
-  ctx.bezierCurveTo(976.6999999999999,91.9,979.9,88.80000000000001,979.9,84.9);
-  ctx.lineTo(979.9,84.9);
-  ctx.bezierCurveTo(979.9,81.10000000000001,976.8,77.9,972.9,77.9);
-  ctx.lineTo(972.9,77.9);
-  ctx.bezierCurveTo(969.1,77.9,965.9,81,965.9,84.9);
-  ctx.lineTo(965.9,84.9);
-  ctx.bezierCurveTo(965.9,88.8,969,91.9,972.9,91.9);
-  ctx.closePath();
-  ctx.fill();
-  ctx.stroke();
-  ctx.restore();*/
   ctx.save();
   ctx.strokeStyle = "#000000";
   ctx.lineWidth = 0.5;
@@ -1964,39 +1797,6 @@ Movie.renderSuperhero_ = function(colour, to_redraw) {
   ctx.restore();
   ctx.restore();
   ctx.save();
-  /*ctx.save();
-  ctx.fillStyle = "#ffffff";
-  ctx.strokeStyle = "#ffffff";
-  ctx.lineWidth = 0.25;
-  ctx.miterLimit = 10;
-  ctx.beginPath();
-  ctx.moveTo(927.8,89.4);
-  ctx.bezierCurveTo(927.8,89.4,932.6999999999999,95,939,93.9);
-  ctx.bezierCurveTo(945.2,92.80000000000001,947.1,86.60000000000001,947.1,86.60000000000001);
-  ctx.bezierCurveTo(947.1,86.60000000000001,944.9,77.9,937.4,77.9);
-  ctx.bezierCurveTo(931.7,78,927.8,82.7,927.8,89.4);
-  ctx.closePath();
-  ctx.fill();
-  ctx.stroke();
-  ctx.restore();*/
-  /*ctx.save();
-  ctx.fillStyle = "#29abe2";
-  ctx.strokeStyle = "#29abe2";
-  ctx.miterLimit = 10;
-  ctx.beginPath();
-  ctx.moveTo(937.5,91.9);
-  ctx.lineTo(937.5,91.9);
-  ctx.bezierCurveTo(933.7,91.9,930.5,88.80000000000001,930.5,84.9);
-  ctx.lineTo(930.5,84.9);
-  ctx.bezierCurveTo(930.5,81.10000000000001,933.6,77.9,937.5,77.9);
-  ctx.lineTo(937.5,77.9);
-  ctx.bezierCurveTo(941.3,77.9,944.5,81,944.5,84.9);
-  ctx.lineTo(944.5,84.9);
-  ctx.bezierCurveTo(944.5,88.8,941.4,91.9,937.5,91.9);
-  ctx.closePath();
-  ctx.fill();
-  ctx.stroke();
-  ctx.restore();*/
   ctx.save();
   ctx.strokeStyle = "#000000";
   ctx.lineWidth = 0.5;
@@ -2194,25 +1994,6 @@ Movie.renderSuperhero_ = function(colour, to_redraw) {
   ctx.fill();
   ctx.stroke();
   ctx.restore();
-  /*ctx.save();
-  ctx.fillStyle = "#ffdfbe";
-  ctx.beginPath();
-  ctx.moveTo(1109.7,203.6);
-  ctx.lineTo(1107.2,205.5);
-  ctx.bezierCurveTo(1073.4,241.2,1062.4,240.3,1060.6000000000001,240.3);
-  ctx.lineTo(1060.6000000000001,240.3);
-  ctx.bezierCurveTo(1052.2,240.5,1021.8000000000002,217,1013.9000000000001,205.3);
-  ctx.bezierCurveTo(1008.9000000000001,198,994.9000000000001,178.20000000000002,998.8000000000001,171.10000000000002);
-  ctx.lineTo(1002.2,172.20000000000002);
-  ctx.bezierCurveTo(1007.7,175.3,1017.8000000000001,181.9,1021.3000000000001,185.4);
-  ctx.bezierCurveTo(1024.9,188.9,1028.9,192.5,1032.2,193.6);
-  ctx.bezierCurveTo(1033.2,193.9,1034.2,194.2,1035.2,194.29999999999998);
-  ctx.bezierCurveTo(1047.2,208.6,1057.6000000000001,223.29999999999998,1059.7,221.39999999999998);
-  ctx.bezierCurveTo(1062.9,220.2,1086.5,205.79999999999998,1097,196.99999999999997);
-  ctx.bezierCurveTo(1098.6,195.69999999999996,1099.9,194.59999999999997,1101,193.69999999999996);
-  ctx.fill();
-  ctx.stroke();
-  ctx.restore();*/
   ctx.save();
   ctx.fillStyle = "rgba(0, 0, 0, 0)";
   ctx.strokeStyle = "#f9ae5c";
@@ -2226,38 +2007,6 @@ Movie.renderSuperhero_ = function(colour, to_redraw) {
   ctx.stroke();
   ctx.restore();
   ctx.save();
-  /*ctx.save();
-  ctx.fillStyle = "#ffdfbe";
-  ctx.beginPath();
-  ctx.moveTo(965.7,139.7);
-  ctx.bezierCurveTo(965.8000000000001,139.6,965.9000000000001,139.6,965.9000000000001,139.6);
-  ctx.lineTo(965.9000000000001,139.6);
-  ctx.lineTo(948.5000000000001,140.29999999999998);
-  ctx.lineTo(948.5000000000001,140.49999999999997);
-  ctx.bezierCurveTo(950.0000000000001,140.69999999999996,953.5000000000001,141.09999999999997,956.8000000000001,141.09999999999997);
-  ctx.bezierCurveTo(961.7,141.2,965.7,139.7,965.7,139.7);
-  ctx.closePath();
-  ctx.fill();
-  ctx.stroke();
-  ctx.restore();*/
-  /*ctx.save();
-  ctx.fillStyle = "#ffdfbe";
-  ctx.beginPath();
-  ctx.moveTo(965.8,151.8);
-  ctx.lineTo(965.8,141.10000000000002);
-  ctx.bezierCurveTo(964.8,141.40000000000003,961.1999999999999,142.60000000000002,956.9,142.60000000000002);
-  ctx.bezierCurveTo(956.8,142.60000000000002,956.8,142.60000000000002,956.8,142.60000000000002);
-  ctx.bezierCurveTo(953.5,142.60000000000002,950.3,142.20000000000002,948.6999999999999,142.00000000000003);
-  ctx.lineTo(948.6999999999999,151.40000000000003);
-  ctx.bezierCurveTo(944.8,152.30000000000004,933.4999999999999,157.30000000000004,933.0999999999999,157.40000000000003);
-  ctx.bezierCurveTo(931.5999999999999,158.10000000000002,935.1999999999999,167.60000000000002,935.5999999999999,168.80000000000004);
-  ctx.bezierCurveTo(937.8999999999999,175.70000000000005,941.5999999999999,183.50000000000003,948.3,187.10000000000005);
-  ctx.bezierCurveTo(965.5999999999999,196.40000000000006,978.0999999999999,174.00000000000006,983.6999999999999,159.10000000000005);
-  ctx.bezierCurveTo(982.3,158.2,971.9,154.1,965.8,151.8);
-  ctx.closePath();
-  ctx.fill();
-  ctx.stroke();
-  ctx.restore();*/
   ctx.save();
   ctx.fillStyle = "#efd0b4";
   ctx.beginPath();
@@ -2275,25 +2024,6 @@ Movie.renderSuperhero_ = function(colour, to_redraw) {
   ctx.stroke();
   ctx.restore();
   ctx.restore();
-  /*ctx.save();
-  ctx.fillStyle = "#ffdfbe";
-  ctx.beginPath();
-  ctx.moveTo(801,200.1);
-  ctx.lineTo(803.5,202.1);
-  ctx.bezierCurveTo(836.4,238.89999999999998,847.4,238.39999999999998,849.3,238.39999999999998);
-  ctx.lineTo(849.3,238.39999999999998);
-  ctx.bezierCurveTo(857.6999999999999,238.79999999999998,889.4,216.39999999999998,897.9,204.99999999999997);
-  ctx.bezierCurveTo(903.1999999999999,197.89999999999998,918.1,178.49999999999997,914.4,171.29999999999995);
-  ctx.lineTo(911,172.29999999999995);
-  ctx.bezierCurveTo(905.3,175.29999999999995,894.9,181.39999999999995,891.1,184.79999999999995);
-  ctx.bezierCurveTo(887.3000000000001,188.09999999999997,883.2,191.59999999999997,879.7,192.59999999999997);
-  ctx.bezierCurveTo(878.7,192.89999999999998,877.7,193.09999999999997,876.5,193.19999999999996);
-  ctx.bezierCurveTo(863.8,207.09999999999997,852.7,221.49999999999997,850.7,219.39999999999995);
-  ctx.bezierCurveTo(847.5,218.09999999999994,824.2,202.89999999999995,813.9000000000001,193.79999999999995);
-  ctx.bezierCurveTo(812.4000000000001,192.49999999999994,811.0000000000001,191.29999999999995,810.0000000000001,190.39999999999995);
-  ctx.fill();
-  ctx.stroke();
-  ctx.restore();*/
   ctx.save();
   ctx.fillStyle = "rgba(0, 0, 0, 0)";
   ctx.strokeStyle = "#f9ae5c";
@@ -2452,62 +2182,6 @@ Movie.renderSuperhero_ = function(colour, to_redraw) {
   ctx.fill();
   ctx.stroke();
   ctx.restore();
-  /*ctx.save();
-  ctx.fillStyle = "#ffdfbe";
-  ctx.beginPath();
-  ctx.moveTo(811,191);
-  ctx.bezierCurveTo(810.9,190.9,810.6,190.7,810.2,190.3);
-  ctx.bezierCurveTo(810,190.10000000000002,809.7,189.8,809.5,189.60000000000002);
-  ctx.bezierCurveTo(809.3,189.3,808.9,188.90000000000003,808.6,188.20000000000002);
-  ctx.bezierCurveTo(806.7,184.8,805.4,182.60000000000002,804.7,181.50000000000003);
-  ctx.bezierCurveTo(804.3000000000001,180.90000000000003,802.8000000000001,179.80000000000004,800.2,178.20000000000002);
-  ctx.bezierCurveTo(797.9000000000001,176.70000000000002,796.5,176.00000000000003,796,175.8);
-  ctx.bezierCurveTo(795.4,175.60000000000002,795,175.70000000000002,794.9,176.3);
-  ctx.bezierCurveTo(794.8,176.5,794.8,176.8,794.8,177.10000000000002);
-  ctx.bezierCurveTo(794.8,178.10000000000002,794.9,178.70000000000002,795.0999999999999,179.10000000000002);
-  ctx.bezierCurveTo(795.5999999999999,179.70000000000002,796.4999999999999,180.60000000000002,797.6999999999999,181.70000000000002);
-  ctx.bezierCurveTo(798.9,182.8,799.8,183.70000000000002,800.3,184.20000000000002);
-  ctx.bezierCurveTo(800.5,184.4,800.5,184.60000000000002,800.5,184.70000000000002);
-  ctx.bezierCurveTo(800.3,185.3,799.6,185.70000000000002,798.5,185.8);
-  ctx.bezierCurveTo(797.5,185.9,796.8,185.9,796.1,185.60000000000002);
-  ctx.lineTo(782.9,180.8);
-  ctx.bezierCurveTo(782.6,180.70000000000002,782.3,180.8,781.9,181.10000000000002);
-  ctx.bezierCurveTo(781.6,181.40000000000003,781.3,181.70000000000002,781.3,181.90000000000003);
-  ctx.bezierCurveTo(781.1999999999999,182.20000000000005,781.1999999999999,182.60000000000002,781.3,183.00000000000003);
-  ctx.bezierCurveTo(781.4,183.40000000000003,781.5999999999999,183.70000000000002,781.9,183.80000000000004);
-  ctx.lineTo(793.3,188.00000000000003);
-  ctx.bezierCurveTo(793.5999999999999,188.10000000000002,793.6999999999999,188.40000000000003,793.5,189.00000000000003);
-  ctx.bezierCurveTo(793.3,189.50000000000003,793,189.70000000000002,792.8,189.60000000000002);
-  ctx.lineTo(779.5999999999999,184.8);
-  ctx.bezierCurveTo(779.3,184.70000000000002,778.8999999999999,184.8,778.4999999999999,185.10000000000002);
-  ctx.bezierCurveTo(778.0999999999999,185.40000000000003,777.7999999999998,185.70000000000002,777.6999999999999,186.10000000000002);
-  ctx.bezierCurveTo(777.5999999999999,186.40000000000003,777.5999999999999,186.8,777.5999999999999,187.3);
-  ctx.bezierCurveTo(777.6999999999999,187.8,777.8999999999999,188.10000000000002,778.1999999999999,188.20000000000002);
-  ctx.lineTo(791.8,193.10000000000002);
-  ctx.bezierCurveTo(792,193.20000000000002,792.0999999999999,193.3,792.0999999999999,193.50000000000003);
-  ctx.bezierCurveTo(792.1999999999999,193.70000000000002,792.1999999999999,193.90000000000003,792.1999999999999,194.10000000000002);
-  ctx.bezierCurveTo(791.9999999999999,194.70000000000002,791.6999999999999,194.90000000000003,791.4,194.8);
-  ctx.lineTo(779.6,190.60000000000002);
-  ctx.bezierCurveTo(779.3000000000001,190.50000000000003,778.9,190.50000000000003,778.5,190.8);
-  ctx.bezierCurveTo(778.1,191,777.8,191.3,777.7,191.60000000000002);
-  ctx.bezierCurveTo(777.6000000000001,191.90000000000003,777.6,192.3,777.8000000000001,192.70000000000002);
-  ctx.bezierCurveTo(778.0000000000001,193.10000000000002,778.2,193.4,778.5000000000001,193.50000000000003);
-  ctx.lineTo(791,198);
-  ctx.bezierCurveTo(791.3,198.1,791.4,198.4,791.2,199);
-  ctx.bezierCurveTo(791,199.5,790.8000000000001,199.7,790.5,199.6);
-  ctx.lineTo(782.6,196.7);
-  ctx.bezierCurveTo(782.3000000000001,196.6,782,196.7,781.6,197);
-  ctx.bezierCurveTo(781.2,197.3,781,197.6,780.9,197.8);
-  ctx.bezierCurveTo(780.9,197.9,780.8,198,780.8,198.20000000000002);
-  ctx.bezierCurveTo(780.8,198.3,780.9,198.50000000000003,781,199.00000000000003);
-  ctx.bezierCurveTo(781.2,199.40000000000003,781.3,199.60000000000002,781.5,199.70000000000002);
-  ctx.lineTo(799.3,206.20000000000002);
-  ctx.bezierCurveTo(799.8,206.4,800.8,206.3,802.1999999999999,206.00000000000003);
-  ctx.bezierCurveTo(803.4,205.70000000000002,804.3,205.40000000000003,804.9999999999999,205.00000000000003);
-  ctx.bezierCurveTo(805.6999999999998,204.60000000000002,806.2999999999998,204.50000000000003,806.5999999999999,204.60000000000002);
-  ctx.fill();
-  ctx.stroke();
-  ctx.restore();*/
   ctx.save();
   ctx.fillStyle = "rgba(0, 0, 0, 0)";
   ctx.strokeStyle = "#f9ae5c";
@@ -2520,62 +2194,6 @@ Movie.renderSuperhero_ = function(colour, to_redraw) {
   ctx.fill();
   ctx.stroke();
   ctx.restore();
-  /*ctx.save();
-  ctx.fillStyle = "#ffdfbe";
-  ctx.beginPath();
-  ctx.moveTo(1100.1,194.1);
-  ctx.bezierCurveTo(1100.1999999999998,194,1100.5,193.79999999999998,1100.8999999999999,193.4);
-  ctx.bezierCurveTo(1101.1,193.20000000000002,1101.3999999999999,193,1101.6,192.70000000000002);
-  ctx.bezierCurveTo(1101.8,192.50000000000003,1102.1999999999998,192.00000000000003,1102.5,191.4);
-  ctx.bezierCurveTo(1104.5,188.1,1105.8,185.9,1106.7,184.8);
-  ctx.bezierCurveTo(1107.2,184.20000000000002,1108.7,183.20000000000002,1111.3,181.70000000000002);
-  ctx.bezierCurveTo(1113.7,180.3,1115.1,179.60000000000002,1115.5,179.4);
-  ctx.bezierCurveTo(1116.1,179.20000000000002,1116.5,179.4,1116.6,180);
-  ctx.bezierCurveTo(1116.6999999999998,180.2,1116.6999999999998,180.5,1116.6999999999998,180.8);
-  ctx.bezierCurveTo(1116.6999999999998,181.8,1116.4999999999998,182.4,1116.2999999999997,182.70000000000002);
-  ctx.bezierCurveTo(1115.6999999999998,183.3,1114.7999999999997,184.10000000000002,1113.5999999999997,185.20000000000002);
-  ctx.bezierCurveTo(1112.3999999999996,186.3,1111.4999999999998,187.10000000000002,1110.9999999999998,187.70000000000002);
-  ctx.bezierCurveTo(1110.7999999999997,187.9,1110.7999999999997,188.10000000000002,1110.7999999999997,188.20000000000002);
-  ctx.bezierCurveTo(1110.9999999999998,188.8,1111.5999999999997,189.20000000000002,1112.6999999999998,189.4);
-  ctx.bezierCurveTo(1113.6999999999998,189.5,1114.3999999999999,189.5,1115.1,189.3);
-  ctx.lineTo(1128.3,185.10000000000002);
-  ctx.bezierCurveTo(1128.6,185.00000000000003,1128.8999999999999,185.10000000000002,1129.3,185.40000000000003);
-  ctx.bezierCurveTo(1129.6,185.70000000000005,1129.8999999999999,186.00000000000003,1129.8999999999999,186.20000000000005);
-  ctx.bezierCurveTo(1129.9999999999998,186.50000000000006,1129.9999999999998,186.90000000000003,1129.8,187.30000000000004);
-  ctx.bezierCurveTo(1129.7,187.70000000000005,1129.5,188.00000000000003,1129.2,188.10000000000005);
-  ctx.lineTo(1117.7,191.90000000000006);
-  ctx.bezierCurveTo(1117.4,192.00000000000006,1117.3,192.30000000000007,1117.4,192.90000000000006);
-  ctx.bezierCurveTo(1117.6000000000001,193.40000000000006,1117.8000000000002,193.60000000000005,1118.1000000000001,193.60000000000005);
-  ctx.lineTo(1131.3000000000002,189.30000000000004);
-  ctx.bezierCurveTo(1131.6000000000001,189.20000000000005,1132.0000000000002,189.30000000000004,1132.3000000000002,189.60000000000005);
-  ctx.bezierCurveTo(1132.7000000000003,189.90000000000006,1132.9,190.20000000000005,1133.0000000000002,190.60000000000005);
-  ctx.bezierCurveTo(1133.1000000000001,190.90000000000006,1133.1000000000001,191.30000000000004,1133.0000000000002,191.80000000000004);
-  ctx.bezierCurveTo(1132.9000000000003,192.30000000000004,1132.7000000000003,192.60000000000005,1132.4000000000003,192.70000000000005);
-  ctx.lineTo(1118.8000000000004,197.10000000000005);
-  ctx.bezierCurveTo(1118.6000000000004,197.20000000000005,1118.5000000000005,197.30000000000004,1118.5000000000005,197.50000000000006);
-  ctx.bezierCurveTo(1118.4000000000005,197.70000000000005,1118.4000000000005,197.90000000000006,1118.4000000000005,198.10000000000005);
-  ctx.bezierCurveTo(1118.6000000000006,198.70000000000005,1118.8000000000006,198.90000000000006,1119.1000000000006,198.80000000000004);
-  ctx.lineTo(1131.0000000000007,194.90000000000003);
-  ctx.bezierCurveTo(1131.3000000000006,194.80000000000004,1131.7000000000007,194.80000000000004,1132.1000000000006,195.10000000000002);
-  ctx.bezierCurveTo(1132.5000000000007,195.3,1132.8000000000006,195.60000000000002,1132.8000000000006,196.00000000000003);
-  ctx.bezierCurveTo(1132.9000000000005,196.30000000000004,1132.9000000000005,196.70000000000002,1132.7000000000007,197.10000000000002);
-  ctx.bezierCurveTo(1132.5000000000007,197.50000000000003,1132.2000000000007,197.8,1132.0000000000007,197.90000000000003);
-  ctx.lineTo(1119.6000000000006,202.00000000000003);
-  ctx.bezierCurveTo(1119.3000000000006,202.10000000000002,1119.2000000000005,202.40000000000003,1119.4000000000005,203.00000000000003);
-  ctx.bezierCurveTo(1119.6000000000006,203.50000000000003,1119.8000000000006,203.70000000000002,1120.1000000000006,203.60000000000002);
-  ctx.lineTo(1128.0000000000007,201.00000000000003);
-  ctx.bezierCurveTo(1128.3000000000006,200.90000000000003,1128.6000000000006,201.10000000000002,1128.9000000000008,201.30000000000004);
-  ctx.bezierCurveTo(1129.2000000000007,201.60000000000005,1129.5000000000007,201.90000000000003,1129.5000000000007,202.10000000000005);
-  ctx.bezierCurveTo(1129.5000000000007,202.20000000000005,1129.6000000000006,202.30000000000004,1129.6000000000006,202.60000000000005);
-  ctx.bezierCurveTo(1129.6000000000006,202.70000000000005,1129.5000000000007,202.90000000000006,1129.3000000000006,203.30000000000004);
-  ctx.bezierCurveTo(1129.1000000000006,203.70000000000002,1129.0000000000007,203.90000000000003,1128.8000000000006,204.00000000000003);
-  ctx.lineTo(1111.0000000000007,209.80000000000004);
-  ctx.bezierCurveTo(1110.5000000000007,210.00000000000003,1109.6000000000006,209.90000000000003,1108.2000000000007,209.50000000000003);
-  ctx.bezierCurveTo(1107.0000000000007,209.20000000000002,1106.1000000000008,208.80000000000004,1105.4000000000008,208.40000000000003);
-  ctx.bezierCurveTo(1104.7000000000007,208.00000000000003,1104.2000000000007,207.80000000000004,1103.9000000000008,208.00000000000003);
-  ctx.fill();
-  ctx.stroke();
-  ctx.restore();*/
   ctx.save();
   ctx.fillStyle = "rgba(0, 0, 0, 0)";
   ctx.strokeStyle = "#f9ae5c";
@@ -2789,15 +2407,6 @@ Movie.renderSuperhero_ = function(colour, to_redraw) {
   ctx.restore();
   ctx.restore();
   ctx.restore();
-
-  /*if(to_redraw == "hair" || to_redraw == "curly_hair"){
-
-    //alert('here');
-  }*/
-  /*if(to_redraw == "skin"){
-    Movie.skin(colour);
-    //ctx.restore();
-  }*/
 };
 
 /**
@@ -2812,15 +2421,6 @@ Movie.renderHatching_ = function() {
       ctx.canvas.width, ctx.canvas.height);
   ctx.fillStyle = '#ffffff';
   ctx.fill();
-
-  /*ctx.strokeStyle = '#fff';
-  ctx.lineWidth = 1;
-  for (var i = -Movie.HEIGHT; i < Movie.HEIGHT; i += 4) {
-    ctx.beginPath();
-    ctx.moveTo(i, -i);
-    ctx.lineTo(i + Movie.HEIGHT, -i + Movie.WIDTH);
-    ctx.stroke();
-  }*/
 };
 
 
@@ -2830,8 +2430,6 @@ Movie.renderHatching_ = function() {
  */
 Movie.renderAnswer_ = function() {
   var div = document.getElementById('visualization');
-  // <canvas id="answer1" width="400" height="400" style="display: none">
-  // </canvas>
   var canvas = document.createElement('canvas');
   canvas.id = 'prevAnswer';
   canvas.width = Movie.WIDTH;
@@ -2855,8 +2453,6 @@ Movie.drawFrame_ = function(interpreter) {
   Movie.ctxScratch.fillStyle = '#000';
   // Levels 1-9 should be slightly transparent so eclipsed blocks may be seen.
   // Level 10 should be opaque so that the movie is clean.
-  /*Movie.ctxScratch.globalAlpha =
-      (BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL) ? 1 : 0.9;*/
 
   var go = true;
   for (var tick = 0; go && tick < 10000; tick++) {
@@ -2875,39 +2471,16 @@ Movie.drawFrame_ = function(interpreter) {
  * @param {number=} frameNumber Which frame to draw (0-100).
  */
 Movie.display = function() {
-  /*if (typeof frameNumber == 'number') {
-    Movie.frameNumber = frameNumber;
-  } else {
-    frameNumber = Movie.frameNumber;
-  }*/
-
   // Clear the display with white.
   //Movie.ctxDisplay.beginPath();
   Movie.ctxDisplay.clearRect(0, 0,
       Movie.ctxDisplay.canvas.width, Movie.ctxDisplay.canvas.height);
-  //Movie.ctxDisplay.fillStyle = '#ffffff';
-  //Movie.ctxDisplay.fill();
-
-
-  //var superhero = document.getElementById('superhero');
-  //Movie.ctxDisplay.drawImage(superhero, 0, 0);
-
 
   // Draw and copy the user layer.
   var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
   var interpreter = new Interpreter(code, Movie.initInterpreter);
   Movie.drawFrame_(interpreter);
   Movie.ctxDisplay.drawImage(Movie.ctxScratch.canvas, 0, 0);
-
-  // Copy the hatching.
-  /*var hatching = document.getElementById('hatching');
-  Movie.ctxDisplay.drawImage(hatching, 0, 0);
-  BlocklyInterface.saveToLocalStorage();*/
-
-  //Movie.checkFrameAnswer();
-  //if (BlocklyGames.LEVEL == 1 || BlocklyGames.LEVEL == 2) {
-  // setTimeout(Movie.checkAnswers, 1000);
-  //}
 };
 
 /**
@@ -3522,15 +3095,12 @@ Movie.flats = function(colour){
 
 Movie.longsleeve = function(colour){
   Movie.ctxScratch.save();
-  //Movie.ctxScratch.translate(0,0);
   Movie.ctxScratch.beginPath();
   Movie.ctxScratch.moveTo(0,0);
   Movie.ctxScratch.lineTo(98.1,0);
   Movie.ctxScratch.lineTo(98.1,66.3);
   Movie.ctxScratch.lineTo(0,66.3);
   Movie.ctxScratch.closePath();
-  //Movie.ctxScratch.clip();
-  //Movie.ctxScratch.translate(0,0);
   Movie.ctxScratch.translate(54,162);
   Movie.ctxScratch.scale(3,2.8);
   Movie.ctxScratch.translate(0,0);
@@ -3585,7 +3155,6 @@ Movie.longsleeve = function(colour){
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
-  //if(BlocklyGames.LEVEL == 1){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
 }
 
 Movie.polo = function(colour) {
@@ -3709,8 +3278,6 @@ Movie.polo = function(colour) {
   Movie.ctxScratch.restore();
   Movie.ctxScratch.save();
   Movie.ctxScratch.save();
-  //Movie.ctxScratch.fillStyle = "rgba(0, 0, 0, 0)";
-  //Movie.ctxScratch.strokeStyle = "#ffffff";
   Movie.ctxScratch.fillStyle = "#ffffff";
   Movie.ctxScratch.strokeStyle = colour;
   Movie.ctxScratch.lineWidth = 2;
@@ -3724,8 +3291,6 @@ Movie.polo = function(colour) {
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.save();
-  //Movie.ctxScratch.fillStyle = "rgba(0, 0, 0, 0)";
-  //Movie.ctxScratch.strokeStyle = "#ffffff";
   Movie.ctxScratch.fillStyle = "#ffffff";
   Movie.ctxScratch.strokeStyle = colour;
   Movie.ctxScratch.lineWidth = 2;
@@ -3765,10 +3330,7 @@ Movie.polo = function(colour) {
   Movie.ctxScratch.fill();
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
-
   Movie.ctxScratch.save();
-  //Movie.ctxScratch.fillStyle = "rgba(0, 0, 0, 0)";
-  //Movie.ctxScratch.strokeStyle = "#ffffff";
   Movie.ctxScratch.fillStyle = "#ffffff";
   Movie.ctxScratch.strokeStyle = colour;
   Movie.ctxScratch.lineWidth = 2;
@@ -3783,8 +3345,6 @@ Movie.polo = function(colour) {
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.save();
-  //Movie.ctxScratch.fillStyle = "rgba(0, 0, 0, 0)";
-  //Movie.ctxScratch.strokeStyle = "#ffffff";
   Movie.ctxScratch.fillStyle = "#ffffff";
   Movie.ctxScratch.strokeStyle = colour;
   Movie.ctxScratch.lineWidth = 2;
@@ -3825,8 +3385,6 @@ Movie.polo = function(colour) {
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.save();
-  //Movie.ctxScratch.fillStyle = "rgba(0, 0, 0, 0)";
-  //Movie.ctxScratch.strokeStyle = "#ffffff";
   Movie.ctxScratch.fillStyle = "#ffffff";
   Movie.ctxScratch.strokeStyle = colour;
   Movie.ctxScratch.lineWidth = 2;
@@ -3840,8 +3398,6 @@ Movie.polo = function(colour) {
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.save();
-  //Movie.ctxScratch.fillStyle = "rgba(0, 0, 0, 0)";
-  //Movie.ctxScratch.strokeStyle = "#ffffff";
   Movie.ctxScratch.fillStyle = "#ffffff";
   Movie.ctxScratch.strokeStyle = colour;
   Movie.ctxScratch.lineWidth = 2;
@@ -3855,8 +3411,6 @@ Movie.polo = function(colour) {
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.save();
-  //Movie.ctxScratch.fillStyle = "rgba(0, 0, 0, 0)";
-  //Movie.ctxScratch.strokeStyle = "#ffffff";
   Movie.ctxScratch.fillStyle = "#ffffff";
   Movie.ctxScratch.strokeStyle = colour;
   Movie.ctxScratch.lineWidth = 2;
@@ -3870,8 +3424,6 @@ Movie.polo = function(colour) {
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.save();
-  //Movie.ctxScratch.fillStyle = "rgba(0, 0, 0, 0)";
-  //Movie.ctxScratch.strokeStyle = "#ffffff";
   Movie.ctxScratch.fillStyle = "#ffffff";
   Movie.ctxScratch.strokeStyle = colour;
   Movie.ctxScratch.lineWidth = 2;
@@ -3885,8 +3437,6 @@ Movie.polo = function(colour) {
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.save();
-  //Movie.ctxScratch.fillStyle = "rgba(0, 0, 0, 0)";
-  //Movie.ctxScratch.strokeStyle = "#ffffff";
   Movie.ctxScratch.fillStyle = "#ffffff";
   Movie.ctxScratch.strokeStyle = colour;
   Movie.ctxScratch.lineWidth = 2;
@@ -3900,7 +3450,6 @@ Movie.polo = function(colour) {
   Movie.ctxScratch.fill();
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
-
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
@@ -3992,7 +3541,6 @@ Movie.vest = function(colour) {
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
-  //if(BlocklyGames.LEVEL == 1){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
 };
 
 Movie.coat = function(colour) {
@@ -4258,7 +3806,6 @@ Movie.earrings =function(colour){
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
-  //if(BlocklyGames.LEVEL == 4){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.done();},1000);};
 };
 
 Movie.tote = function(colour){
@@ -5959,7 +5506,6 @@ Movie.necklace = function(colour){
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.save();
- // Movie.ctxScratch.fillStyle = "#ffffff";
   Movie.ctxScratch.beginPath();
   Movie.ctxScratch.moveTo(348,118.4);
   Movie.ctxScratch.bezierCurveTo(344.6,117.30000000000001,342.3,118.4,341.2,121.60000000000001);
@@ -6157,7 +5703,6 @@ Movie.skirt = function(colour){
   Movie.ctxScratch.miterLimit = 4;
   Movie.ctxScratch.save();
   Movie.ctxScratch.fillStyle = colour;
-  //Movie.ctxScratch.strokeStyle = "#231f20";
   Movie.ctxScratch.miterLimit = 10;
   Movie.ctxScratch.beginPath();
   Movie.ctxScratch.moveTo(421.743,430.786);
@@ -6179,7 +5724,6 @@ Movie.skirt = function(colour){
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
-  //if(BlocklyGames.LEVEL == 2){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
 };
 
 Movie.long_skirt = function(colour){
@@ -6498,7 +6042,6 @@ Movie.shorts =function(colour){
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
-  //if(BlocklyGames.LEVEL == 2){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
 };
 
 
@@ -6533,7 +6076,6 @@ Movie.bow = function(colour) {
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
-  //if(BlocklyGames.LEVEL == 4){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.done();},1000);};
 }
 
 Movie.dress2 = function(colour) {
@@ -6813,7 +6355,7 @@ Movie.dress2 = function(colour) {
 	Movie.ctxScratch.stroke();
 	Movie.ctxScratch.restore();
 	Movie.ctxScratch.save();
-	Movie.ctxScratch.fillStyle = "#ffdfbe";
+	Movie.ctxScratch.fillStyle = localStorage.getItem('skin');
 	Movie.ctxScratch.beginPath();
 	Movie.ctxScratch.moveTo(450.9,129.3);
 	Movie.ctxScratch.bezierCurveTo(450.9,129.3,450.9,129.3,450.9,129.3);
@@ -6824,7 +6366,7 @@ Movie.dress2 = function(colour) {
 	Movie.ctxScratch.stroke();
 	Movie.ctxScratch.restore();
 	Movie.ctxScratch.save();
-	Movie.ctxScratch.fillStyle = "#ffdfbe";
+	Movie.ctxScratch.fillStyle = localStorage.getItem('skin');
 	Movie.ctxScratch.beginPath();
 	Movie.ctxScratch.moveTo(450.2,130.7);
 	Movie.ctxScratch.bezierCurveTo(450.2,130.7,450.09999999999997,130.79999999999998,450.09999999999997,130.79999999999998);
@@ -6976,7 +6518,7 @@ Movie.dress2 = function(colour) {
 	Movie.ctxScratch.stroke();
 	Movie.ctxScratch.restore();
 	Movie.ctxScratch.save();
-	Movie.ctxScratch.fillStyle = "#ffdfbe";
+	Movie.ctxScratch.fillStyle = localStorage.getItem('skin');
 	Movie.ctxScratch.beginPath();
 	Movie.ctxScratch.moveTo(449.8,130.7);
 	Movie.ctxScratch.bezierCurveTo(449.8,130.7,449.8,130.7,449.8,130.7);
@@ -6989,7 +6531,7 @@ Movie.dress2 = function(colour) {
 	Movie.ctxScratch.stroke();
 	Movie.ctxScratch.restore();
 	Movie.ctxScratch.save();
-	Movie.ctxScratch.fillStyle = "#ffdfbe";
+	Movie.ctxScratch.fillStyle = localStorage.getItem('skin');
 	Movie.ctxScratch.beginPath();
 	Movie.ctxScratch.moveTo(449.4,131.6);
 	Movie.ctxScratch.lineTo(449.4,131.6);
@@ -7007,7 +6549,7 @@ Movie.dress2 = function(colour) {
 	Movie.ctxScratch.stroke();
 	Movie.ctxScratch.restore();
 	Movie.ctxScratch.save();
-	Movie.ctxScratch.fillStyle = "#ffdfbe";
+	Movie.ctxScratch.fillStyle = localStorage.getItem('skin');
 	Movie.ctxScratch.beginPath();
 	Movie.ctxScratch.moveTo(449.3,131.3);
 	Movie.ctxScratch.lineTo(449.3,131.3);
@@ -7121,7 +6663,7 @@ Movie.dress2 = function(colour) {
 	Movie.ctxScratch.stroke();
 	Movie.ctxScratch.restore();
 	Movie.ctxScratch.save();
-	Movie.ctxScratch.fillStyle = "#ffdfbe";
+	Movie.ctxScratch.fillStyle = localStorage.getItem('skin');
 	Movie.ctxScratch.beginPath();
 	Movie.ctxScratch.moveTo(456.2,119.2);
 	Movie.ctxScratch.bezierCurveTo(456.2,119.2,456.2,119.2,456.2,119.2);
@@ -7442,7 +6984,7 @@ Movie.dress2 = function(colour) {
 	Movie.ctxScratch.stroke();
 	Movie.ctxScratch.restore();
 	Movie.ctxScratch.save();
-	Movie.ctxScratch.fillStyle = "#ffdfbe";
+	Movie.ctxScratch.fillStyle = localStorage.getItem('skin');
 	Movie.ctxScratch.beginPath();
 	Movie.ctxScratch.moveTo(237.1,89.3);
 	Movie.ctxScratch.bezierCurveTo(237.4,90.3,237.4,90.3,237.6,91.3);
@@ -7457,7 +6999,7 @@ Movie.dress2 = function(colour) {
 	Movie.ctxScratch.stroke();
 	Movie.ctxScratch.restore();
 	Movie.ctxScratch.save();
-	Movie.ctxScratch.fillStyle = "#ffdfbe";
+	Movie.ctxScratch.fillStyle = localStorage.getItem('skin');
 	Movie.ctxScratch.beginPath();
 	Movie.ctxScratch.moveTo(231.7,93.9);
 	Movie.ctxScratch.bezierCurveTo(233.79999999999998,93.30000000000001,236.1,93.80000000000001,237.39999999999998,94.5);
@@ -7469,7 +7011,7 @@ Movie.dress2 = function(colour) {
 	Movie.ctxScratch.stroke();
 	Movie.ctxScratch.restore();
 	Movie.ctxScratch.save();
-	Movie.ctxScratch.fillStyle = "#ffdfbe";
+	Movie.ctxScratch.fillStyle = localStorage.getItem('skin');
 	Movie.ctxScratch.beginPath();
 	Movie.ctxScratch.moveTo(243.2,99.4);
 	Movie.ctxScratch.lineTo(243.5,100.4);
@@ -7485,7 +7027,7 @@ Movie.dress2 = function(colour) {
 	Movie.ctxScratch.stroke();
 	Movie.ctxScratch.restore();
 	Movie.ctxScratch.save();
-	Movie.ctxScratch.fillStyle = "#ffdfbe";
+	Movie.ctxScratch.fillStyle = localStorage.getItem('skin');
 	Movie.ctxScratch.beginPath();
 	Movie.ctxScratch.moveTo(394.3,89.3);
 	Movie.ctxScratch.bezierCurveTo(394.1,90.2,394.1,90.2,393.8,91.1);
@@ -7500,7 +7042,7 @@ Movie.dress2 = function(colour) {
 	Movie.ctxScratch.stroke();
 	Movie.ctxScratch.restore();
 	Movie.ctxScratch.save();
-	Movie.ctxScratch.fillStyle = "#ffdfbe";
+	Movie.ctxScratch.fillStyle = localStorage.getItem('skin');
 	Movie.ctxScratch.beginPath();
 	Movie.ctxScratch.moveTo(399.6,93.5);
 	Movie.ctxScratch.bezierCurveTo(397.6,93,395.3,93.5,394.1,94.1);
@@ -7512,7 +7054,7 @@ Movie.dress2 = function(colour) {
 	Movie.ctxScratch.stroke();
 	Movie.ctxScratch.restore();
 	Movie.ctxScratch.save();
-	Movie.ctxScratch.fillStyle = "#ffdfbe";
+	Movie.ctxScratch.fillStyle = localStorage.getItem('skin');
 	Movie.ctxScratch.beginPath();
 	Movie.ctxScratch.moveTo(388.6,98.7);
 	Movie.ctxScratch.lineTo(388.40000000000003,99.60000000000001);
@@ -11768,10 +11310,8 @@ Movie.hightops = function(colour) {
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
-  //if(BlocklyGames.LEVEL == 4){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.done();},1000);};
 }
 
-////need to change it to reflect pants
 Movie.pants = function(colour) {
   Movie.ctxScratch.save();
   Movie.ctxScratch.translate(0,0);
@@ -11795,9 +11335,6 @@ Movie.pants = function(colour) {
   Movie.ctxScratch.lineTo(328.9,531.1);
   Movie.ctxScratch.quadraticCurveTo(328.9,531.1,328.9,531.1);
   Movie.ctxScratch.lineTo(0,200.1);
-  //Movie.ctxScratch.quadraticCurveTo(0,531.1,0,531.1);
-  //Movie.ctxScratch.lineTo(0,36.1);
-  //Movie.ctxScratch.quadraticCurveTo(0,36.1,0,36.1);
   Movie.ctxScratch.closePath();
   Movie.ctxScratch.fill();
   Movie.ctxScratch.stroke();
@@ -12132,7 +11669,6 @@ Movie.boots = function(colour){
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
-	//if(BlocklyGames.LEVEL == 3){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
 }
 
 Movie.short_blouse = function(colour){
@@ -12172,7 +11708,7 @@ Movie.short_blouse = function(colour){
   Movie.ctxScratch.restore();
   Movie.ctxScratch.save();
   Movie.ctxScratch.save();
-  Movie.ctxScratch.fillStyle = "#ffdfbe";
+  Movie.ctxScratch.fillStyle = localStorage.getItem('skin');
   Movie.ctxScratch.beginPath();
   Movie.ctxScratch.moveTo(157.1,393.6);
   Movie.ctxScratch.lineTo(157.1,393.6);
@@ -12183,7 +11719,7 @@ Movie.short_blouse = function(colour){
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.save();
-  Movie.ctxScratch.fillStyle = "#ffdfbe";
+  Movie.ctxScratch.fillStyle = localStorage.getItem('skin');
   Movie.ctxScratch.beginPath();
   Movie.ctxScratch.moveTo(324,393.5);
   Movie.ctxScratch.bezierCurveTo(324,393.5,324.1,393.6,324.2,393.7);
@@ -12194,7 +11730,7 @@ Movie.short_blouse = function(colour){
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.save();
-  Movie.ctxScratch.fillStyle = "#ffdfbe";
+  Movie.ctxScratch.fillStyle = localStorage.getItem('skin');
   Movie.ctxScratch.beginPath();
   Movie.ctxScratch.moveTo(340.7,242.2);
   Movie.ctxScratch.bezierCurveTo(340.7,242.2,340.9,242.1,341.3,242);
@@ -12205,7 +11741,7 @@ Movie.short_blouse = function(colour){
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.save();
-  Movie.ctxScratch.fillStyle = "#ffdfbe";
+  Movie.ctxScratch.fillStyle = localStorage.getItem('skin');
   Movie.ctxScratch.beginPath();
   Movie.ctxScratch.moveTo(157.1,393.5);
   Movie.ctxScratch.bezierCurveTo(157.4,392.1,157.7,390.9,158.1,389.7);
@@ -12217,7 +11753,7 @@ Movie.short_blouse = function(colour){
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.save();
-  Movie.ctxScratch.fillStyle = "#ffdfbe";
+  Movie.ctxScratch.fillStyle = localStorage.getItem('skin');
   Movie.ctxScratch.beginPath();
   Movie.ctxScratch.moveTo(321.6,384.5);
   Movie.ctxScratch.bezierCurveTo(322.20000000000005,386,322.8,388.2,323.5,390.8);
@@ -12228,7 +11764,7 @@ Movie.short_blouse = function(colour){
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.save();
-  Movie.ctxScratch.fillStyle = "#ffdfbe";
+  Movie.ctxScratch.fillStyle = localStorage.getItem('skin');
   Movie.ctxScratch.beginPath();
   Movie.ctxScratch.moveTo(380.7,222.9);
   Movie.ctxScratch.bezierCurveTo(379.8,221.8,378.9,220.70000000000002,377.9,219.5);
@@ -12449,7 +11985,7 @@ Movie.short_blouse = function(colour){
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.save();
-  Movie.ctxScratch.fillStyle = "#ffdfbe";
+  Movie.ctxScratch.fillStyle = localStorage.getItem('skin');
   Movie.ctxScratch.beginPath();
   Movie.ctxScratch.moveTo(237.6,239.4);
   Movie.ctxScratch.bezierCurveTo(237.29999999999998,238.9,236.9,238.4,236.5,237.9);
@@ -13057,7 +12593,6 @@ Movie.cowboyboots = function(colour){
   Movie.ctxScratch.stroke();
   Movie.ctxScratch.restore();
   Movie.ctxScratch.restore();
-  //if(BlocklyGames.LEVEL == 3){setTimeout(function(){Blockly.playAudio('win', 0.5); BlocklyDialogs.levelup();},1000);};
 }
 
 /**
@@ -13076,7 +12611,6 @@ Movie.penColour = function(colour) {
 Movie.checkFrameAnswer = function() {
   // Compare the Alpha (opacity) byte of each pixel in the user's image and
   // the sample answer image.
-  //alert('checking');
   var userImage =
       Movie.ctxDisplay.getImageData(0, 0, Movie.WIDTH, Movie.HEIGHT);
   var answer = document.getElementById('prevAnswer');
@@ -13096,18 +12630,11 @@ Movie.checkFrameAnswer = function() {
  * If so, move on to next level.
  */
 Movie.checkAnswers = function() {
-  //alert('Reached');
-  /*if (BlocklyGames.LEVEL > 1 && Movie.frameNumber != Movie.FRAMES) {
-    // Only check answers at the end of the run.
-    return;
-  }*/
-  //alert(Movie.ctxDisplay.fillStyle);
   if (Movie.ctxDisplay.fillStyle != '#ffffff') {
     Movie.success = true;
     BlocklyInterface.saveToLocalStorage();
     if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
       // No congrats for last level, it is open ended.
-      //BlocklyGames.workspace.playAudio('win', 0.5);
       BlocklyDialogs.levelup();
     }
   }
@@ -13120,12 +12647,9 @@ Movie.logout = function(){
 };
 
 Movie.hasScrollbar_ = function(){
-  console.log(window.innerWidth, ' --- ', document.documentElement.clientWidth)
-
   if(typeof window.innerWidth === 'number')
     return window.innerWidth > document.documentElement.clientWidth;
 
-  //var rootElem = document.documentElement || document.body;
   var rootElem = document.getElementById('workspace');
 
   var overflowStyle;

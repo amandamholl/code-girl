@@ -18,6 +18,7 @@
   position:relative;
   right:0;
   float:right;
+  top:90px;
 }
 #workspace{
   position: absolute;

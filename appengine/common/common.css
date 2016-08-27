@@ -4,19 +4,44 @@ body {
   font-family: 'Open Sans', sans-serif;
   margin-top: 0;
 }
+
+#error-message .container {
+  background-color: white;
+  margin: 95px 8px;
+  position: relative;
+  padding: 20px;
+}
+
+#error-message h1 {
+  font-size: 2em;
+  text-align: center;
+}
+
+.container img {
+  width: 20%;
+  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 h1 {
   font-weight: 700;
   font-size: 130%;
 }
+
 h1 a {
   text-decoration: none;
 }
+
 a:hover {
   color: #f00;
 }
+
 .farSide {
   text-align: right;
 }
+
 html[dir="RTL"] .farSide {
   text-align: left;
 }
@@ -27,6 +52,7 @@ html[dir="RTL"] .farSide {
   padding: 6px 12px;
   color: #888;
 }
+
 .level_dot {
   border: solid 1px #ddd;
 	border-radius: 50%;
@@ -34,6 +60,7 @@ html[dir="RTL"] .farSide {
 	height: 15px;
   display: inline-block;
 }
+
 .level_done{
   background-color: #ddd;
   color: #000;
@@ -51,17 +78,18 @@ html[dir="RTL"] .farSide {
 
 #containerCode {
   direction: ltr;
+  white-space: pre-wrap;
   text-align: center;
   background-color: #eee;
   padding: 5px;
   margin: 0 3ex;
   font-size: 1.8em;
-  overflow: auto;
-  max-height: 200px;
 }
+
 #containerCode img{
 	margin-bottom: 1em;
 }
+
 img[src$="help.png"] {
   height: 64px;
   width: 64px;
@@ -108,25 +136,31 @@ button.primary {
   background-color: #43949b;
   color: #fff;
 }
+
 button.secondary{
   border: 1px solid #7ac9c8;
   background-color: #7ac9c8;
   color: #fff;
 }
+
 button.primary>img,
 button.secondary>img {
   opacity: 1;
 }
+
 button>img {
   opacity: 0.6;
   vertical-align: text-bottom;
 }
+
 button:hover:not(:disabled)>img {
   opacity: 1;
 }
+
 button:active:not(:disabled) {
   border: 1px solid #888 !important;
 }
+
 button:hover:not(:disabled) {
   box-shadow: 2px 2px 5px #888;
 }
@@ -144,6 +178,7 @@ button:hover:not(:disabled) {
   padding: 10px;
   top:6em;
 }
+
 #dialogBorder {
   visibility: hidden;
   position: absolute;
@@ -153,6 +188,7 @@ button:hover:not(:disabled) {
   border-radius: 6px;
   box-shadow: 5px 5px 5px #888;
 }
+
 #dialogShadow {
   visibility: hidden;
   position: fixed;
@@ -164,11 +200,13 @@ button:hover:not(:disabled) {
   opacity: 0.3;
   z-index:30;
 }
+
 .dialogAnimate {
   transition-property: width height left top opacity;
   transition-duration: 0.2s;
   transition-timing-function: linear;
 }
+
 .dialogHiddenContent {
   visibility: hidden;
   position: absolute;
@@ -176,6 +214,7 @@ button:hover:not(:disabled) {
   left: 0;
   z-index: -1;
 }
+
 #dialogHeader {
   height: 25px;
   margin: -10px -10px 15px;
@@ -184,9 +223,11 @@ button:hover:not(:disabled) {
   background-color: #ddd;
   cursor: move;
 }
+
 #dialog button {
   min-width: 4em;
 }
+
 .featureUnlocked{
   margin: 0px 20px;
 }
@@ -253,12 +294,6 @@ a {
 .blocklyToolboxDiv {
   z-index:6;
 }
-
-@media (min-width:801px) { /* tablet, landscape iPad, lo-res laptops ands desktops */
-/* move avatar to bottom, below toolbox and canvas */
-
-}
-
 
 @media (max-width:600px) { /* smartphones, Android phones, andscape iPhone */
   #logo{

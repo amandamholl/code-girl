@@ -21,6 +21,11 @@
  * @fileoverview JavaScript for Blockly's Bird application.
  * @author fraser@google.com (Neil Fraser)
  */
+
+/**
+ * Adapted by Amanda Holl
+ */
+
 'use strict';
 
 goog.provide('Bird');
@@ -42,13 +47,6 @@ BlocklyGames.NAME = 'bird';
  * Go to the next level.
  */
 BlocklyInterface.nextLevel = function() {
-  /*if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
-    window.location = window.location.protocol + '//' +
-        window.location.host + window.location.pathname +
-        '?lang=' + BlocklyGames.LANG + '&level=' + (BlocklyGames.LEVEL + 1);
-  } else {
-    BlocklyInterface.indexPage();
-  }*/
   window.location = window.location.protocol + '//' +
         window.location.host + '/movie?lang=' + BlocklyGames.LANG + '&level=4';
 };
@@ -327,8 +325,6 @@ Bird.init = function() {
   var visualization = document.getElementById('visualization');
   var onresize = function(e) {
     var top = visualization.offsetTop;
-    //blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
-	  //blocklyDiv.style.top = Math.max(10, 90) + 'px';
     blocklyDiv.style.left = rtl ? '10px' : '0px';
     if(window.innerWidth <= 801){
       blocklyDiv.style.width = (window.innerWidth - 35) + 'px';
@@ -347,7 +343,6 @@ Bird.init = function() {
   onresize();
 
   var toolbox = document.getElementById('toolbox');
-  var scale = 1 + (1 - (1 / 10)) / 3;
 
   BlocklyGames.workspace = Blockly.inject('blockly',
                                           {'media': 'media/',
@@ -355,12 +350,8 @@ Bird.init = function() {
                                           'toolbox': toolbox,
                                           'scrollbars': true,
                                           'trashcan': true,
-                                          //'zoom':{'startScale': scale}
                                           });
- // Blockly.loadAudio_(['bird/quack.ogg', 'bird/quack.mp3'], 'quack');
- // Blockly.loadAudio_(['bird/whack.mp3', 'bird/whack.ogg'], 'whack');
- // Blockly.loadAudio_(['bird/worm.mp3', 'bird/worm.ogg'], 'worm');
-  // Not really needed, there are no user-defined functions or variables.
+
   Blockly.JavaScript.addReservedWords('noWorm,direction,getX,getY');
 
   Bird.drawMap();
@@ -390,8 +381,6 @@ Bird.init = function() {
   BlocklyGames.bindClick('resetButton', Bird.resetButtonClick);
 
   Bird.showHelp();
-
-  //BlocklyGames.bindClick('signoutButton', Bird.logout);
 
   // Lazy-load the JavaScript interpreter.
   setTimeout(BlocklyInterface.importInterpreter, 1);
@@ -728,7 +717,6 @@ Bird.animate = function() {
     Bird.pos.x = action[1];
     Bird.pos.y = action[2];
     Bird.angle = action[3];
-    //Bird.currentPose = action[0] == 'move' ? Bird.Pose.FLAP : Bird.Pose.SOAR;
     Bird.displayBird();
   } else if (action[0] == 'worm') {
     var worm = document.getElementById('worm');
@@ -738,7 +726,6 @@ Bird.animate = function() {
     Bird.displayBird();
     BlocklyInterface.saveToLocalStorage();
     BlocklyDialogs.congratulations();
-	//alert("HERE");
   } else if (action[0] == 'play') {
     BlocklyGames.workspace.playAudio(action[1], 0.5);
   }
@@ -772,9 +759,7 @@ Bird.displayBird = function() {
     row = 0;
   } else if (Bird.currentPose == Bird.Pose.SIT) {
     row = 3;
-  } /*else if (Bird.currentPose == Bird.Pose.FLAP) {
-    row = Math.round(Date.now() / Bird.FLAP_SPEED) % 3;
-  }*/ else {
+  } else {
     throw 'Unknown pose.';
   }
 
@@ -870,10 +855,4 @@ Bird.direction = function(angle, id) {
     Bird.log.push(['play', 'whack', null]);
     throw false;
   }
-};
-
-Bird.logout = function(){
-  window.sessionStorage.setItem("loggedIn", "false");
-  location.assign('/logout');
-  console.log(window.sessionStorage);
 };

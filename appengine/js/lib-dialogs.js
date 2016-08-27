@@ -549,8 +549,8 @@ BlocklyDialogs.login = function() {
 BlocklyDialogs.congratulations = function() {
   var content = document.getElementById('dialogDone');
   var style = {
-    width: '40%',
-    left: '30%',
+    width: '60%',
+    left: '20%',
     top: '6em'
   };
   // Add the user's code.

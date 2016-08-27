@@ -91,8 +91,6 @@ Turtle.init = function() {
   var visualization = document.getElementById('visualization');
   var onresize = function(e) {
     var top = visualization.offsetTop;
-    //blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
-    //blocklyDiv.style.left = rtl ? '10px' : '420px';
     if(window.innerWidth <= 801){
       blocklyDiv.style.width = (window.innerWidth - 35) + 'px';
     }
@@ -119,14 +117,12 @@ Turtle.init = function() {
   if(BlocklyGames.LEVEL != 1){
     var toolbox = document.getElementById('toolbox');
   }
-  var scale = 1 + (1 - (1 / 10)) / 3;
   BlocklyGames.workspace = Blockly.inject('blockly',
                                           {'media': 'media/',
                                           'rtl': rtl,
                                           'toolbox': toolbox,
                                           'scrollbars': true,
                                           'trashcan': BlocklyGames.LEVEL == 1 ? false : true ,
-                                          //'zoom': {'startScale': scale}
                                         });
   // Prevent collisions with user-defined functions or variables.
   Blockly.JavaScript.addReservedWords('moveForward,moveBackward,' +
@@ -192,14 +188,12 @@ Turtle.init = function() {
   BlocklyGames.bindClick('resetButton', Turtle.resetButtonClick);
 
   // Preload the win sound.
-  //Blockly.loadAudio_(['turtle/win.mp3', 'turtle/win.ogg'], 'win');
   // Lazy-load the JavaScript interpreter.
   setTimeout(BlocklyInterface.importInterpreter, 1);
   // Lazy-load the syntax-highlighting.
   setTimeout(BlocklyInterface.importPrettify, 1);
 
   BlocklyGames.bindClick('helpButton', Turtle.showHelp);
-  //BlocklyGames.bindClick('signoutButton', Turtle.logout);
 
   if (location.hash.length < 2 &&
       !BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
@@ -259,7 +253,6 @@ Turtle.showHelpSlider = function(){
     left: 'inherit',
     right: '5.6em',
     top: '37em',
-    //bottom: '4em',
   };
   var origin = document.getElementById('sliderDiv');
   BlocklyDialogs.showDialog(help, origin, true, false, style, null);
@@ -379,10 +372,6 @@ Turtle.display = function() {
     // Draw the turtle body.
     var radius = Turtle.ctxScratch.lineWidth / 2 + 10;
     var diameter = radius * 2;
-    //Turtle.ctxDisplay.beginPath();
-    //Turtle.ctxDisplay.arc(Turtle.x, Turtle.y, radius, 0, 2 * Math.PI, false);
-    //Turtle.ctxDisplay.lineWidth = 3;
-    //Turtle.ctxDisplay.stroke();
     var img = new Image;      // First create the image...
     img.onload = function(){  // ...then set the onload handler...
     	Turtle.ctxDisplay.drawImage(img,(Turtle.x-diameter),(Turtle.y-radius),50,50);
@@ -733,16 +722,9 @@ Turtle.checkAnswer = function() {
     BlocklyInterface.saveToLocalStorage();
     if (BlocklyGames.LEVEL <= 3) {
       // No congrats for last level, it is open ended.
-      //Blockly.playAudio('win', 0.5);
       BlocklyDialogs.congratulations();
     }
   } else {
     Turtle.penColour('#ff0000');
   }
-};
-
-Turtle.logout = function(){
-  window.sessionStorage.setItem("loggedIn", "false");
-  location.assign('/logout');
-  console.log(window.sessionStorage);
 };

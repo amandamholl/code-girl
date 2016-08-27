@@ -61,7 +61,6 @@ Pond.Basic.init = function() {
   var visualization = document.getElementById('visualization');
   var onresize = function(e) {
     var top = visualization.offsetTop;
-    //blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
     blocklyDiv.style.left = rtl ? '10px' : '0px';
     if(window.innerWidth < 801){
       blocklyDiv.style.width = (window.innerWidth - 34) + 'px';
@@ -79,54 +78,25 @@ Pond.Basic.init = function() {
   onresize();
 
   var toolbox = document.getElementById('toolbox');
-  var scale = 1 + (1 - (1 / 10)) / 3;
 
   BlocklyGames.workspace = Blockly.inject(document.getElementById('blockly'),
       {'media': 'media/',
        'rtl': rtl,
        'toolbox': toolbox,
        'trashcan': true,
-       //'zoom':{'startScale': scale}
      });
   Blockly.JavaScript.addReservedWords('scan,cannon,drive,swim,stop,speed,' +
       'damage,health,loc_x,loc_y');
 
-  /*var defaultXml;
-  if (BlocklyGames.LEVEL == 1) {
-    defaultXml =
-      '<xml>' +
-      '  <block type="outfit">' +
-      '  </block>' +
-      '</xml>';
-  }
-  BlocklyInterface.loadBlocks(defaultXml, false);*/
-
-  /*for (var playerData, i = 0; playerData = Pond.Tutorial.PLAYERS[i]; i++) {
-    if (playerData.code) {
-      var div = document.getElementById(playerData.code);
-      //var code = div.textContent;
-    } else {
-      var code = function() {return Blockly.JavaScript.workspaceToCode()};
-    }
-    var name = BlocklyGames.getMsg(playerData.name);
-    Pond.Battle.addPlayer(name, code, playerData.start, playerData.damage);
-  }*/
-
-  //Pond.reset();
-
   Pond.ctxDisplay = document.getElementById('display').getContext('2d');
-  //Pond.ctxDisplay.globalCompositeOperation = 'source-over';
   Pond.ctxScratch = document.getElementById('scratch').getContext('2d');
   Pond.renderSuperhero_();
 
   BlocklyGames.workspace.addChangeListener(Pond.display);
   BlocklyGames.bindClick('runButton', Pond.check);
   BlocklyGames.bindClick('helpButton', Pond.showHelp);
-  //BlocklyGames.bindClick('signoutButton', Pond.logout);
 
-  if (location.hash.length < 2 /*&&
-      !BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
-                                         BlocklyGames.LEVEL)*/) {
+  if (location.hash.length < 2) {
     setTimeout(Pond.showHelp, 1000);
   }
 };
@@ -141,10 +111,8 @@ Pond.check = function(){
   for(var i=0;i<blocks.length;i++){
     var current = blocks[i];
     var type = current['type'];
-    console.log(current);
     var checkAbove = Pond.checkAbove_(i, type);
     var checkBelow = Pond.checkBelow_(i, blocks.length, type);
-    console.log(checkBelow);
     if(checkAbove && checkBelow)
       ok = "correct order";
     else{
@@ -155,17 +123,14 @@ Pond.check = function(){
   if(ok == "wrong order")
     Pond.showError(current, "Blocks are in the wrong order!");
   else if(blocks.length < 9){
-    console.log("not enough blocks");
     Pond.showError(null, "Not all of the blocks are connected. Use the rest of the blocks and try again.");
   }else {
     BlocklyInterface.saveToLocalStorage();
     if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
       // No congrats for last level, it is open ended.
-      //BlocklyGames.workspace.playAudio('win', 0.5);
       BlocklyDialogs.congratulations();
     }
   }
-  console.log(ok);
 };
 
 Pond.display = function(event) {
@@ -176,63 +141,27 @@ Pond.display = function(event) {
   var interpreter = new Interpreter(code, Pond.initInterpreter);
 
   Pond.drawFrame_(interpreter);
-  /*var maximum = Blockly.mainWorkspace.getAllBlocks().length;
-
-  //console.log("called");
-
-  var ok = "wrong order";	// don't write
-  //console.log("-----------");
-  //console.log(Blockly.mainWorkspace.getBlockById(event.blockId))
-  //console.log(Blockly.mainWorkspace.getTopBlocks(true));
-  //console.log(Blockly.mainWorkspace.getAllBlocksSorted());
-
-  var blocks = Blockly.mainWorkspace.getAllBlocksSorted();	// get blocks in sorted order (top to bottom)
-  */
-  /*var top = Blockly.mainWorkspace.getTopBlocks(true);	// get blocks in sorted order (top to bottom)
-  var blocks = top[0].getChildren();
-	console.log(blocks);*/
-  /*
-  var currentBlock = Blockly.mainWorkspace.getBlockById(event.blockId);
-  var current = blocks.indexOf(currentBlock);
-  //console.log(event);
-  if(event.group != "" && Blockly.mainWorkspace.getBlockById(event.blockId) != null){
-    var type = Blockly.mainWorkspace.getBlockById(event.blockId)['type'];	// "type" or current block (item of clothing/accessory)
-    // if this is the only block on the canvas, then by default its okay
-    if(maximum == 1){
-    ok = "correct order";
-    }
-    else{
-      var checkAbove = Pond.checkAbove_(current, type);
-    var checkBelow = Pond.checkBelow_(current, maximum, type);
-    if(checkAbove && checkBelow)
-      ok = "correct order";
-    else{
-      ok = "wrong order";
-      Pond.showError(currentBlock);
-    }
-    }
-  }
-  */
-  //console.log(ok);
 
   Pond.ctxDisplay.drawImage(Pond.ctxScratch.canvas, 0, 0);
 };
 
 Pond.checkAbove_ = function(maximum, type){
-	//var top = Blockly.mainWorkspace.getTopBlocks(true);	// get blocks in sorted order (top to bottom)
-	//var blocks = top[0].getChildren();
 	var blocks = Blockly.mainWorkspace.getAllBlocksSorted();	// get blocks in sorted order (top to bottom)
+
 	for(var i = 0; i < maximum; i++){
 		if(type == "tshirt"){
 			// Shirt: wrong if its below cape || logo || skirt || belt
-		  	if(blocks[i]['type'] == "cape" || blocks[i]['type'] == "skirt" || blocks[i]['type'] == "logo" || blocks[i]['type'] == "belt"){
-			  	return false;	// wrong order
-		  	}
+	  	if(blocks[i]['type'] == "cape" || blocks[i]['type'] == "skirt" || blocks[i]['type'] == "logo" || blocks[i]['type'] == "belt"){
+        BlocklyInterface.highlight(blocks[i]['id']);
+		  	return false;	// wrong order
 	  	}
+  	}
 		else if(type == "skirt"){
 			// Skirt: wrong if below belt
-			if(blocks[i]['type'] == "belt")
-				return false;	// wrong order
+			if(blocks[i]['type'] == "belt"){
+        BlocklyInterface.highlight(blocks[i]['id']);
+  			return false;	// wrong order
+      }
 		}
 
 	}
@@ -240,29 +169,32 @@ Pond.checkAbove_ = function(maximum, type){
 }
 
 Pond.checkBelow_ = function(current, maximum, type){
-	//var top = Blockly.mainWorkspace.getTopBlocks(true);	// get blocks in sorted order (top to bottom)
-	//var blocks = top[0].getChildren();
 	var blocks = Blockly.mainWorkspace.getAllBlocksSorted();	// get blocks in sorted order (top to bottom)
 	for(var i = current; i < maximum; i++){
 		if(type == "skirt"){
 			// Skirt: wrong if above tshirt
-		  	if(blocks[i]['type'] == "tshirt"){
-			  	return false;	// wrong order
-		  	}
+	  	if(blocks[i]['type'] == "tshirt"){
+        BlocklyInterface.highlight(blocks[i]['id']);
+		  	return false;	// wrong order
 	  	}
+  	}
 		else if(type == "logo"){
 			// Logo: wrong if above tshirt
 			if(blocks[i]['type'] == "tshirt"){
-			  	return false;	// wrong order
-		  	}
+        BlocklyInterface.highlight(blocks[i]['id']);
+		  	return false;	// wrong order
+	  	}
 		}
 		else if(type == "belt"){
 			// Belt: wrong if above tshirt or above skirt
-			if(blocks[i]['type'] == "tshirt" || blocks[i]['type'] == "skirt")
-				return false	;	// wrong order
+			if(blocks[i]['type'] == "tshirt" || blocks[i]['type'] == "skirt"){
+        BlocklyInterface.highlight(blocks[i]['id']);
+        return false;	// wrong order
+      }
 		}
 		else if(type == "cape"){
 			if(blocks[i]['type'] == "shirt"){
+        BlocklyInterface.highlight(blocks[i]['id']);
 				return false;
 			}
 		}
@@ -273,13 +205,6 @@ Pond.checkBelow_ = function(current, maximum, type){
 Pond.drawFrame_ = function(interpreter) {
   // Clear the canvas.
   Pond.ctxScratch.clearRect(0, 0, document.getElementById('scratch').width, document.getElementById('scratch').height);
-
-
-  // Levels 1-9 should be slightly transparent so eclipsed blocks may be seen.
-  // Level 10 should be opaque so that the movie is clean.
-  /*Movie.ctxScratch.globalAlpha =
-      (BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL) ? 1 : 0.9;*/
-
 
   var go = true;
   for (var tick = 0; go && tick < 10000; tick++) {
@@ -493,7 +418,6 @@ Pond.shirt = function() {
   Pond.ctxScratch.restore();
 
   Pond.ctxScratch.restore();
-  //alert("here");
 };
 
 Pond.boots = function(){
@@ -1216,14 +1140,11 @@ Pond.logo = function(){
 
 Pond.renderSuperhero_ = function() {
 	Pond.ctxSuperhero = document.getElementById('superhero').getContext('2d');
-  /*Pond.ctxScratch.fillStyle = 'white';
-  Pond.ctxScratch.fillRect(0, 0,
-  Pond.ctxScratch.canvas.width, Pond.ctxScratch.canvas.height);*/
   var img = new Image();
   img.onload = function() {
-	  Pond.ctxSuperhero.drawImage(img, -295, 0, 990,396);
+	  Pond.ctxSuperhero.drawImage(img, 51, 0, 298, 397);
   }
-  img.src = "pond/superhero.svg";
+  img.src = "pond/superhero-blank.svg";
 };
 
 
@@ -1233,13 +1154,11 @@ Pond.showError = function(currentBlock, message) {
   var style = {
     width: '50%',
     left: '25%',
-    //top: '6em'
   };
 
   document.getElementById('message').textContent = message;
 
   if(message != "Not all of the blocks are connected. Use the rest of the blocks and try again."){
-    console.log(currentBlock['type']);
     document.getElementById('hint').style.display = "block";                       // Create a <p> node
     document.getElementById('blockHint').innerHTML = currentBlock['type'];
   }
@@ -1249,8 +1168,6 @@ Pond.showError = function(currentBlock, message) {
   BlocklyDialogs.showDialog(error, origin, true, true, style,
       BlocklyDialogs.stopDialogKeyDown);
   BlocklyDialogs.startDialogKeyDown();
-
-  //BlocklyGames.workspace.removeTopBlock(currentBlock);
 
 };
 
@@ -1275,10 +1192,4 @@ Pond.showHelp = function() {
  */
 Pond.hideHelp = function() {
   BlocklyDialogs.stopDialogKeyDown();
-};
-
-Pond.logout = function(){
-  window.sessionStorage.setItem("loggedIn", "false");
-  location.assign('/logout');
-  console.log(window.sessionStorage);
 };
