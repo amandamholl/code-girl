@@ -1,9 +1,12 @@
+body {
+  overflow: hidden;
+  font-family: 'Open Sans', sans-serif;
+}
 .blocklyToolboxDiv {
   z-index:6;
 }
 #blockly{
   position: relative;
-  top: 0;
   float:left;
   margin-right: 10px;
 }
@@ -18,7 +21,6 @@
   position:relative;
   right:0;
   float:right;
-  top:90px;
 }
 #workspace{
   position: absolute;
